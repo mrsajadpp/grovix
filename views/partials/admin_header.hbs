@@ -1,80 +1,158 @@
-<!-- Sidebar Start -->
-<div class="sidebar pe-4 pb-3" style="margin-top: 60px;">
-    <nav class="navbar bg-white navbar-light">
-        <a href="/admin/product" class="navbar-brand mx-4 mb-3">
-            <img src="/images/logowrk.png" width="200px" alt="">
+<!-- Desktop Header -->
+<div class="header">
+    <div class="hLeft">
+        <a href="/">
+            <img src="../src/img/logo.png" alt="Grovix Lab">
         </a>
+    </div>
+    <div class="hRight">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/admin/">
+                        <button>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="active" width="28" height="28"
+                                viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
+                                <path
+                                    d="M19.965 8.521C19.988 8.347 20 8.173 20 8c0-2.379-2.143-4.288-4.521-3.965C14.786 2.802 13.466 2 12 2s-2.786.802-3.479 2.035C6.138 3.712 4 5.621 4 8c0 .173.012.347.035.521C2.802 9.215 2 10.535 2 12s.802 2.785 2.035 3.479A3.976 3.976 0 0 0 4 16c0 2.379 2.138 4.283 4.521 3.965C9.214 21.198 10.534 22 12 22s2.786-.802 3.479-2.035C17.857 20.283 20 18.379 20 16c0-.173-.012-.347-.035-.521C21.198 14.785 22 13.465 22 12s-.802-2.785-2.035-3.479zm-9.01 7.895-3.667-3.714 1.424-1.404 2.257 2.286 4.327-4.294 1.408 1.42-5.749 5.706z">
+                                </path>
+                            </svg>
+                        </button>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/articles">
+                        <button>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                                style="fill: rgba(0, 0, 0, 1);">
+                                <path
+                                    d="M20 17V7c0-2.168-3.663-4-8-4S4 4.832 4 7v10c0 2.168 3.663 4 8 4s8-1.832 8-4zM12 5c3.691 0 5.931 1.507 6 1.994C17.931 7.493 15.691 9 12 9S6.069 7.493 6 7.006C6.069 6.507 8.309 5 12 5zM6 9.607C7.479 10.454 9.637 11 12 11s4.521-.546 6-1.393v2.387c-.069.499-2.309 2.006-6 2.006s-5.931-1.507-6-2V9.607zM6 17v-2.393C7.479 15.454 9.637 16 12 16s4.521-.546 6-1.393v2.387c-.069.499-2.309 2.006-6 2.006s-5.931-1.507-6-2z">
+                                </path>
+                            </svg>
+                        </button>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/users">
+                        <button>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                                style="fill: rgba(0, 0, 0, 1);">
+                                <path
+                                    d="M12 2A10.13 10.13 0 0 0 2 12a10 10 0 0 0 4 7.92V20h.1a9.7 9.7 0 0 0 11.8 0h.1v-.08A10 10 0 0 0 22 12 10.13 10.13 0 0 0 12 2zM8.07 18.93A3 3 0 0 1 11 16.57h2a3 3 0 0 1 2.93 2.36 7.75 7.75 0 0 1-7.86 0zm9.54-1.29A5 5 0 0 0 13 14.57h-2a5 5 0 0 0-4.61 3.07A8 8 0 0 1 4 12a8.1 8.1 0 0 1 8-8 8.1 8.1 0 0 1 8 8 8 8 0 0 1-2.39 5.64z">
+                                </path>
+                                <path
+                                    d="M12 6a3.91 3.91 0 0 0-4 4 3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4 3.91 3.91 0 0 0-4-4zm0 6a1.91 1.91 0 0 1-2-2 1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2 1.91 1.91 0 0 1-2 2z">
+                                </path>
+                            </svg>
+                        </button>
+                    </a>
+                </li>
+                &nbsp;&nbsp;
+            </ul>
+        </nav>
 
-        <div class="navbar-nav w-100 ">
-
-            <a href="/admin/product" class="nav-item nav-link"><i class="fa-solid fa-suitcase-rolling"
-                    style="color: #000000;"></i></i>Products</a>
-            <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Category</a>
-            <a href="/admin/orders" class="nav-item nav-link"><i class="fa-solid fa-box-open me-2"
-                    style="color: #000000;"></i>Orders</a>
-            {{!-- <a href="/admin/customers" class="nav-item nav-link"><i class="fa-solid fa-users"
-                    style="color: #000000;"></i>Customers</a> --}}
-            <a href="/admin/banner" class="nav-item nav-link"><i class="fa-solid fa-users"
-                    style="color: #000000;"></i>Banner</a>
-
-        </div>
-    </nav>
+    </div>
 </div>
-<!-- Sidebar End -->
 
-
-<!-- Content Start -->
-<div class="content">
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-        <a href="/admin/product" class="navbar-brand d-flex d-lg-none me-4">
-            <img src="/images/logowrk.png" width="150px" class="img-fluid d-md-none" alt="">
-        </a>
-        <a href="#" class="sidebar-toggler flex-shrink-0">
-            <i class="fa fa-bars " style="color: #000000;"></i>
-        </a>
-        <form class="d-none d-md-flex ms-4" style="opacity: 0;">
-            <input class="form-control border-0" type="search" placeholder="Search">
-        </form>
-        <div class="navbar-nav align-items-center ms-auto">
-            <div class="nav-item dropdown">
-
-
-            </div>
-            <div class="nav-item dropdown" style="opacity: 0;">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-bell me-lg-2"></i>
-                    <span class="d-none d-lg-inline-flex">Notificatin</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">Profile updated</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">New user added</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">Password changed</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all notifications</a>
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">My Profile</a>
-                    <a href="#" class="dropdown-item">Settings</a>
-                    <a href="#" class="dropdown-item">Log Out</a>
-                </div>
-            </div>
+<!-- Mobile Header -->
+<div class="headerMobile">
+    <div class="hLeft">
+        <button onclick="menu();">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
+                style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
+                <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
+            </svg>
+        </button>
+        <div class="logo">
+            <a href="/">
+                <img src="../src/img/logo.png" alt="Grovix Lab">
+            </a>
         </div>
-    </nav>
-    <!-- Navbar End -->
+    </div>
+    <div class="hRight">
+        <nav>
+            <ul>
+                <!-- <li>
+                        <a>
+                            <button id="searchIcon">
+                                <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
+                                    class="style-scope tp-yt-iron-icon"
+                                    style="pointer-events: none; display: block; width: 28px; height: 28px;">
+                                    <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
+                                        <path
+                                            d="M14.06 7.6L16.4 9.94L6.34 20H4V17.66L14.06 7.6ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19ZM17.61 4.05L19.98 6.42L18.84 7.56L16.47 5.19L17.61 4.05ZM17.61 2.63L15.06 5.18L18.85 8.97001L21.4 6.42L17.61 2.63Z"
+                                            class="style-scope tp-yt-iron-icon"></path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </a>
+                    </li> -->
+                <li style="width: 55px;">
+                    <a href="/admin/">
+                        <button class="profile-menu">
+                            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyToeAH0Yw-KYJYVNPNZpfFo01EkgFB7RciZ4KZFNV-9fDhbXqWvGw2AnfyjaaFOMveb9nX69tzrD6EFkZPuu7ee2WylQBbeFeGxaJP6d7HoeVuIIbA9H-vndcJyCRHcC_zAnDojygpdBOjb1xTAnf5wx28366D3lGKP35jPxh2F2vfxQ/s220/IMG_20240502_231437_652.jpg"
+                                alt="">
+                        </button>
+                    </a>
+                </li>
+                &nbsp;&nbsp;
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- Mobile Menu -->
+<div class="mobileMenu hide" id="mobileMenu">
+    <div class="menuTop">
+        <button onclick="menu();">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
+                style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
+                <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="menuItems">
+        <div class="menuItem">
+            <a href="/admin/">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="active" width="28" height="28" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);">
+                        <path
+                            d="M19.965 8.521C19.988 8.347 20 8.173 20 8c0-2.379-2.143-4.288-4.521-3.965C14.786 2.802 13.466 2 12 2s-2.786.802-3.479 2.035C6.138 3.712 4 5.621 4 8c0 .173.012.347.035.521C2.802 9.215 2 10.535 2 12s.802 2.785 2.035 3.479A3.976 3.976 0 0 0 4 16c0 2.379 2.138 4.283 4.521 3.965C9.214 21.198 10.534 22 12 22s2.786-.802 3.479-2.035C17.857 20.283 20 18.379 20 16c0-.173-.012-.347-.035-.521C21.198 14.785 22 13.465 22 12s-.802-2.785-2.035-3.479zm-9.01 7.895-3.667-3.714 1.424-1.404 2.257 2.286 4.327-4.294 1.408 1.42-5.749 5.706z">
+                        </path>
+                    </svg>
+                </button>
+                <span class="active">Dashboard</span>
+            </a>
+        </div>
+        <div class="menuItem">
+            <a href="/admin/articles">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);">
+                        <path
+                            d="M20 17V7c0-2.168-3.663-4-8-4S4 4.832 4 7v10c0 2.168 3.663 4 8 4s8-1.832 8-4zM12 5c3.691 0 5.931 1.507 6 1.994C17.931 7.493 15.691 9 12 9S6.069 7.493 6 7.006C6.069 6.507 8.309 5 12 5zM6 9.607C7.479 10.454 9.637 11 12 11s4.521-.546 6-1.393v2.387c-.069.499-2.309 2.006-6 2.006s-5.931-1.507-6-2V9.607zM6 17v-2.393C7.479 15.454 9.637 16 12 16s4.521-.546 6-1.393v2.387c-.069.499-2.309 2.006-6 2.006s-5.931-1.507-6-2z">
+                        </path>
+                    </svg>
+                </button>
+                <span>Articles</span>
+            </a>
+        </div>
+        <div class="menuItem">
+            <a href="/admin/users">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);">
+                        <path
+                            d="M12 2A10.13 10.13 0 0 0 2 12a10 10 0 0 0 4 7.92V20h.1a9.7 9.7 0 0 0 11.8 0h.1v-.08A10 10 0 0 0 22 12 10.13 10.13 0 0 0 12 2zM8.07 18.93A3 3 0 0 1 11 16.57h2a3 3 0 0 1 2.93 2.36 7.75 7.75 0 0 1-7.86 0zm9.54-1.29A5 5 0 0 0 13 14.57h-2a5 5 0 0 0-4.61 3.07A8 8 0 0 1 4 12a8.1 8.1 0 0 1 8-8 8.1 8.1 0 0 1 8 8 8 8 0 0 1-2.39 5.64z">
+                        </path>
+                        <path
+                            d="M12 6a3.91 3.91 0 0 0-4 4 3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4 3.91 3.91 0 0 0-4-4zm0 6a1.91 1.91 0 0 1-2-2 1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2 1.91 1.91 0 0 1-2 2z">
+                        </path>
+                    </svg>
+                </button>
+                <span>Users</span>
+            </a>
+        </div>
+    </div>
+</div>
