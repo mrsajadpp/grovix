@@ -1,0 +1,276 @@
+<link rel="stylesheet" href="/stylesheets/header.css">
+{{!-- Mobile Header --}}
+<header id="header" class="mobile_header" style="display: none;">
+    <div class="left">
+        <button onclick="menu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="center">
+        <a href="/">
+            <img src="/images/logowrk.png" alt="Elegent Purse Logo">
+        </a>
+    </div>
+    <div class="left">
+        <button onclick="search()" class="search_button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                <path
+                    d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z">
+                </path>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<div class="search_area">
+    <div class="input_box">
+        <form action="/search" method="post">
+            <input type="text" name="query" placeholder="Search" {{#if q}} value="{{q}}" {{/if}} id="query" required>
+            <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    style="fill: #fff;transform: ;msFilter:;">
+                    <path
+                        d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z">
+                    </path>
+                </svg>
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="menu_container">
+    <div class="menu_area">
+        <div class="menu_bar">
+            <button onclick="menu()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                    <path
+                        d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        {{!--
+        <hr style="width: 100%; margin: 0px;"> --}}
+        <div class="menu_items">
+            <div class="menu_item">
+                <a href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path
+                            d="M5 22h14c1.103 0 2-.897 2-2V9a1 1 0 0 0-1-1h-3V7c0-2.757-2.243-5-5-5S7 4.243 7 7v1H4a1 1 0 0 0-1 1v11c0 1.103.897 2 2 2zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v1H9V7zm-4 3h2v2h2v-2h6v2h2v-2h2l.002 10H5V10z">
+                        </path>
+                    </svg>
+                    <span>HOME</span>
+                </a>
+            </div>
+
+            <div class="menu_item">
+                <a href="/user/cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path
+                            d="M21 4H2v2h2.3l3.28 9a3 3 0 0 0 2.82 2H19v-2h-8.6a1 1 0 0 1-.94-.66L9 13h9.28a2 2 0 0 0 1.92-1.45L22 5.27A1 1 0 0 0 21.27 4 .84.84 0 0 0 21 4zm-2.75 7h-10L6.43 6h13.24z">
+                        </path>
+                        <circle cx="10.5" cy="19.5" r="1.5"></circle>
+                        <circle cx="16.5" cy="19.5" r="1.5"></circle>
+                    </svg>
+                    <span>CART</span>
+                </a>
+            </div>
+
+            <div class="menu_item">
+                <a href="/user/wishlist">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path
+                            d="M12 4.595a5.904 5.904 0 0 0-3.996-1.558 5.942 5.942 0 0 0-4.213 1.758c-2.353 2.363-2.352 6.059.002 8.412l7.332 7.332c.17.299.498.492.875.492a.99.99 0 0 0 .792-.409l7.415-7.415c2.354-2.354 2.354-6.049-.002-8.416a5.938 5.938 0 0 0-4.209-1.754A5.906 5.906 0 0 0 12 4.595zm6.791 1.61c1.563 1.571 1.564 4.025.002 5.588L12 18.586l-6.793-6.793c-1.562-1.563-1.561-4.017-.002-5.584.76-.756 1.754-1.172 2.799-1.172s2.035.416 2.789 1.17l.5.5a.999.999 0 0 0 1.414 0l.5-.5c1.512-1.509 4.074-1.505 5.584-.002z">
+                        </path>
+                    </svg>
+                    <span>WISHLIST</span>
+                </a>
+            </div>
+
+            <div class="menu_item">
+                <a href="/user/orders">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path>
+                    </svg>
+                    <span>ORDERS</span>
+                </a>
+            </div>
+
+            <hr>
+
+            {{#if user.admin}}
+            <div class="menu_item">
+                <a href="/admin/product">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path
+                            d="M17 8V7c0-2.757-2.243-5-5-5S7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2H9V7c0-1.654 1.346-3 3-3s3 1.346 3 3v1h2zm1 4 .002 8H6v-8h12z">
+                        </path>
+                    </svg>
+                    <span>ADMIN</span>
+                </a>
+            </div>
+            {{/if}}
+
+            {{#if user}}
+            <div class="menu_item">
+                <a href="/user/profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path
+                            d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z">
+                        </path>
+                    </svg>
+                    <span>PROFILE</span>
+                </a>
+            </div>
+
+            <hr>
+
+            <div class="menu_item">
+                <a href="/user/logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: red;transform: ;msFilter:;">
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path>
+                        <path
+                            d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z">
+                        </path>
+                    </svg>
+                    <span class="logout">LOGOUT</span>
+                </a>
+            </div>
+            {{else}}
+            <div class="menu_item">
+                <a href="/auth/login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: orange;transform: ;msFilter:;">
+                        <path d="m13 16 5-4-5-4v3H4v2h9z"></path>
+                        <path
+                            d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z">
+                        </path>
+                    </svg>
+                    <span class="logout" style="color: orange;">LOGIN</span>
+                </a>
+            </div>
+            {{/if}}
+
+            <hr>
+        </div>
+    </div>
+</div>
+
+{{!-- Desktop Header --}}
+<header id="header" class="desktop_header">
+    <div class="hleft">
+        <a href="/">
+            <img src="/images/logowrk.png" alt="Elegent Purse Logo">
+        </a>
+    </div>
+    <div class="hcenter">
+        <div class="hsearch_area">
+            <form action="/search" method="post">
+                <input type="text" name="query" id="query" placeholder="Search" {{#if q}} value="{{q}}" {{/if}} required>
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path
+                            d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z">
+                        </path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="hright">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">
+                        HOME
+                    </a>
+                </li>
+                <li>
+                    <a href="/user/cart">
+                        CART
+                    </a>
+                </li>
+                <li>
+                    <a href="/user/wishlist">
+                        WISHLIST
+                    </a>
+                </li>
+                <li>
+                    <a href="/user/orders">
+                        ORDERS
+                    </a>
+                </li>
+                {{#if user.admin}}
+                <li>
+                    <a href="/admin/product">
+                        ADMIN
+                    </a>
+                </li>
+                {{/if}}
+                {{#if user}}
+                <li>
+                    <a href="/user/profile">
+                        PROFILE
+                    </a>
+                </li>
+                {{else}}
+                <li class="login_btn">
+                    <a href="/auth/login" style="color: #fff;">
+                        LOGIN
+                    </a>
+                </li>
+                {{/if}}
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div style="width: 100%; height: 80px;"></div>
+
+<script>
+    function search() {
+        let search_area = document.querySelector('.search_area');
+        let search_button = document.querySelector('.search_button');
+        search_area.classList.toggle('display');
+        search_area.classList.contains('display') ? search_button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path></svg>` : search_button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path></svg>`;
+    }
+
+    function menu() {
+        let menu_container = document.querySelector('.menu_container');
+        menu_container.classList.toggle('display');
+    }
+
+    // JavaScript to toggle classes based on screen width
+    function toggleHeader() {
+        const desktopHeader = document.querySelector('.desktop_header');
+        const mobileHeader = document.querySelector('.mobile_header');
+
+        if (window.innerWidth <= 768) {
+            desktopHeader.style.display = 'none';
+            mobileHeader.style.display = 'flex';
+        } else {
+            desktopHeader.style.display = 'flex';
+            mobileHeader.style.display = 'none';
+        }
+    }
+
+    // Initial call to set header based on screen width
+    toggleHeader();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', toggleHeader);
+</script>

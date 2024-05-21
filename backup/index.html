@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Patents Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 80%;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Statistics on Industrial Patents</h2>
+
+<div class="chart-container">
+    <canvas id="patentsChart"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('patentsChart').getContext('2d');
+
+    const data = {
+        labels: [
+            'AI Total 2022', 'AI China 2022', 'AI US 2022', 
+            'AI EU/UK 2022', 'AI Others 2022', 'US Biotech 2020', 
+            'Biotech Category', 'Semiconductors 2023', 'TSMC 2023', 
+            'Top 3 Filers', 'Samsung Telecom 2020', 'Huawei Telecom 2020', 
+            'Samsung IoT 2022', 'LG IoT 2022', 'Huawei IoT 2022', 'Qualcomm IoT 2022'
+        ],
+        datasets: [{
+            label: 'Patents and Percentages',
+            data: [
+                62264, 35315, 12077, 1173, 13699, 39, 5.7, 69190, 
+                3442, 43432, 397, 328, 23162, 11169, 10429, 9454
+            ],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+            pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+        }]
+    };
+
+    const config = {
+        type: 'radar',
+        data: data,
+        options: {
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Patents / Percentage'
+                    }
+                }
+            }
+        }
+    };
+
+    const patentsChart = new Chart(ctx, config);
+</script>
+
+</body>
+</html>

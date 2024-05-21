@@ -1,0 +1,80 @@
+<!-- Sidebar Start -->
+<div class="sidebar pe-4 pb-3" style="margin-top: 60px;">
+    <nav class="navbar bg-white navbar-light">
+        <a href="/admin/product" class="navbar-brand mx-4 mb-3">
+            <img src="/images/logowrk.png" width="200px" alt="">
+        </a>
+
+        <div class="navbar-nav w-100 ">
+
+            <a href="/admin/product" class="nav-item nav-link"><i class="fa-solid fa-suitcase-rolling"
+                    style="color: #000000;"></i></i>Products</a>
+            <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Category</a>
+            <a href="/admin/orders" class="nav-item nav-link"><i class="fa-solid fa-box-open me-2"
+                    style="color: #000000;"></i>Orders</a>
+            {{!-- <a href="/admin/customers" class="nav-item nav-link"><i class="fa-solid fa-users"
+                    style="color: #000000;"></i>Customers</a> --}}
+            <a href="/admin/banner" class="nav-item nav-link"><i class="fa-solid fa-users"
+                    style="color: #000000;"></i>Banner</a>
+
+        </div>
+    </nav>
+</div>
+<!-- Sidebar End -->
+
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="/admin/product" class="navbar-brand d-flex d-lg-none me-4">
+            <img src="/images/logowrk.png" width="150px" class="img-fluid d-md-none" alt="">
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars " style="color: #000000;"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4" style="opacity: 0;">
+            <input class="form-control border-0" type="search" placeholder="Search">
+        </form>
+        <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown">
+
+
+            </div>
+            <div class="nav-item dropdown" style="opacity: 0;">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-bell me-lg-2"></i>
+                    <span class="d-none d-lg-inline-flex">Notificatin</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Profile updated</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">New user added</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Password changed</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all notifications</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">My Profile</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <a href="#" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
