@@ -90,7 +90,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
       res.render('user/article', { title: article.title, style: ['article'], article: article, author, user: req.session.user ? req.session.user : false });
     } else {
-      res.status(404)
+      res.render('error', { title: "404", status: 404, message: "Not found", style: ['error'], user: req.session.user ? req.session.user : false });
     }
   } catch (error) {
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
