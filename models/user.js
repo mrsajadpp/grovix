@@ -40,6 +40,14 @@ const userSchema = new Schema({
         type: Boolean,
         required: true,
     },
+    sex: {
+        type: String,
+        required: false,
+    },
+    bio: {
+        type: String,
+        required: false,
+    },
     address: {
         address_line_one: {
             type: String,

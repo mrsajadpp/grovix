@@ -6,8 +6,12 @@ const Code = require('../models/code');
 let mail = require('../email/config');
 var geoip = require('geoip-lite');
 let axios = require('axios');
+let fs = require('fs');
+let path = require('path');
 let { sendMail } = require('../email/config')
 const speakeasy = require('speakeasy');
+const sharp = require('sharp');
+
 
 const { default: mongoose } = require('mongoose');
 const { ObjectId } = require('mongodb');
@@ -110,6 +114,8 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
           admin: false,
           verified: false,
           status: false,
+          sex: '',
+          bio: '',
           address: {
             address_line_one: "",
             addressline_two: "",
@@ -180,6 +186,8 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
             admin: false,
             verified: false,
             status: false,
+            sex: '',
+            bio: '',
             address: {
               address_line_one: "",
               addressline_two: "",
@@ -357,6 +365,81 @@ router.get('/logout', isAuthorised, (req, res, next) => {
     req.session = null;
     res.redirect('/auth/login');
   } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+
+// Edit Profile
+router.post('/profile/edit', isAuthorised, async (req, res, next) => {
+  try {
+    const {
+      first_name,
+      last_name,
+      email,
+      phone,
+      sex,
+      bio,
+      address_line_one,
+      address_line_two,
+      country,
+      state,
+      city,
+      zip_code
+    } = req.body;
+
+    if (first_name && last_name && email && phone && sex && bio && address_line_one && address_line_two && country && state && city && zip_code) {
+      let userData = await {
+        first_name: first_name,
+        last_name: last_name,
+        contact_no: phone,
+        sex: sex,
+        bio: bio,
+        address: {
+          address_line_one: address_line_one,
+          addressline_two: address_line_two,
+          country: country,
+          state: state,
+          city: city,
+          zip_code: zip_code
+        }
+      };
+
+      let user = await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
+      user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
+      req.session.user = user;
+
+      if (req.files && req.files.profile) {
+        let profileFile = req.files.profile;
+        let imagePath = await __dirname + '/../public/img/user/' + user._id + '.jpg';
+        let profilePath = await __dirname + '/../public/img/user/' + user._id + '-75x75.jpg';
+
+        profileFile.mv(imagePath, async function (err) {
+          if (err) {
+            return res.status(500).send("Error uploading profile image: " + err);
+          }
+
+          // Resize the image
+          sharp(imagePath)
+            .resize(75, 75) // Set the width and height
+            .toFile(profilePath, (err, info) => {
+              if (err) {
+                console.error(err);
+              } else {
+                res.redirect('/dashboard/settings');
+              }
+            });
+
+        });
+      } else {
+        res.redirect('/dashboard/settings');
+      }
+
+    } else {
+      res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false, error: { message: "Please fill blank input box." } });
+    }
+  } catch (error) {
+    console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
 });
