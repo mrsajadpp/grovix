@@ -33,6 +33,7 @@ app.engine('hbs', handlebars.engine({
     }
   }
 }));
+
 // app.use(session({ secret: "@tricbskt@#]$" }));
 app.use(cookieSession({
   name: 'session',

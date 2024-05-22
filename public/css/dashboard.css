@@ -130,6 +130,7 @@
 
 .articleContainer .articles {
     width: 80%;
+    max-width: 450px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -237,17 +238,17 @@
 }
 
 @media (max-width: 375px) {
-    .articleContainer .articles .article .articleCont .articleContent p  {
+    .articleContainer .articles .article .articleCont .articleContent p {
         display: none;
     }
 }
 
 @media (min-width: 629px) {
-    .articleContainer .articles .article .articleCont .articleContent h4  {
+    .articleContainer .articles .article .articleCont .articleContent h4 {
         font-size: 15px;
     }
 
-    .articleContainer .articles .article .articleCont .articleContent p  {
+    .articleContainer .articles .article .articleCont .articleContent p {
         font-size: 13px;
     }
 }

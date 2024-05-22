@@ -54,8 +54,7 @@ router.get('/articles', isAuthorised, (req, res, next) => {
 
 router.get('/articles/pending', isAuthorised, async (req, res, next) => {
   try {
-    const article_list = await Article.find({ author_id: req.session.user._id, status: false });
-    console.log(article_list);
+    const article_list = await Article.find({ author_id: req.session.user._id, status: false }).lean();
     res.render('dashboard/pending_articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
   } catch (error) {
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
