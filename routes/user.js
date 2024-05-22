@@ -239,7 +239,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
   }
 })
 
-
+// Verify New User
 router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next) => {
   try {
     if (req.params.user_id && req.body.otp) {
@@ -259,6 +259,67 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
 })
+
+
+// login
+router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
+  // res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false });
+  try {
+    if (req.body.email && req.body.password) {
+      let user = await User.findOne({ email: req.body.email });
+      if (!user) {
+        res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: "The account not exist, please try to signup." } });
+      } else {
+        let password_match = await crypash.check('sha256', req.body.password, user.password);
+        if (password_match) {
+          // Generate a TOTP code using the secret key 
+          const code = await speakeasy.totp({
+
+            // Use the Base32 encoding of the secret key 
+            secret: secret.base32,
+
+            // Tell Speakeasy to use the Base32  
+            // encoding format for the secret key 
+            encoding: 'base32'
+          });
+
+          let verification = {
+            user_id: user._id.toString(),
+            verification_code: code,
+            created_time: new Date()
+          }
+          const one_time_code = await Code.updateOne({ user_id: user._id.toString() }, verification);
+
+          sendMail({
+            from: '"Grovix Lab" noreply.grovix@gmail.com',
+            to: user.email,
+            subject: "Your One-Time Verification Code",
+            text: `Hello,
+        
+        Your verification code is: ${code}
+        
+        Please use this code to complete your verification process.
+        
+        Thank you,
+        The Grovix Team`,
+            html: `<p>Hello,</p>
+                 <p>Your verification code is: <strong>${code}</strong></p>
+                 <p>Please use this code to complete your verification process.</p>
+                 <p>Thank you,<br>The Grovix Team</p>`,
+          });
+
+          res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session.user ? req.session.user : false, user_id: user._id });
+        } else {
+          res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: "Password not match!" } });
+        }
+      }
+    } else {
+      res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: "Please enter valid data" } });
+    }
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
 
 
 module.exports = router;
