@@ -68,4 +68,8 @@ router.get('/settings', isAuthorised, (req, res, next) => {
   res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false });
 }); 
 
+router.get('/settings/payment', isAuthorised, (req, res, next) => {
+  res.render('dashboard/payment', { title: "Payment >> Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false });
+}); 
+
 module.exports = router;

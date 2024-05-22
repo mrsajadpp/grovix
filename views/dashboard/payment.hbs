@@ -1,0 +1,246 @@
+{{>headers/settings}}
+
+<!-- Seperators Starts -->
+<div class="seperatorContainer">
+    <div class="seperator">
+        <div class="seLeft">
+            <a href="/dashboard/settings">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
+                        style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                        <path
+                            d="m12 3.06 7 3.21v4.84c0 1.3-.25 2.6-.75 3.86-.15.37-.33.76-.55 1.17-.15.27-.31.54-.48.81-1.32 2.01-3.17 3.42-5.23 3.98-2.06-.56-3.91-1.97-5.23-3.98-.17-.27-.33-.54-.48-.81-.22-.41-.4-.79-.55-1.17-.48-1.26-.73-2.56-.73-3.86V6.27l7-3.21m0-1.1L4 5.63v5.49c0 1.47.3 2.9.81 4.22.17.44.37.86.6 1.28.16.3.34.6.52.88 1.42 2.17 3.52 3.82 5.95 4.44l.12.02.12-.03c2.43-.61 4.53-2.26 5.95-4.43.19-.29.36-.58.52-.88.22-.41.43-.84.6-1.28.51-1.33.81-2.76.81-4.23V5.63l-8-3.67zm1.08 10.15c-.32-.06-.64-.11-.96-.12A2.997 2.997 0 0012 6a2.996 2.996 0 00-.12 5.99c-.32.01-.64.06-.96.12C8.64 12.58 7 14.62 7 17h10c0-2.38-1.64-4.42-3.92-4.89zM10 9c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm1.12 4.09c.37-.08.64-.11.88-.11s.51.03.88.11c1.48.3 2.63 1.46 3 2.91H8.12c.37-1.45 1.52-2.61 3-2.91z">
+                        </path>
+                    </svg>
+                </button>
+                <span class="sepText">Profile</span>
+            </a>
+        </div>
+        <div class="seRight selected">
+            <a href="/dashboard/settings/payment">
+                <button>
+                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
+                        class="style-scope tp-yt-iron-icon active"
+                        style="pointer-events: none; display: block; width: 24px; height: 24px;">
+                        <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
+                            <path
+                                d="M8 7V10C8 10.55 8.45 11 9 11H15C16.1 11 17 11.9 17 13V17C17 18.1 16.1 19 15 19H13V21H11V19H7V18H15C15.55 18 16 17.55 16 17V13C16 12.45 15.55 12 15 12H9C7.9 12 7 11.1 7 10V7C7 5.9 7.9 5 9 5H11V3H13V5H17V6H9C8.45 6 8 6.45 8 7Z"
+                                class="style-scope tp-yt-iron-icon"></path>
+                        </g>
+                    </svg>
+                </button>
+                <span class="sepText active">Payment</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div style="width: 100%; height: 90px;"></div>
+
+<!-- Payment -->
+<div class="container">
+    <form action="" class="regForm" enctype="multipart/form-data">
+        <div class="inputText">
+            <span>
+                These fields will become available once you reach the minimal payout of &dollar;50.
+            </span>
+        </div>
+        <br>
+        <!-- <input type="file" name="profile" hidden accept="image/jpg, image/jpeg, image/png" id="profileInp">
+            <div id="inputProfile" class="inputProfile"
+                style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyToeAH0Yw-KYJYVNPNZpfFo01EkgFB7RciZ4KZFNV-9fDhbXqWvGw2AnfyjaaFOMveb9nX69tzrD6EFkZPuu7ee2WylQBbeFeGxaJP6d7HoeVuIIbA9H-vndcJyCRHcC_zAnDojygpdBOjb1xTAnf5wx28366D3lGKP35jPxh2F2vfxQ/s220/IMG_20240502_231437_652.jpg');">
+                <button type="button">
+                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
+                        class="style-scope tp-yt-iron-icon"
+                        style="pointer-events: none; display: block; width: 34px; height: 34px; fill: #fff;">
+                        <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
+                            <path
+                                d="M14.06 7.6L16.4 9.94L6.34 20H4V17.66L14.06 7.6ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19ZM17.61 4.05L19.98 6.42L18.84 7.56L16.47 5.19L17.61 4.05ZM17.61 2.63L15.06 5.18L18.85 8.97001L21.4 6.42L17.61 2.63Z"
+                                class="style-scope tp-yt-iron-icon"></path>
+                        </g>
+                    </svg>
+                </button>
+            </div> -->
+        <div class="inputBox">
+            <select name="method" id="payMethod">
+                <option disabled selected>Select Payment Method</option>
+                <option value="bank">Bank</option>
+                <option value="paypal">PayPal</option>
+                <option value="upi">UPI</option>
+            </select>
+        </div>
+
+        <div id="bankDetails" style="display: none; width: 100%;">
+            <div class="inputBox">
+                <input type="text" name="bankName" class="bankName" placeholder="Bank Name">
+            </div>
+            <div class="inputBox">
+                <input type="text" name="swiftCode" class="swiftCode" placeholder="Swift Code">
+            </div>
+            <div class="inputBox">
+                <input type="text" name="ifscCode"
+                    onchange="document.querySelector('.ifscCode').value = (document.querySelector('.ifscCode').value.toUpperCase()).replace(/\s+/g, '')"
+                    class="ifscCode" placeholder="IFSC Code">
+            </div>
+            <div class="inputBox">
+                <input type="number" name="accountNumber"
+                    onchange="document.querySelector('.accountNumber').value = document.querySelector('.accountNumber').value.replace(/\s+/g, '')"
+                    class="accountNumber" placeholder="Account Number">
+            </div>
+            <div class="inputBox">
+                <input type="text" name="accountHolderName" class="accountHolderName" placeholder="Account Holder Name">
+            </div>
+        </div>
+
+        <div id="paypalDetails" style="display: none; width: 100%;">
+            <div class="inputBox">
+                <input type="email" class="paypal" name="paypalEmail" placeholder="PayPal Email">
+            </div>
+        </div>
+
+        <div id="upiDetails" style="display: none; width: 100%;">
+            <div class="inputBox">
+                <input type="text" class="upi" name="upiId" placeholder="UPI ID">
+            </div>
+        </div>
+
+        <div class="inputBox">
+            <button disabled class="disabled">
+                Save
+            </button>
+        </div>
+        <!-- <div class="inputText">
+                <span>Do you have a account? <a href="./login.html">LogIn</a>.</span>
+            </div> -->
+    </form>
+</div>
+<br>
+
+<!-- Form Script -->
+<script>
+    const payMethodSelect = document.getElementById('payMethod');
+    const bankDetails = document.getElementById('bankDetails');
+    const paypalDetails = document.getElementById('paypalDetails');
+    const upiDetails = document.getElementById('upiDetails');
+    const saveButton = document.querySelector('.regForm button');
+    let payType = null;
+
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    function validateUPI(upi) {
+        const UPIRegex = /^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/;
+        return UPIRegex.test(upi);
+    }
+
+    payMethodSelect.addEventListener('change', async function () {
+        bankDetails.style.display = 'none';
+        paypalDetails.style.display = 'none';
+        upiDetails.style.display = 'none';
+
+        const selectedMethod = this.value;
+
+        if (selectedMethod === 'bank') {
+            bankDetails.style.display = 'block';
+            payType = 'bank';
+        } else if (selectedMethod === 'paypal') {
+            paypalDetails.style.display = 'block';
+            payType = 'paypal';
+        } else if (selectedMethod === 'upi') {
+            upiDetails.style.display = 'block';
+            payType = 'upi';
+        }
+
+        let validForm = await isFormValid();
+
+        // Check if form is valid and enable button
+        if (validForm) {
+            saveButton.removeAttribute('disabled');
+            saveButton.classList.remove('disabled');
+        } else {
+            saveButton.setAttribute('disabled', 'true');
+            saveButton.classList.add('disabled');
+        }
+    });
+
+    bankDetails.addEventListener('change', async function () {
+        let validForm = await isFormValid();
+        if (validForm) {
+            saveButton.removeAttribute('disabled');
+            saveButton.classList.remove('disabled');
+        } else {
+            saveButton.setAttribute('disabled', 'true');
+            saveButton.classList.add('disabled');
+        }
+    });
+
+    paypalDetails.addEventListener('change', async function () {
+        let validForm = await isFormValid();
+        if (validForm) {
+            saveButton.removeAttribute('disabled');
+            saveButton.classList.remove('disabled');
+        } else {
+            saveButton.setAttribute('disabled', 'true');
+            saveButton.classList.add('disabled');
+        }
+    })
+
+    upiDetails.addEventListener('change', async function () {
+        let validForm = await isFormValid();
+        if (validForm) {
+            saveButton.removeAttribute('disabled');
+            saveButton.classList.remove('disabled');
+        } else {
+            saveButton.setAttribute('disabled', 'true');
+            saveButton.classList.add('disabled');
+        }
+    })
+
+    // Function to check if form is valid
+    async function isFormValid() {
+        // You can implement your form validation logic here
+        // For example, check if required fields are filled
+        const selectedMethod = payType;
+        let retValue = false;
+
+        if (selectedMethod === 'bank') {
+            const bankName = document.querySelector('.bankName').value.trim();
+            const swiftCode = document.querySelector('.swiftCode').value.trim();
+            const ifscCode = document.querySelector('.ifscCode').value.trim();
+            const accountNumber = document.querySelector('.accountNumber').value.trim();
+            const accountHolderName = document.querySelector('.accountHolderName').value.trim();
+
+            // Check if any field is empty
+            if (bankName === '' || swiftCode === '' || ifscCode === '' || accountNumber === '' || accountHolderName === '') {
+                retValue = false;
+            } else {
+                retValue = true;
+            }
+            return retValue;
+        } else if (selectedMethod === 'paypal') {
+            const paypalEmail = document.querySelector('.paypal').value.trim();
+            let validEmail = await validateEmail(paypalEmail);
+
+            // Check if PayPal email field is empty
+            if (validEmail == false) {
+                retValue = false;
+            } else {
+                retValue = true;
+            }
+            return retValue;
+        } else if (selectedMethod === 'upi') {
+            const upiId = document.querySelector('.upi').value.trim();
+            let validUPI = await validateUPI(upiId);
+
+            // Check if UPI ID field is empty
+            if (validUPI == false) {
+                retValue = false;
+            } else {
+                retValue = true;
+            }
+            return retValue;
+        }
+    }
+</script>
