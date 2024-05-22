@@ -86,8 +86,12 @@ router.get('/auth/login', isNotAuthorised, (req, res, next) => {
 router.get('/page/:endpoint', async (req, res, next) => {
   try {
     let article = await Article.findOne({ endpoint: req.params.endpoint, status: true }).lean();
-    let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
-    res.render('user/article', { title: article.title, style: ['article'], article: article, author, user: req.session.user ? req.session.user : false });
+    if (article && article.status) {
+      let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
+      res.render('user/article', { title: article.title, style: ['article'], article: article, author, user: req.session.user ? req.session.user : false });
+    } else {
+      res.status(404)
+    }
   } catch (error) {
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
