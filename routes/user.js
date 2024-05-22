@@ -10,6 +10,7 @@ let { sendMail } = require('../email/config')
 const speakeasy = require('speakeasy');
 
 const { default: mongoose } = require('mongoose');
+const { ObjectId } = require('mongodb');
 
 // Generate a secret key with a length 
 // of 20 characters 
@@ -232,6 +233,26 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
       }
     } else {
       res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: 'Please enter valid information.' } });
+    }
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+})
+
+router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next) => {
+  try {
+    if (req.params.user_id && req.body.otp) {
+      let verification = await Code.findOne({ user_id: req.params.user_id });
+      if (req.body.otp == verification.verification_code) {
+        let user = await User.updateOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) }, { verified: true, status: true });
+        let userData = await User.findOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) });
+        req.session.user = userData;
+        res.redirect('/');
+      } else {
+        res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session.user ? req.session.user : false, user_id: req.params.user_id, error: { message: "Incorrect code" } });
+      }
+    } else {
+      res.redirect('/auth/signup');
     }
   } catch (error) {
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
