@@ -1,18 +1,23 @@
 var express = require('express');
-var router = express.Router();
-const User = require('../models/user');
+let db = require('../db');
 const { default: mongoose } = require('mongoose');
-let fs = require('fs');
 
-const isAdmin = (req, res, next) => {
-  if (!req.session.user) {
-    res.redirect('/auth/login');
-  } else {
-    if (!req.session.user.admin) {
-      res.redirect('/');
+var router = express.Router();
+
+const isAuthorised = (req, res, next) => {
+  try {
+    const userCollection = db.get().collection('USER');
+    if (!req.session.user) {
+      res.redirect('/auth/login');
     } else {
-      next();
+      if (req.session.user.status) {
+        next();
+      } else {
+        res.redirect('/auth/login');
+      }
     }
+  } catch (error) {
+
   }
 }
 
@@ -34,7 +39,6 @@ function addOneDay(timestamp) {
   const year = date.getFullYear(); // Get full year
   return `${day}/${month}/${year}`;
 }
-
 
 
 module.exports = router;
