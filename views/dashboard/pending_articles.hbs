@@ -16,7 +16,7 @@
                 </div>
                 <div class="articleControl">
                     <div class="editIcon">
-                        <button>
+                        <button onclick="location.href = '/article/edit/{{this._id}}'">
                             <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
                                 class="style-scope tp-yt-iron-icon"
                                 style="pointer-events: none; display: block; width: 24px; height: 24px;">
@@ -29,7 +29,7 @@
                         </button>
                     </div>
                     <div class="deleteIcon">
-                        <button>
+                        <button onclick="confirmDelete('{{this._id}}')">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                                 viewBox="0 0 24 24" width="24" focusable="false"
                                 style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
@@ -42,9 +42,28 @@
             </div>
         </div>
         {{/each}}
+        {{else}}
+        <div class="comingSoon">
+            <div class="comgText">
+                <span>No articles <span class="higlight">:)</span></span>
+            </div>
+        </div>
         {{/if}}
     </div>
 </div>
+
+<script>
+    function confirmDelete(articleId) {
+        var userInput = prompt("To delete this article, please type 'DELETE MY ARTICLE' in capital letters:");
+        if (userInput === "DELETE MY ARTICLE") {
+            // If the user input matches the required text, proceed with the deletion
+            window.location.href = '/article/delete/' + articleId;
+        } else {
+            // If the user input doesn't match, show an alert
+            alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+        }
+    }
+</script>
 
 <!-- Dashboard Graph Metrix Coming Soon -->
 <!-- <div class="comingSoon">

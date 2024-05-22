@@ -504,5 +504,18 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
   }
 });
 
+// Delete article
+router.get('/article/delete/:article_id', isAuthorised, async (req, res, next) => {
+  try {
+    if (req.params.article_id) {
+      await Article.deleteOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id });
+      res.redirect('/dashboard/articles');
+    }
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
 
 module.exports = router;

@@ -30,6 +30,22 @@ app.engine('hbs', handlebars.engine({
   extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/', partialsDir: __dirname + '/views/partials/', helpers: {
     ifequal: function (arg1, arg2, options) {
       return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    },
+    formatNumber: (number) => {
+      const units = ['K', 'M', 'B', 'T', 'P', 'E'];
+      let unit = '';
+      let num = number;
+
+      for (let i = units.length - 1; i >= 0; i--) {
+        const size = Math.pow(1000, i + 1);
+        if (number >= size) {
+          num = number / size;
+          unit = units[i];
+          break;
+        }
+      }
+
+      return num.toFixed(1).replace(/\.0$/, '') + unit;
     }
   }
 }));
