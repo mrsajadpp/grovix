@@ -71,4 +71,14 @@ router.get('/categories', (req, res, next) => {
   res.render('user/categories', { title: "Category", style: [], user: req.session.user ? req.session.user : false });
 });
 
-module.exports = router;
+// Signup
+router.get('/auth/signup', (req, res, next) => {
+  res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false });
+});
+
+// login
+router.get('/auth/login', (req, res, next) => {
+  res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false });
+});
+
+module.exports = router; 
