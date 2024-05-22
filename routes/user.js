@@ -239,6 +239,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
   }
 })
 
+
 router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next) => {
   try {
     if (req.params.user_id && req.body.otp) {

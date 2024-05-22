@@ -72,12 +72,12 @@ router.get('/categories', (req, res, next) => {
 });
 
 // Signup
-router.get('/auth/signup', (req, res, next) => {
+router.get('/auth/signup', isNotAuthorised, (req, res, next) => {
   res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false });
 });
 
 // login
-router.get('/auth/login', (req, res, next) => {
+router.get('/auth/login', isNotAuthorised, (req, res, next) => {
   res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false });
 });
 
