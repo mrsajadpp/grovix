@@ -46,8 +46,9 @@ router.get('/', isAuthorised, (req, res, next) => {
 });
 
 // Articles
-router.get('/articles', isAuthorised, (req, res, next) => {
-  res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+router.get('/articles', isAuthorised, async (req, res, next) => {
+  const article_list = await Article.find({ author_id: req.session.user._id, status: true }).lean();
+  res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
 });
 
 router.get('/articles/pending', isAuthorised, async (req, res, next) => {
