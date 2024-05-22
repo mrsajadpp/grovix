@@ -251,6 +251,32 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
         console.log(geo);
         let user = await User.updateOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) }, { verified: true, status: true });
         let userData = await User.findOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) });
+
+        sendMail({
+          from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+          to: userData.email,
+          subject: "New Login/Signup Attempt Notification",
+          text: `Hello,
+      
+      We noticed a new login or signup attempt to your account.
+      
+      Location: ${geo && geo.country ? geo.country : 'unknown'}, ${geo && geo.city ? geo.city : 'unknown'}, ${geo && geo.timezone ? geo.timezone : 'unknown'}.
+      Latitude: ${geo && geo.range && geo.range[0] ? geo.range[0] : 'unknown'}.
+      Longitude: ${geo && geo.range && geo.range[1] ? geo.range[1] : 'unknown'}.
+      
+      If this was you, no further action is needed. If you suspect any suspicious activity, please contact our support team immediately.
+      
+      Thank you,
+      The Grovix Team`,
+          html: `<p>Hello,</p>
+                 <p>We noticed a new login or signup attempt to your account.</p>
+                 <p>Location: <strong>${geo && geo.country ? geo.country : 'unknown'}, ${geo && geo.city ? geo.city : 'unknown'}, ${geo && geo.timezone ? geo.timezone : 'unknown'}</strong></p>
+                 <p>Latitude: <strong>${geo && geo.range && geo.range[0] ? geo.range[0] : 'unknown'}</strong></p>
+                 <p>Longitude: <strong>${geo && geo.range && geo.range[1] ? geo.range[1] : 'unknown'}</strong></p>
+                 <p>If this was you, no further action is needed. If you suspect any suspicious activity, please contact our support team immediately.</p>
+                 <p>Thank you,<br>The Grovix Team</p>`,
+        });
+
         req.session.user = userData;
         res.redirect('/');
       } else {
