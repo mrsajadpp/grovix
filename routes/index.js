@@ -58,17 +58,17 @@ function getCurrentDate() {
 
 // Home
 router.get('/', (req, res, next) => {
-  res.render('user/index', { title: "Grovix Lab", style: [] });
+  res.render('user/index', { title: "Grovix Lab", style: [], user: req.session.user ? req.session.user : false });
 });
 
 // Trending
 router.get('/trending', (req, res, next) => {
-  res.render('user/trending', { title: "Trending", style: [] });
+  res.render('user/trending', { title: "Trending", style: [], user: req.session.user ? req.session.user : false });
 });
 
 // Categories
 router.get('/categories', (req, res, next) => {
-  res.render('user/categories', { title: "Category", style: [] });
+  res.render('user/categories', { title: "Category", style: [], user: req.session.user ? req.session.user : false });
 });
 
 module.exports = router;
