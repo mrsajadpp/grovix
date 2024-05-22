@@ -160,9 +160,10 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
                  <p>Please use this code to complete your verification process.</p>
                  <p>Thank you,<br>The Grovix Team</p>`,
         });
+
+        res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session.user ? req.session.user : false, user_id: user._id });
       } else {
         if (userExist.verified) {
-          console.log('one');
           res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: 'User already exist, Please try to login.' } });
         } else {
 
@@ -207,8 +208,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
             created_time: new Date()
           }
           const one_time_code = await Code.updateOne({ user_id: userExist._id.toString() }, verification);
-          console.log(one_time_code);
-          console.log(code);
+
           sendMail({
             from: '"Grovix Lab" noreply.grovix@gmail.com',
             to: userData.email,
@@ -226,6 +226,8 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
                    <p>Please use this code to complete your verification process.</p>
                    <p>Thank you,<br>The Grovix Team</p>`,
           });
+
+          res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session.user ? req.session.user : false, user_id: userExist._id });
         }
       }
     } else {
