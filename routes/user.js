@@ -3,11 +3,16 @@ const crypash = require('crypash');
 var router = express.Router();
 const User = require('../models/user');
 const Code = require('../models/code');
-let mail = require('../mail/config');
+let mail = require('../email/config');
 var geoip = require('geoip-lite');
 let axios = require('axios');
+const speakeasy = require('speakeasy');
 
 const { default: mongoose } = require('mongoose');
+
+// Generate a secret key with a length 
+// of 20 characters 
+const secret = speakeasy.generateSecret({ length: 20 });
 
 // Function to convert timestamp to DD/MM/YYYY format
 function formatDate(timestamp) {
@@ -88,35 +93,107 @@ const isNotAuthorised = (req, res, next) => {
 
 router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
   try {
-    if (req.body.first_name && req.body.last_name && req.body.email && req.body.phone && req.body.password) {
-      const hashedPass = await crypash.hash('sha256', req.body.password);
-      let userData = await {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        contact_no: req.body.phone,
-        password: hashedPass,
-        date: Date.now,
-        admin: false,
-        verified: false,
-        status: false,
-        address: {
-          address_line_one: "",
-          addressline_two: "",
-          country: "",
-          state: "",
-          city: "",
-          zip_code: ""
+    if (req.body.first_name && req.body.last_name && req.body.email && req.body.phone && req.body.password && req.body.terms_accept) {
+      let userExist = await User.findOne({ email: req.body.email });
+      if (!userExist) {
+        const hashedPass = await crypash.hash('sha256', req.body.password);
+        console.log(hashedPass);
+        let userData = await {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          email: req.body.email,
+          contact_no: req.body.phone,
+          password: hashedPass,
+          date: new Date(),
+          admin: false,
+          verified: false,
+          status: false,
+          address: {
+            address_line_one: "",
+            addressline_two: "",
+            country: "",
+            state: "",
+            city: "",
+            zip_code: ""
+          }
+        };
+
+        const user = new User(userData);
+        await user.save();
+
+        // Generate a TOTP code using the secret key 
+        const code = await speakeasy.totp({
+
+          // Use the Base32 encoding of the secret key 
+          secret: secret.base32,
+
+          // Tell Speakeasy to use the Base32  
+          // encoding format for the secret key 
+          encoding: 'base32'
+        });
+
+        let verification = {
+          user_id: user._id,
+          verification_code: code,
+          created_time: new Date()
         }
-      };
 
-      const user = new User(userData);
-      await user.save();
+        const verification_code = new Code(verification);
+        await verification_code.save();
+        console.log(verification_code);
+      } else {
+        if (userExist.verified) {
+          console.log('one');
+          res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: 'User already exist, Please try to login.' } });
+        } else {
 
-      let verification = {
-        user_id: user._id
-        // pending
+          const hashedPass = await crypash.hash('sha256', req.body.password);
+
+          let userData = await {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            contact_no: req.body.phone,
+            password: hashedPass,
+            date: new Date(),
+            admin: false,
+            verified: false,
+            status: false,
+            address: {
+              address_line_one: "",
+              addressline_two: "",
+              country: "",
+              state: "",
+              city: "",
+              zip_code: ""
+            }
+          };
+
+          let user = await User.updateOne({ _id: userExist._id }, userData);
+
+          // Generate a TOTP code using the secret key 
+          const code = await speakeasy.totp({
+
+            // Use the Base32 encoding of the secret key 
+            secret: secret.base32,
+
+            // Tell Speakeasy to use the Base32  
+            // encoding format for the secret key 
+            encoding: 'base32'
+          });
+
+          let verification = {
+            user_id: userExist._id.toString(),
+            verification_code: code,
+            created_time: new Date()
+          }
+          const one_time_code = await Code.updateOne({ user_id: userExist._id.toString() }, verification);
+          console.log(one_time_code);
+          console.log(code);
+        }
       }
+    } else {
+      res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: 'Please enter valid information.' } });
     }
   } catch (error) {
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });

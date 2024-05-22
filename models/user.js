@@ -37,33 +37,33 @@ const userSchema = new Schema({
         required: true,
     },
     status: {
-        type: String,
+        type: Boolean,
         required: true,
     },
     address: {
         address_line_one: {
             type: String,
-            required: true,
+            required: false,
         },
         addressline_two: {
             type: String,
-            required: true,
+            required: false,
         },
         country: {
             type: String,
-            required: true,
+            required: false,
         },
         state: {
             type: String,
-            required: true,
+            required: false,
         },
         city: {
             type: String,
-            required: true,
+            required: false,
         },
         zip_code: {
             type: String,
-            required: true,
+            required: false,
         },
     },
 });

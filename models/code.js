@@ -1,4 +1,3 @@
-// models/user.js
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -7,13 +6,13 @@ const codeSchema = new Schema({
         type: String,
         required: true,
     },
-    verfication_code: {
+    verification_code: {
         type: Number,
         required: true,
     },
     created_time: {
         type: Date,
-        required: Date.now,
+        default: Date.now,
     },
 });
 
