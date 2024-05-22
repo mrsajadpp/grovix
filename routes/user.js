@@ -245,6 +245,10 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
     if (req.params.user_id && req.body.otp) {
       let verification = await Code.findOne({ user_id: req.params.user_id });
       if (req.body.otp == verification.verification_code) {
+        const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        console.log(clientIp);
+        var geo = await geoip.lookup(clientIp);
+        console.log(geo);
         let user = await User.updateOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) }, { verified: true, status: true });
         let userData = await User.findOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) });
         req.session.user = userData;
@@ -316,6 +320,16 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
     } else {
       res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: "Please enter valid data" } });
     }
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Logout
+router.get('/logout', isAuthorised, (req, res, next) => {
+  try {
+    req.session = null;
+    res.redirect('/auth/login');
   } catch (error) {
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
