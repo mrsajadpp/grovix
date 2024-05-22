@@ -256,7 +256,7 @@ strong {
 }
 
 .artDate .date {
-    width: 160px;
+    /* width: 160px; */
     height: 100%;
     display: flex;
     align-items: center;

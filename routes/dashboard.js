@@ -62,11 +62,15 @@ router.get('/articles/pending', isAuthorised, async (req, res, next) => {
 
 // Earnings
 router.get('/earnings', isAuthorised, async (req, res, next) => {
-  const article_list = await Article.find({ author_id: req.session.user._id, status: true }).lean();
-  const total_views = article_list.reduce((sum, article) => sum + (article.views || 0), 0);
-  const views_graph = (total_views / 10000) * 100;
-  const articles_graph = (article_list.length / 15) * 100;
-  res.render('dashboard/earnings', { title: "Earnings >> Dashboard", style: ['dashboard', 'earnings'], articles_graph,views_graph, articles: 15 - article_list.length, views: 10000 - total_views, user: req.session.user ? req.session.user : false });
+  try {
+    const article_list = await Article.find({ author_id: req.session.user._id, status: true }).lean();
+    const total_views = article_list.reduce((sum, article) => sum + (article.views || 0), 0);
+    const views_graph = (total_views / 10000) * 100;
+    const articles_graph = (article_list.length / 15) * 100;
+    res.render('dashboard/earnings', { title: "Earnings >> Dashboard", style: ['dashboard', 'earnings'], articles_graph, views_graph, articles: 15 - article_list.length, views: 10000 - total_views, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
 });
 
 // Notifications

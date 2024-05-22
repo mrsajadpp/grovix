@@ -34,6 +34,10 @@ const articleSchema = new Schema({
         type: Number,
         required: true,
     },
+    endpoint: {
+        type: String,
+        require: true,
+    }
 });
 
 const Article = mongoose.model('Article', articleSchema);

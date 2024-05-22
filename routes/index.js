@@ -1,5 +1,6 @@
 var express = require('express');
 const User = require('../models/user');
+const Article = require('../models/article');
 let mongoose = require('mongoose');
 
 var router = express.Router();
@@ -79,6 +80,17 @@ router.get('/auth/signup', isNotAuthorised, (req, res, next) => {
 // login
 router.get('/auth/login', isNotAuthorised, (req, res, next) => {
   res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false });
+});
+
+// Article
+router.get('/page/:endpoint', async (req, res, next) => {
+  try {
+    let article = await Article.findOne({ endpoint: req.params.endpoint, status: true }).lean();
+    let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
+    res.render('user/article', { title: article.title, style: ['article'], article: article, author, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
 });
 
 module.exports = router; 

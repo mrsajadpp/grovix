@@ -65,6 +65,11 @@ function generateOneTimeCode(string1, string2) {
   return oneTimeCode;
 }
 
+function convertToSlug(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
+
+
 
 const isAuthorised = (req, res, next) => {
   try {
@@ -466,6 +471,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
         author_id: req.session.user._id,
         status: false,
         created_time: new Date(),
+        endpoint: await convertToSlug(title),
         views: 0
       }
 

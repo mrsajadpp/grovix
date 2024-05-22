@@ -1,3 +1,4 @@
+{{> headers/article_header}}
 <!-- Spacing -->
 <style>
     @media only screen and (max-width: 899px) {
@@ -20,20 +21,20 @@
     <div class="content">
         <div class="cont-cont">
             <div class="terms">
-                <h1>How to create an NPM package?</h1>
+                <h1>{{article.title}}</h1>
 
                 <!-- Date -->
                 <div class="artDate">
                     <div class="date">
-                        <span>Monday, May 20th 2024</span>
+                        <span>{{article.created_time}}</span>
                     </div>
                 </div>
 
                 <!-- Author -->
                 <div class="author">
                     <div class="authorProfile">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyToeAH0Yw-KYJYVNPNZpfFo01EkgFB7RciZ4KZFNV-9fDhbXqWvGw2AnfyjaaFOMveb9nX69tzrD6EFkZPuu7ee2WylQBbeFeGxaJP6d7HoeVuIIbA9H-vndcJyCRHcC_zAnDojygpdBOjb1xTAnf5wx28366D3lGKP35jPxh2F2vfxQ/s220/IMG_20240502_231437_652.jpg"
-                            alt="">
+                        <img src="/img/user/{{author._id}}-75x75.jpg"
+                            alt="{{author.first_name}} {{author.last_name}}">
                     </div>
                     <div class="authorDetials">
                         <h4><b>{{author.first_name}} {{author.last_name}}</b>&nbsp;
@@ -98,8 +99,9 @@
                         </a>
                     </div>
                 </div>
+                <br>
 
-                {{article.content}}
+                {{{article.body}}}
 
             </div>
         </div>
