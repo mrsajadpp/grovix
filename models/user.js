@@ -62,7 +62,7 @@ const userSchema = new Schema({
             required: true,
         },
         zip_code: {
-            type: Number,
+            type: String,
             required: true,
         },
     },

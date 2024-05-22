@@ -1,12 +1,11 @@
 var express = require('express');
-let db = require('../db');
 const { default: mongoose } = require('mongoose');
+const User = require('../models/user');
 
 var router = express.Router();
 
 const isAuthorised = (req, res, next) => {
   try {
-    const userCollection = db.get().collection('USER');
     if (!req.session.user) {
       res.redirect('/auth/login');
     } else {
@@ -40,5 +39,9 @@ function addOneDay(timestamp) {
   return `${day}/${month}/${year}`;
 }
 
+// Dashboard
+router.get('/', isAuthorised, (req, res, next) => {
+  res.render('dashboard/index', { title: "Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+});
 
 module.exports = router;

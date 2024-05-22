@@ -2,6 +2,7 @@ var express = require('express');
 const crypash = require('crypash');
 var router = express.Router();
 const User = require('../models/user');
+const Code = require('../models/code');
 let mail = require('../mail/config');
 var geoip = require('geoip-lite');
 let axios = require('axios');
@@ -84,6 +85,43 @@ const isNotAuthorised = (req, res, next) => {
     console.error("Error:", err);
   }
 }
+
+router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
+  try {
+    if (req.body.first_name && req.body.last_name && req.body.email && req.body.phone && req.body.password) {
+      const hashedPass = await crypash.hash('sha256', req.body.password);
+      let userData = await {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        contact_no: req.body.phone,
+        password: hashedPass,
+        date: Date.now,
+        admin: false,
+        verified: false,
+        status: false,
+        address: {
+          address_line_one: "",
+          addressline_two: "",
+          country: "",
+          state: "",
+          city: "",
+          zip_code: ""
+        }
+      };
+
+      const user = new User(userData);
+      await user.save();
+
+      let verification = {
+        user_id: user._id
+        // pending
+      }
+    }
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+})
 
 
 module.exports = router;
