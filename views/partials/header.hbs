@@ -1,3 +1,103 @@
+<!-- Desktop Header -->
+<div class="header">
+    <div class="hLeft">
+        <a href="/">
+            <img src="/img/logo.png" alt="Grovix Lab">
+        </a>
+    </div>
+    <div class="hCenter">
+        <div class="searchBar">
+            <input type="text" placeholder="Search" name="query" id="query">
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
+                    viewBox="0 0 24 24" width="24" focusable="false"
+                    style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
+                    <path
+                        d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="hRight">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">
+                        <button>
+                            <!-- <svg xmlns="http://www.w3.org/2000/svg" class="active" enable-background="new 0 0 24 24" height="24"
+                                    viewBox="0 0 24 24" width="24" focusable="false"
+                                    style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
+                                    <path
+                                        d="m12 4.44 7 6.09V20h-4v-6H9v6H5v-9.47l7-6.09m0-1.32-8 6.96V21h6v-6h4v6h6V10.08l-8-6.96z">
+                                    </path>
+                                </svg> -->
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
+                                viewBox="0 0 24 24" class="active" width="24" focusable="false"
+                                style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
+                                <g>
+                                    <path d="M4 21V10.08l8-6.96 8 6.96V21h-6v-6h-4v6H4z"></path>
+                                </g>
+                            </svg>
+                        </button>
+                    </a>
+                </li>
+                <li>
+                    <a href="/trending">
+                        <button>
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
+                                viewBox="0 0 24 24" width="24" focusable="false"
+                                style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
+                                <path
+                                    d="M19 3.87v9.77C19 17.7 15.86 21 12 21s-7-3.3-7-7.37v-.13c0-1.06.22-2.13.62-3.09.5-1.19 1.29-2.21 2.27-2.97.85-.66 1.83-1.14 2.87-1.65.39-.19.77-.38 1.15-.58.36-.19.72-.38 1.08-.56v3.22l1.55-1.04L19 3.87M20 2l-6 4V3c-.85.44-1.7.88-2.55 1.33-1.41.74-2.9 1.34-4.17 2.32-1.13.87-2.02 2.05-2.58 3.37-.46 1.09-.7 2.29-.7 3.48v.14C4 18.26 7.58 22 12 22s8-3.74 8-8.36V2zM9.45 12.89 14 10v5.7c0 1.82-1.34 3.3-3 3.3s-3-1.47-3-3.3c0-1.19.58-2.23 1.45-2.81z">
+                                </path>
+                            </svg>
+                        </button>
+                    </a>
+                </li>
+                <li>
+                    <a href="/categories">
+                        <button>
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
+                                viewBox="0 0 24 24" width="24" focusable="false"
+                                style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
+                                <path
+                                    d="M11 11v6H7v-6h4m1-1H6v8h6v-8zM3 3.03V21h14l4-4V3.03M20 4v11.99l-.01.01H16v3.99l-.01.01H4V4h16zm-2 4H6V6h12v2zm0 7h-5v-2h5v2zm0-3h-5v-2h5v2z">
+                                </path>
+                            </svg>
+                        </button>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/">
+                        <button>
+                            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
+                                class="style-scope tp-yt-iron-icon"
+                                style="pointer-events: none; display: block; width: 28px; height: 28px;">
+                                <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
+                                    <path
+                                        d="M10 16V20H4V16H10ZM11 15H3V21H11V15ZM20 4V8H14V4H20ZM21 3H13V9H21V3ZM3 3V13H11V3H3ZM10 12H4V4H10V12ZM13 11V21H21V11H13ZM20 20H14V12H20V20Z"
+                                        class="style-scope tp-yt-iron-icon"></path>
+                                </g>
+                            </svg>
+                        </button>
+                    </a>
+                </li>
+                <li style="width: 55px;">
+                    <a href="/dashboard/">
+                        <button class="profile-menu">
+                            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyToeAH0Yw-KYJYVNPNZpfFo01EkgFB7RciZ4KZFNV-9fDhbXqWvGw2AnfyjaaFOMveb9nX69tzrD6EFkZPuu7ee2WylQBbeFeGxaJP6d7HoeVuIIbA9H-vndcJyCRHcC_zAnDojygpdBOjb1xTAnf5wx28366D3lGKP35jPxh2F2vfxQ/s220/IMG_20240502_231437_652.jpg"
+                                alt="">
+                        </button>
+                    </a>
+                </li>
+                &nbsp;&nbsp;
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
 <!-- Mobile Header -->
 <div class="headerMobile">
     <div class="hLeft">
@@ -9,7 +109,7 @@
         </button>
         <div class="logo">
             <a href="/">
-                <img src="./src/img/logo.png" alt="Grovix Lab">
+                <img src="/img/logo.png" alt="Grovix Lab">
             </a>
         </div>
     </div>

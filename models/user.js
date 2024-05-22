@@ -64,8 +64,8 @@ const userSchema = new Schema({
         zip_code: {
             type: Number,
             required: true,
-        }
-    }
+        },
+    },
 });
 
 const User = mongoose.model('User', userSchema);

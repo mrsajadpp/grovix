@@ -56,5 +56,19 @@ function getCurrentDate() {
   return `${year}-${month}-${day}`;
 }
 
+// Home
+router.get('/', (req, res, next) => {
+  res.render('user/index', { title: "Grovix Lab", style: [] });
+});
+
+// Trending
+router.get('/trending', (req, res, next) => {
+  res.render('user/trending', { title: "Trending", style: [] });
+});
+
+// Categories
+router.get('/categories', (req, res, next) => {
+  res.render('user/categories', { title: "Category", style: [] });
+});
 
 module.exports = router;
