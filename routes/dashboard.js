@@ -46,7 +46,11 @@ router.get('/', isAuthorised, (req, res, next) => {
 
 // Articles
 router.get('/articles', isAuthorised, (req, res, next) => {
-  res.render('dashboard/articles', { title: "Articles", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+  res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+});
+
+router.get('/articles/pending', isAuthorised, (req, res, next) => {
+  res.render('dashboard/pending_articles', { title: "Articles >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
 });
 
 module.exports = router;
