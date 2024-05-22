@@ -6,6 +6,7 @@ const Code = require('../models/code');
 let mail = require('../email/config');
 var geoip = require('geoip-lite');
 let axios = require('axios');
+let { sendMail } = require('../email/config')
 const speakeasy = require('speakeasy');
 
 const { default: mongoose } = require('mongoose');
@@ -141,6 +142,24 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
         const verification_code = new Code(verification);
         await verification_code.save();
         console.log(verification_code);
+
+        sendMail({
+          from: '"Grovix Lab" noreply.grovix@gmail.com',
+          to: userData.email,
+          subject: "Your One-Time Verification Code",
+          text: `Hello,
+        
+        Your verification code is: ${code}
+        
+        Please use this code to complete your verification process.
+        
+        Thank you,
+        The Grovix Team`,
+          html: `<p>Hello,</p>
+                 <p>Your verification code is: <strong>${code}</strong></p>
+                 <p>Please use this code to complete your verification process.</p>
+                 <p>Thank you,<br>The Grovix Team</p>`,
+        });
       } else {
         if (userExist.verified) {
           console.log('one');
@@ -190,6 +209,23 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
           const one_time_code = await Code.updateOne({ user_id: userExist._id.toString() }, verification);
           console.log(one_time_code);
           console.log(code);
+          sendMail({
+            from: '"Grovix Lab" noreply.grovix@gmail.com',
+            to: userData.email,
+            subject: "Your One-Time Verification Code",
+            text: `Hello,
+          
+          Your verification code is: ${code}
+          
+          Please use this code to complete your verification process.
+          
+          Thank you,
+          The Grovix Team`,
+            html: `<p>Hello,</p>
+                   <p>Your verification code is: <strong>${code}</strong></p>
+                   <p>Please use this code to complete your verification process.</p>
+                   <p>Thank you,<br>The Grovix Team</p>`,
+          });
         }
       }
     } else {

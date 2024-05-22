@@ -8,11 +8,11 @@ module.exports = {
       port: 587,
       secure: false,
       auth: {
-        user: 'thintryin@gmail.com',
+        user: 'noreply.grovix@gmail.com',
         pass: process.env.MAIL_PASS 
       }
     });
 
     return await transporter.sendMail(mailOptions);
   }
-};
+}; 
