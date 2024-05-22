@@ -44,4 +44,9 @@ router.get('/', isAuthorised, (req, res, next) => {
   res.render('dashboard/index', { title: "Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
 });
 
+// Articles
+router.get('/articles', isAuthorised, (req, res, next) => {
+  res.render('dashboard/articles', { title: "Articles", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+});
+
 module.exports = router;

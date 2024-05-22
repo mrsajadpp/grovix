@@ -12,10 +12,12 @@
                     <a href="/dashboard/">
                         <button>
                             <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
-                                class="active" style="pointer-events: none; display: block; width: 28px; height: 28px;">
-                                <g width="24" height="24" viewBox="0 0 24 24" class="active">
-                                    <path d="M11 3H3V13H11V3ZM21 11H13V21H21V11ZM11 15H3V21H11V15ZM13 3V9H21V3H13Z"
-                                        class="active"></path>
+                                class="style-scope tp-yt-iron-icon"
+                                style="pointer-events: none; display: block; width: 28px; height: 28px;">
+                                <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
+                                    <path
+                                        d="M10 16V20H4V16H10ZM11 15H3V21H11V15ZM20 4V8H14V4H20ZM21 3H13V9H21V3ZM3 3V13H11V3H3ZM10 12H4V4H10V12ZM13 11V21H21V11H13ZM20 20H14V12H20V20Z"
+                                        class="style-scope tp-yt-iron-icon"></path>
                                 </g>
                             </svg>
                         </button>
@@ -25,10 +27,10 @@
                     <a href="/dashboard/articles">
                         <button>
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
-                                viewBox="0 0 24 24" width="24" focusable="false"
+                                viewBox="0 0 24 24" width="24" class="active" focusable="false"
                                 style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
                                 <path
-                                    d="M11 11v6H7v-6h4m1-1H6v8h6v-8zM3 3.03V21h14l4-4V3.03M20 4v11.99l-.01.01H16v3.99l-.01.01H4V4h16zm-2 4H6V6h12v2zm0 7h-5v-2h5v2zm0-3h-5v-2h5v2z">
+                                    d="M3 3.03V21h14l4-4V3.03H3zM6 6h12v2H6V6zm7 9v-2h5v2h-5zm0-3v-2h5v2h-5zm-1 6H6v-8h6v8zm4-2h3.99L16 19.99V16z">
                                 </path>
                             </svg>
                         </button>
@@ -160,29 +162,31 @@
         <div class="menuItem">
             <a href="/dashboard/">
                 <button>
-                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="active"
+                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
+                        class="style-scope tp-yt-iron-icon"
                         style="pointer-events: none; display: block; width: 28px; height: 28px;">
-                        <g width="24" height="24" viewBox="0 0 24 24" class="active">
-                            <path d="M11 3H3V13H11V3ZM21 11H13V21H21V11ZM11 15H3V21H11V15ZM13 3V9H21V3H13Z"
-                                class="active"></path>
+                        <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
+                            <path
+                                d="M10 16V20H4V16H10ZM11 15H3V21H11V15ZM20 4V8H14V4H20ZM21 3H13V9H21V3ZM3 3V13H11V3H3ZM10 12H4V4H10V12ZM13 11V21H21V11H13ZM20 20H14V12H20V20Z"
+                                class="style-scope tp-yt-iron-icon"></path>
                         </g>
                     </svg>
                 </button>
-                <span class="active">Dashboard</span>
+                <span>Dashboard</span>
             </a>
         </div>
         <div class="menuItem">
             <a href="/dashboard/articles">
                 <button>
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
-                        viewBox="0 0 24 24" width="24" focusable="false"
+                        viewBox="0 0 24 24" width="24" class="active" focusable="false"
                         style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
                         <path
-                            d="M11 11v6H7v-6h4m1-1H6v8h6v-8zM3 3.03V21h14l4-4V3.03M20 4v11.99l-.01.01H16v3.99l-.01.01H4V4h16zm-2 4H6V6h12v2zm0 7h-5v-2h5v2zm0-3h-5v-2h5v2z">
+                            d="M3 3.03V21h14l4-4V3.03H3zM6 6h12v2H6V6zm7 9v-2h5v2h-5zm0-3v-2h5v2h-5zm-1 6H6v-8h6v8zm4-2h3.99L16 19.99V16z">
                         </path>
                     </svg>
                 </button>
-                <span>Articles</span>
+                <span class="active">Articles</span>
             </a>
         </div>
         <div class="menuItem">
@@ -256,6 +260,38 @@
                     </svg>
                 </button>
                 <span>Feedback</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Seperators Starts -->
+<div class="seperatorContainer">
+    <div class="seperator">
+        <div class="seLeft selected">
+            <a href="/dashboard/articles">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="active" height="24" viewBox="0 0 24 24" width="24"
+                        focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                        <path
+                            d="M14.97 16.95 10 13.87V7h2v5.76l4.03 2.49-1.06 1.7zM12 2C8.73 2 5.8 3.44 4 5.83V3.02H2V9h6V7H5.62C7.08 5.09 9.36 4 12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8H2c0 5.51 4.49 10 10 10s10-4.49 10-10S17.51 2 12 2z">
+                        </path>
+                    </svg>
+                </button>
+                <span class="sepText active">Approved</span>
+            </a>
+        </div>
+        <div class="seRight">
+            <a href="/dashboard/articles/pending">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
+                        style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                        <path
+                            d="M14.97 16.95 10 13.87V7h2v5.76l4.03 2.49-1.06 1.7zM12 3c-4.96 0-9 4.04-9 9s4.04 9 9 9 9-4.04 9-9-4.04-9-9-9m0-1c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z">
+                        </path>
+                    </svg>
+                </button>
+                <span class="sepText">Pending</span>
             </a>
         </div>
     </div>
