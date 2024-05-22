@@ -201,7 +201,7 @@ input {
 }
 
 .headerMobile .hLeft button {
-    width: 70px;
+    width: 70px !important;
     height: 100%;
     display: flex;
     align-items: center;
@@ -212,20 +212,21 @@ input {
 
 .headerMobile .hLeft .logo {
     height: 100%;
+    flex-grow: 1;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
 }
 
 .headerMobile .hLeft .logo a {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
 }
 
 .headerMobile .hLeft .logo img {
-    width: 160px;
+    width: 120px;
 }
 
 .headerMobile .hRight nav {
