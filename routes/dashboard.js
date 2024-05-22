@@ -50,8 +50,6 @@ router.get('/articles', isAuthorised, (req, res, next) => {
   res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
 });
 
-// bug area
-
 router.get('/articles/pending', isAuthorised, async (req, res, next) => {
   try {
     const article_list = await Article.find({ author_id: req.session.user._id, status: false }).lean();
