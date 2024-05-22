@@ -50,32 +50,40 @@ router.get('/articles', isAuthorised, (req, res, next) => {
   res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
 });
 
-router.get('/articles/pending', isAuthorised, (req, res, next) => {
-  res.render('dashboard/pending_articles', { title: "Articles >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+// bug area
+
+router.get('/articles/pending', isAuthorised, async (req, res, next) => {
+  try {
+    const article_list = await Article.find({ author_id: req.session.user._id, status: false });
+    console.log(article_list);
+    res.render('dashboard/pending_articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
 });
 
 // Earnings
 router.get('/earnings', isAuthorised, (req, res, next) => {
   res.render('dashboard/earnings', { title: "Earnings >> Dashboard", style: ['dashboard', 'earnings'], user: req.session.user ? req.session.user : false });
-}); 
+});
 
 // Notifications
 router.get('/notifications', isAuthorised, (req, res, next) => {
   res.render('dashboard/notifications', { title: "Notifications >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
-}); 
+});
 
 // Settnigs
 router.get('/settings', isAuthorised, (req, res, next) => {
   res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false });
-}); 
+});
 
 router.get('/settings/payment', isAuthorised, (req, res, next) => {
   res.render('dashboard/payment', { title: "Payment >> Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false });
-}); 
+});
 
 // New Article
 router.get('/new', isAuthorised, (req, res, next) => {
   res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session.user ? req.session.user : false });
-}); 
+});
 
 module.exports = router;

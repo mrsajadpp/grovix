@@ -2,15 +2,16 @@
 <!-- Article Grid -->
 <div class="articleContainer">
     <div class="articles">
+        {{#if article_list}}
+        {{#each article_list}}
         <div class="article">
             <div class="articleCont">
                 <div class="articleImg">
-                    <img src="https://www.thintry.com/src/img/article/how-to-create-an-npm-package/how-to-create-an-npm-package.webp"
-                        alt="">
+                    <img src="/img/article/{{this._id}}-1920x1080.jpg" alt="{{this.title}}">
                 </div>
                 <div class="articleContent">
-                    <h4>The procedures for Naming Your NPM Package</h4>
-                    <p>NPM, short for Node Package Manager, is like a giant online toolbox for Node.js developers.
+                    <h4>{{this.title}}</h4>
+                    <p>{{this.description}}
                     </p>
                 </div>
                 <div class="articleControl">
@@ -40,84 +41,14 @@
                 </div>
             </div>
         </div>
-        <div class="article">
-            <div class="articleCont">
-                <div class="articleImg">
-                    <img src="https://www.thintry.com/src/img/article/how-to-create-an-npm-package/how-to-create-an-npm-package.webp"
-                        alt="">
-                </div>
-                <div class="articleContent">
-                    <h4>The procedures for Naming Your NPM Package</h4>
-                    <p>NPM, short for Node Package Manager, is like a giant online toolbox for Node.js developers.
-                    </p>
-                </div>
-                <div class="articleControl">
-                    <div class="editIcon">
-                        <button>
-                            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
-                                class="style-scope tp-yt-iron-icon"
-                                style="pointer-events: none; display: block; width: 24px; height: 24px;">
-                                <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
-                                    <path
-                                        d="M14.06 7.6L16.4 9.94L6.34 20H4V17.66L14.06 7.6ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19ZM17.61 4.05L19.98 6.42L18.84 7.56L16.47 5.19L17.61 4.05ZM17.61 2.63L15.06 5.18L18.85 8.97001L21.4 6.42L17.61 2.63Z"
-                                        class="style-scope tp-yt-iron-icon"></path>
-                                </g>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="deleteIcon">
-                        <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
-                                viewBox="0 0 24 24" width="24" focusable="false"
-                                style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
-                                <path d="M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="article">
-            <div class="articleCont">
-                <div class="articleImg">
-                    <img src="https://www.thintry.com/src/img/article/how-to-create-an-npm-package/how-to-create-an-npm-package.webp"
-                        alt="">
-                </div>
-                <div class="articleContent">
-                    <h4>The procedures for Naming Your NPM Package</h4>
-                    <p>NPM, short for Node Package Manager, is like a giant online toolbox for Node.js developers.
-                    </p>
-                </div>
-                <div class="articleControl">
-                    <div class="editIcon">
-                        <button>
-                            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
-                                class="style-scope tp-yt-iron-icon"
-                                style="pointer-events: none; display: block; width: 24px; height: 24px;">
-                                <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
-                                    <path
-                                        d="M14.06 7.6L16.4 9.94L6.34 20H4V17.66L14.06 7.6ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19ZM17.61 4.05L19.98 6.42L18.84 7.56L16.47 5.19L17.61 4.05ZM17.61 2.63L15.06 5.18L18.85 8.97001L21.4 6.42L17.61 2.63Z"
-                                        class="style-scope tp-yt-iron-icon"></path>
-                                </g>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="deleteIcon">
-                        <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
-                                viewBox="0 0 24 24" width="24" focusable="false"
-                                style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
-                                <path d="M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{/each}}
+        {{/if}}
     </div>
 </div>
+
+<script>
+    console.log(`{{article_list}}`)
+</script>
 
 <!-- Dashboard Graph Metrix Coming Soon -->
 <!-- <div class="comingSoon">

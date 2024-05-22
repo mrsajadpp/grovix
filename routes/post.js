@@ -3,6 +3,7 @@ const crypash = require('crypash');
 var router = express.Router();
 const User = require('../models/user');
 const Code = require('../models/code');
+const Article = require('../models/article');
 let mail = require('../email/config');
 var geoip = require('geoip-lite');
 let axios = require('axios');
@@ -438,6 +439,65 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
     } else {
       res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false, error: { message: "Please fill blank input box." } });
     }
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Article Request
+router.post('/article/request', isAuthorised, async (req, res, next) => {
+  try {
+    const {
+      title,
+      description,
+      category,
+      custom_category,
+      content
+    } = req.body;
+    console.log(req.body);
+    if (title && description && category && content) {
+
+      let articleData = await {
+        title: title,
+        description: description,
+        category: category == 'others' ? custom_category : category,
+        body: content,
+        author_id: req.session.user._id,
+        status: false,
+        created_time: new Date(),
+        views: 0
+      }
+
+      let article = await new Article(articleData);
+      await article.save();
+
+      if (req.files && req.files.thumbnail) {
+        let thumbnailFile = req.files.thumbnail;
+        let imagePath = await __dirname + '/../public/img/article/' + article._id + '.jpg';
+        let thumbnailPath = await __dirname + '/../public/img/article/' + article._id + '-1920x1080.jpg';
+
+        thumbnailFile.mv(imagePath, async function (err) {
+          if (err) {
+            return res.status(500).send("Error uploading profile image: " + err);
+          }
+
+          // Resize the image
+          sharp(imagePath)
+            .resize(1920, 1080) // Set the width and height
+            .toFile(thumbnailPath, (err, info) => {
+              if (err) {
+                console.error(err);
+              } else {
+                res.redirect('/dashboard/articles/pending');
+              }
+            });
+
+        });
+      }
+
+    }
+
   } catch (error) {
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });

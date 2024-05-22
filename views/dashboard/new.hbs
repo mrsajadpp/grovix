@@ -58,7 +58,7 @@
         </div>
 
         <div class="textBox">
-            <textarea name="content" id="content" required></textarea>
+            <textarea name="content" aria-hidden="true" data-gramm="false" wt-ignore-input="true" id="content"></textarea>
         </div>
 
         <!-- <div class="inputBox">
@@ -87,7 +87,7 @@
             </span>
         </div>
         <div class="inputBox">
-            <button disabled class="regButton disabled">
+            <button type="submit" class="regButton">
                 Request
             </button>
         </div>
@@ -113,32 +113,6 @@
         const customCategory = document.getElementById('customCategory');
         const customCatBox = document.querySelector('.customCategory');
 
-        function validateForm() {
-            if (title.value !== '' && fileInput.value !== '' && category.value !== '' && tinymce.get('content').getContent() !== '') {
-                if (category.value === 'others' && customCategory.value === '') {
-                    saveButton.setAttribute('disabled', 'true');
-                    saveButton.classList.add('disabled');
-                } else {
-                    saveButton.removeAttribute('disabled');
-                    saveButton.classList.remove('disabled');
-                }
-            } else {
-                saveButton.setAttribute('disabled', 'true');
-                saveButton.classList.add('disabled');
-            }
-        }
-
-        title.addEventListener('change', validateForm);
-        category.addEventListener('change', function (event) {
-            if (event.target.value === 'others') {
-                customCatBox.classList.remove('hide');
-            } else {
-                customCatBox.classList.add('hide');
-            }
-            validateForm();
-        });
-
-        content.addEventListener('change', validateForm);
 
         fileInput.addEventListener('change', function (event) {
             const file = event.target.files[0];
@@ -154,14 +128,11 @@
                     const height = img.naturalHeight;
 
                     if (width !== 1920 || height !== 1080) {
-                        saveButton.setAttribute('disabled', 'true');
-                        saveButton.classList.add('disabled');
                         errorMsg.style.color = 'red';
                         errorMsg.textContent = 'Image dimensions must be 1920x1080';
                     } else {
                         errorMsg.style.color = 'green';
                         errorMsg.textContent = 'Image dimensions are correct';
-                        validateForm();
                     }
 
                     inputProfileDiv.style.backgroundImage = `url(${e.target.result})`;
