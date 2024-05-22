@@ -63,4 +63,9 @@ router.get('/notifications', isAuthorised, (req, res, next) => {
   res.render('dashboard/notifications', { title: "Notifications >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
 }); 
 
+// Settnigs
+router.get('/settings', isAuthorised, (req, res, next) => {
+  res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false });
+}); 
+
 module.exports = router;
