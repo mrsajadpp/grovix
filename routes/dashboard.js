@@ -1,6 +1,7 @@
 var express = require('express');
 const { default: mongoose } = require('mongoose');
 const User = require('../models/user');
+const Article = require('../models/article');
 
 var router = express.Router();
 
@@ -70,6 +71,11 @@ router.get('/settings', isAuthorised, (req, res, next) => {
 
 router.get('/settings/payment', isAuthorised, (req, res, next) => {
   res.render('dashboard/payment', { title: "Payment >> Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false });
+}); 
+
+// New Article
+router.get('/new', isAuthorised, (req, res, next) => {
+  res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session.user ? req.session.user : false });
 }); 
 
 module.exports = router;

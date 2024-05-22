@@ -18,7 +18,7 @@ connectDB();
 
 var hbs = handlebars.create({});
 
-var userRouter = require('./routes/user');
+var postRouter = require('./routes/post');
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/dashboard');
@@ -54,7 +54,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', userRouter);
+app.use('/', postRouter);
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/dashboard', authRouter)
