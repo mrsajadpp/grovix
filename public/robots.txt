@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /*
+Disallow: /admin/*
+Disallow: /dashboard/*
+Crawl-delay: 20
+Sitemap: https://www.grovixlab.com/articles.xml

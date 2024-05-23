@@ -128,4 +128,11 @@ ${article_list.map(article => {
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
 });
+
+// Robots.txt
+router.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+}); 
+
 module.exports = router; 
