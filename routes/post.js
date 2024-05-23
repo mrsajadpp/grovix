@@ -418,7 +418,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       if (req.files && req.files.profile) {
         let profileFile = req.files.profile;
         let imagePath = await __dirname + '/../public/img/user/' + user._id + '.jpg';
-        let profilePath = await __dirname + '/../public/img/user/' + user._id + '-75x75.jpg';
+        let profilePath = await __dirname + '/../public/img/user/' + user._id + '.jpg';
 
         profileFile.mv(imagePath, async function (err) {
           if (err) {
@@ -426,15 +426,16 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
           }
 
           // Resize the image
-          sharp(imagePath)
-            .resize(75, 75) // Set the width and height
-            .toFile(profilePath, (err, info) => {
-              if (err) {
-                console.error(err);
-              } else {
-                res.redirect('/dashboard/settings');
-              }
-            });
+          // sharp(imagePath)
+          //   .resize(75, 75) // Set the width and height
+          //   .toFile(profilePath, (err, info) => {
+          //     if (err) {
+          //       console.error(err);
+          //     } else {
+          //       res.redirect('/dashboard/settings');
+          //     }
+          //   });
+          res.redirect('/dashboard/settings');
 
         });
       } else {
@@ -481,7 +482,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
       if (req.files && req.files.thumbnail) {
         let thumbnailFile = req.files.thumbnail;
         let imagePath = await __dirname + '/../public/img/article/' + article._id + '.jpg';
-        let thumbnailPath = await __dirname + '/../public/img/article/' + article._id + '-1920x1080.jpg';
+        let thumbnailPath = await __dirname + '/../public/img/article/' + article._id + '.jpg';
 
         thumbnailFile.mv(imagePath, async function (err) {
           if (err) {
@@ -489,15 +490,16 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
           }
 
           // Resize the image
-          sharp(imagePath)
-            .resize(1920, 1080) // Set the width and height
-            .toFile(thumbnailPath, (err, info) => {
-              if (err) {
-                console.error(err);
-              } else {
-                res.redirect('/dashboard/articles/pending');
-              }
-            });
+          // sharp(imagePath)
+          //   .resize(1920, 1080) // Set the width and height
+          //   .toFile(thumbnailPath, (err, info) => {
+          //     if (err) {
+          //       console.error(err);
+          //     } else {
+          //       res.redirect('/dashboard/articles/pending');
+          //     }
+          //   });
+          res.redirect('/dashboard/articles/pending');
 
         });
       }
@@ -605,7 +607,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
         if (req.files && req.files.thumbnail) {
           let thumbnailFile = req.files.thumbnail;
           let imagePath = await __dirname + '/../public/img/article/' + article._id + '.jpg';
-          let thumbnailPath = await __dirname + '/../public/img/article/' + article._id + '-1920x1080.jpg';
+          let thumbnailPath = await __dirname + '/../public/img/article/' + article._id + '.jpg';
 
           thumbnailFile.mv(imagePath, async function (err) {
             if (err) {
@@ -613,15 +615,16 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
             }
 
             // Resize the image
-            sharp(imagePath)
-              .resize(1920, 1080) // Set the width and height
-              .toFile(thumbnailPath, (err, info) => {
-                if (err) {
-                  console.error(err);
-                } else {
-                  res.redirect('/dashboard/articles');
-                }
-              });
+            // sharp(imagePath)
+            //   .resize(1920, 1080) // Set the width and height
+            //   .toFile(thumbnailPath, (err, info) => {
+            //     if (err) {
+            //       console.error(err);
+            //     } else {
+            //       res.redirect('/dashboard/articles');
+            //     }
+            //   });
+            res.redirect('/dashboard/articles');
 
           });
         } else {
