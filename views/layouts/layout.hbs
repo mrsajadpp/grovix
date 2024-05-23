@@ -21,8 +21,9 @@
   <meta property="og:title" content="{{title}}" />
   {{#if article}}
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
-  <meta property="og:image" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
+  <meta property="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
+  <meta property="og:image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
+  <meta property="og:image" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   {{else}}
   <meta property="og:type" content="page" />
   {{/if}}
