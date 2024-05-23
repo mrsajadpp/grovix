@@ -2,6 +2,7 @@ var express = require('express');
 const User = require('../models/user');
 const Article = require('../models/article');
 let mongoose = require('mongoose');
+const SitemapGenerator = require('sitemap-generator');
 
 var router = express.Router();
 
@@ -97,4 +98,34 @@ router.get('/page/:endpoint', async (req, res, next) => {
   }
 });
 
+// Articles Sitemap.xml
+router.get('/articles.xml', async (req, res, next) => {
+  try {
+    const article_list = await Article.find({ status: true }).lean();
+    res.type('text/xml');
+    const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+    <urlset
+          xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+${article_list.map(article => {
+      const lastmod = article.updatedAt ? new Date(article.updatedAt).toISOString() : new Date().toISOString();
+      return `
+  <url>
+    <loc>https://www.grovixlab.com/page/${article.endpoint}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>`;
+    }).join('')}
+</urlset>`;
+    console.log(xmlContent);
+
+    res.send(xmlContent);
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
 module.exports = router; 
