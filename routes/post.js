@@ -113,7 +113,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
         let userData = await {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
-          email: req.body.email,
+          email: req.body.email.toLowerCase(),
           contact_no: req.body.phone,
           password: hashedPass,
           date: new Date(),
@@ -185,7 +185,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
           let userData = await {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
-            email: req.body.email,
+            email: req.body.email.toLowerCase(),
             contact_no: req.body.phone,
             password: hashedPass,
             date: new Date(),
