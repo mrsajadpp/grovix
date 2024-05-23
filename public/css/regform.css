@@ -226,7 +226,7 @@ textarea {
 }
 
 
-/* @media (min-width: 550px) {
+@media (min-width: 550px) {
     .container .regForm {
         width: 400px;
     }
@@ -236,4 +236,4 @@ textarea {
     .container .regForm {
         width: 300px;
     }
-} */
+}
