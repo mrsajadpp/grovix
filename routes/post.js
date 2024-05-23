@@ -4,6 +4,7 @@ var router = express.Router();
 const User = require('../models/user');
 const Code = require('../models/code');
 const Article = require('../models/article');
+const ArticleBin = require('../models/bin');
 let mail = require('../email/config');
 var geoip = require('geoip-lite');
 let axios = require('axios');
@@ -366,12 +367,45 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
 });
 
 // Logout
-router.get('/logout', isAuthorised, (req, res, next) => {
+router.get('/logout', isAuthorised, async (req, res, next) => {
   try {
+    // Store user details before destroying the session
+    const userData = req.session.user;
+
+    // Destroy the session
     req.session = null;
+
+    // Send email notification to the user
+    sendMail({
+      from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+      to: userData.email,
+      subject: "Your Account Has Been Logged Out",
+      text: `Hello ${userData.first_name},
+
+This is to inform you that your account has been logged out.
+
+If this was not you or if you have any questions, please contact our support team for assistance.
+
+Best regards,
+The Grovix Team`,
+
+      html: `<p>Hello ${userData.first_name},</p>
+             <p>This is to inform you that your account has been <strong>logged out</strong>.</p>
+             <p>If this was not you or if you have any questions, please contact our support team for assistance.</p>
+             <p>Best regards,<br>The Grovix Team</p>`,
+    });
+
+    // Redirect to login page
     res.redirect('/auth/login');
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    console.error(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session.user ? req.session.user : false
+    });
   }
 });
 
@@ -491,6 +525,31 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
             return res.status(500).send("Error uploading profile image: " + err);
           }
 
+          let userData = req.session.user;
+
+          sendMail({
+            from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+            to: userData.email,
+            subject: "Your Article Has Been Requested for Review",
+            text: `Hello ${userData.first_name},
+          
+          We have received your article titled "${article.title}" and it has been requested for review.
+          
+          Please wait while our team reviews your submission. We will notify you once the review process is complete.
+          
+          Thank you for your patience and your valuable contribution.
+          
+          Best regards,
+          The Grovix Team`,
+
+            html: `<p>Hello ${userData.first_name},</p>
+                   <p>We have received your article titled "<strong>${article.title}</strong>" and it has been requested for review.</p>
+                   <p>Please wait while our team reviews your submission. We will notify you once the review process is complete.</p>
+                   <p>Thank you for your patience and your valuable contribution.</p>
+                   <p>Best regards,<br>The Grovix Team</p>`,
+          });
+
+
           // Resize the image
           // sharp(imagePath)
           //   .resize(1920, 1080) // Set the width and height
@@ -517,9 +576,51 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
 // Delete article
 router.get('/article/delete/:article_id', isAuthorised, async (req, res, next) => {
   try {
-    if (req.params.article_id) {
-      await Article.deleteOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id });
-      res.redirect('/dashboard/articles');
+    const articleId = req.params.article_id;
+    const userId = req.session.user._id;
+
+    if (articleId) {
+      // Find the article by ID and author ID
+      let article = await Article.findOneAndDelete({ _id: mongoose.Types.ObjectId(articleId), author_id: userId });
+
+      if (article) {
+        // Move the article to the ArticleBin
+        const deletedArticle = new ArticleBin(article.toObject());
+        await deletedArticle.save();
+
+        // User data for email
+        const userData = req.session.user;
+
+        // Send email notification
+        sendMail({
+          from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+          to: userData.email,
+          subject: "Your Article Has Been Deleted",
+          text: `Hello ${userData.firstName},
+
+This is to inform you that your article titled "${article.title}" has been successfully deleted by yourself.
+
+If this was a mistake or you have any questions, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+
+          html: `<p>Hello ${userData.firstName},</p>
+                 <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been successfully deleted by yourself.</p>
+                 <p>If this was a mistake or you have any questions, please contact our support team for assistance.</p>
+                 <p>Thank you for your understanding.</p>
+                 <p>Best regards,<br>The Grovix Team</p>`,
+        });
+
+        res.redirect('/dashboard/articles');
+      } else {
+        // If the article was not found or not deleted, redirect with an error
+        res.redirect('/dashboard/articles?error=Article not found or not authorized to delete');
+      }
+    } else {
+      res.redirect('/dashboard/articles?error=Invalid article ID');
     }
   } catch (error) {
     console.log(error);
@@ -527,14 +628,61 @@ router.get('/article/delete/:article_id', isAuthorised, async (req, res, next) =
   }
 });
 
+// Admin delete article
 router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, next) => {
   try {
-    if (req.params.article_id) {
-      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
-      if (user.admin) {
-        await Article.deleteOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) });
+    const articleId = req.params.article_id;
+    const adminUserId = req.session.user._id;
+
+    if (articleId) {
+      // Check if the user is an admin
+      const user = await User.findOne({ _id: mongoose.Types.ObjectId(adminUserId) }).lean();
+      if (user && user.admin) {
+        // Find the article
+        const article = await Article.findOneAndDelete({ _id: mongoose.Types.ObjectId(articleId) });
+
+        if (article) {
+          // Move the article to the ArticleBin
+          const deletedArticle = new ArticleBin(article.toObject());
+          await deletedArticle.save();
+
+          // Find the article's author to send the notification email
+          const author = await User.findOne({ _id: mongoose.Types.ObjectId(article.author_id) }).lean();
+
+          if (author) {
+            // Send email notification to the article's author
+            sendMail({
+              from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+              to: author.email,
+              subject: "Your Article Has Been Deleted by Admin",
+              text: `Hello ${author.first_name},
+
+This is to inform you that your article titled "${article.title}" has been deleted by an admin.
+
+If you have any questions, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+
+              html: `<p>Hello ${author.first_name},</p>
+                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been deleted by an admin.</p>
+                     <p>If you have any questions, please contact our support team for assistance.</p>
+                     <p>Thank you for your understanding.</p>
+                     <p>Best regards,<br>The Grovix Team</p>`,
+            });
+          }
+
+          res.redirect('/admin/articles');
+        } else {
+          res.redirect('/admin/articles?error=Article not found');
+        }
+      } else {
+        res.redirect('/admin/articles?error=Unauthorized');
       }
-      res.redirect('/admin/articles');
+    } else {
+      res.redirect('/admin/articles?error=Invalid article ID');
     }
   } catch (error) {
     console.log(error);
@@ -546,9 +694,37 @@ router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, n
 router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, next) => {
   try {
     if (req.params.article_id) {
-      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
+      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+      let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }).lean();
       if (user.admin) {
         await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: true });
+
+        let userData = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
+
+        sendMail({
+          from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+          to: userData.email,
+          subject: "Your Article Has Been Approved",
+          text: `Hello ${userData.first_name},
+        
+        We are pleased to inform you that your article titled "${article.title}" has been successfully approved by ${user.first_name} ${user.last_name}.
+        
+        You can now view your published article at the following link:
+        https://www.grovixlab.com/page/${article.endpoint}
+        
+        Thank you for your valuable contribution. We look forward to more insightful articles from you.
+        
+        Best regards,
+        The Grovix Team`,
+
+          html: `<p>Hello ${userData.first_name},</p>
+                 <p>We are pleased to inform you that your article titled "<strong>${article.title}</strong>" has been successfully approved by <strong>${user.first_name} ${user.last_name}</strong>.</p>
+                 <p>You can now view your published article at the following link:<br>
+                 <a href="https://www.grovixlab.com/page/${article.endpoint}">https://www.grovixlab.com/page/${article.endpoint}</a></p>
+                 <p>Thank you for your valuable contribution. We look forward to more insightful articles from you.</p>
+                 <p>Best regards,<br>The Grovix Team</p>`,
+        });
+
       }
       res.redirect('/admin/articles');
     }
@@ -558,15 +734,61 @@ router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, 
   }
 });
 
-// Lock
+// Lock article
 router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, next) => {
   try {
-    if (req.params.article_id) {
-      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
-      if (user.admin) {
-        await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: 'locked' });
+    const articleId = req.params.article_id;
+    const adminUserId = req.session.user._id;
+
+    if (articleId) {
+      // Check if the user is an admin
+      const user = await User.findOne({ _id: mongoose.Types.ObjectId(adminUserId) });
+      if (user && user.admin) {
+        // Lock the article by updating its status
+        const article = await Article.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(articleId) },
+          { status: 'locked' },
+          { new: true }
+        );
+
+        if (article) {
+          // Find the article's author to send the notification email
+          const author = await User.findOne({ _id: mongoose.Types.ObjectId(article.author_id) }).lean();
+
+          if (author) {
+            // Send email notification to the article's author
+            sendMail({
+              from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+              to: author.email,
+              subject: "Your Article Has Been Locked",
+              text: `Hello ${author.first_name},
+
+This is to inform you that your article titled "${article.title}" has been locked by an admin.
+
+If you have any questions or believe this to be a mistake, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+
+              html: `<p>Hello ${author.first_name},</p>
+                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been locked by an admin.</p>
+                     <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
+                     <p>Thank you for your understanding.</p>
+                     <p>Best regards,<br>The Grovix Team</p>`,
+            });
+          }
+
+          res.redirect('/admin/articles');
+        } else {
+          res.redirect('/admin/articles?error=Article not found');
+        }
+      } else {
+        res.redirect('/admin/articles?error=Unauthorized');
       }
-      res.redirect('/admin/articles');
+    } else {
+      res.redirect('/admin/articles?error=Invalid article ID');
     }
   } catch (error) {
     console.log(error);
@@ -574,15 +796,61 @@ router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, ne
   }
 });
 
-// Unlock
+// Unlock article
 router.get('/article/admin/unblock/:article_id', isAuthorised, async (req, res, next) => {
   try {
-    if (req.params.article_id) {
-      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
-      if (user.admin) {
-        await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: true });
+    const articleId = req.params.article_id;
+    const adminUserId = req.session.user._id;
+
+    if (articleId) {
+      // Check if the user is an admin
+      const user = await User.findOne({ _id: mongoose.Types.ObjectId(adminUserId) });
+      if (user && user.admin) {
+        // Unlock the article by updating its status
+        const article = await Article.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(articleId) },
+          { status: true }, // Assuming 'unlocked' is the status you want to set
+          { new: true }
+        );
+
+        if (article) {
+          // Find the article's author to send the notification email
+          const author = await User.findOne({ _id: mongoose.Types.ObjectId(article.author_id) }).lean();
+
+          if (author) {
+            // Send email notification to the article's author
+            sendMail({
+              from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+              to: author.email,
+              subject: "Your Article Has Been Unlocked",
+              text: `Hello ${author.first_name},
+
+This is to inform you that your article titled "${article.title}" has been unlocked by an admin.
+
+If you have any questions, please contact our support team for assistance.
+
+Thank you.
+
+Best regards,
+The Grovix Team`,
+
+              html: `<p>Hello ${author.first_name},</p>
+                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been unlocked by an admin.</p>
+                     <p>If you have any questions, please contact our support team for assistance.</p>
+                     <p>Thank you.</p>
+                     <p>Best regards,<br>The Grovix Team</p>`,
+            });
+          }
+
+          res.redirect('/admin/articles');
+        } else {
+          res.redirect('/admin/articles?error=Article not found');
+        }
+      } else {
+        res.redirect('/admin/articles?error=Unauthorized');
       }
-      res.redirect('/admin/articles');
+    } else {
+      res.redirect('/admin/articles?error=Invalid article ID');
     }
   } catch (error) {
     console.log(error);
@@ -626,10 +894,59 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
             //       res.redirect('/dashboard/articles');
             //     }
             //   });
+
+            // Send email notification to the author
+            sendMail({
+              from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+              to: req.session.user.email,
+              subject: "Your Article Edits Have Been Requested for Review",
+              text: `Hello ${req.session.user.first_name},
+
+Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, your article will be private.
+
+If you have any questions, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+
+              html: `<p>Hello ${req.session.user.first_name},</p>
+                 <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, your article will be private.</p>
+                 <p>If you have any questions, please contact our support team for assistance.</p>
+                 <p>Thank you for your understanding.</p>
+                 <p>Best regards,<br>The Grovix Team</p>`,
+            });
+
+
             res.redirect('/dashboard/articles');
 
           });
         } else {
+          // Send email notification to the author
+          sendMail({
+            from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+            to: req.session.user.email,
+            subject: "Your Article Edits Have Been Requested for Review",
+            text: `Hello ${req.session.user.first_name},
+
+Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, your article will be private.
+
+If you have any questions, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+
+            html: `<p>Hello ${req.session.user.first_name},</p>
+                 <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, your article will be private.</p>
+                 <p>If you have any questions, please contact our support team for assistance.</p>
+                 <p>Thank you for your understanding.</p>
+                 <p>Best regards,<br>The Grovix Team</p>`,
+          });
+
+
           res.redirect('/dashboard/articles');
         }
       }
@@ -644,10 +961,42 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 // Block or Unblock User
 router.post('/admin/users/block/:user_id', isAdmin, async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.user_id);
-    user.status = !user.status;
-    await user.save();
-    res.redirect('/admin/users');
+    const userId = req.params.user_id;
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (user) {
+      // Toggle the user's status
+      user.status = !user.status;
+      await user.save();
+
+      // Send email notification to the user
+      sendMail({
+        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+        to: user.email,
+        subject: user.status ? "Your Account Has Been Unblocked" : "Your Account Has Been Blocked",
+        text: `Hello ${user.first_name},
+
+This is to inform you that your account has been ${user.status ? "unblocked" : "blocked"} by an admin.
+
+If you have any questions or believe this to be a mistake, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+
+        html: `<p>Hello ${user.first_name},</p>
+               <p>This is to inform you that your account has been <strong>${user.status ? "unblocked" : "blocked"}</strong> by an admin.</p>
+               <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
+               <p>Thank you for your understanding.</p>
+               <p>Best regards,<br>The Grovix Team</p>`,
+      });
+
+      res.redirect('/admin/users');
+    } else {
+      res.redirect('/admin/users?error=User not found');
+    }
   } catch (error) {
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
@@ -657,21 +1006,88 @@ router.post('/admin/users/block/:user_id', isAdmin, async (req, res, next) => {
 // Ban User
 router.post('/admin/users/ban/:user_id', isAdmin, async (req, res, next) => {
   try {
-    await User.findByIdAndDelete(req.params.user_id);
-    res.redirect('/admin/users');
+    const userId = req.params.user_id;
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (user) {
+      // Move the user to the UserBin
+      const bannedUser = new UserBin(user.toObject());
+      await bannedUser.save();
+      await User.findByIdAndDelete(userId);
+
+      // Send email notification to the user
+      sendMail({
+        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+        to: user.email,
+        subject: "Your Account Has Been Banned",
+        text: `Hello ${user.first_name},
+
+This is to inform you that your account has been banned by an admin.
+
+If you have any questions or believe this to be a mistake, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+
+        html: `<p>Hello ${user.first_name},</p>
+               <p>This is to inform you that your account has been <strong>banned</strong> by an admin.</p>
+               <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
+               <p>Thank you for your understanding.</p>
+               <p>Best regards,<br>The Grovix Team</p>`,
+      });
+
+      res.redirect('/admin/users');
+    } else {
+      res.redirect('/admin/users?error=User not found');
+    }
   } catch (error) {
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
 });
 
-// Admin User
+// Promote or Demote User to Admin
 router.post('/admin/users/admin/:user_id', isAdmin, async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.user_id);
-    user.admin = !user.admin;
-    await user.save();
-    res.redirect('/admin/users');
+    const userId = req.params.user_id;
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (user) {
+      // Toggle the user's admin status
+      user.admin = !user.admin;
+      await user.save();
+
+      // Send email notification to the user
+      sendMail({
+        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+        to: user.email,
+        subject: user.admin ? "You Have Been Promoted to Admin" : "You Have Been Demoted from Admin",
+        text: `Hello ${user.first_name},
+
+This is to inform you that your account has been ${user.admin ? "promoted to" : "demoted from"} admin status by an admin.
+
+If you have any questions or believe this to be a mistake, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+
+        html: `<p>Hello ${user.first_name},</p>
+               <p>This is to inform you that your account has been <strong>${user.admin ? "promoted to" : "demoted from"}</strong> admin status by an admin.</p>
+               <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
+               <p>Thank you for your understanding.</p>
+               <p>Best regards,<br>The Grovix Team</p>`,
+      });
+
+      res.redirect('/admin/users');
+    } else {
+      res.redirect('/admin/users?error=User not found');
+    }
   } catch (error) {
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
