@@ -18,19 +18,28 @@
   <meta name="theme-color" content="#ffffff">
 
   {{!-- Search Engine Optiomisation --}}
+  <meta property="title" content="{{title}}" />
   <meta property="og:title" content="{{title}}" />
   {{#if article}}
+  <meta property="type" content="article" />
+  <meta property="url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
+  <meta property="image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
+  <meta property="image" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
   <meta property="og:image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   <meta property="og:image" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   {{else}}
+  <meta property="type" content="website" />
   <meta property="og:type" content="website" />
   {{/if}}
 
+  <meta property="image:width" content="1200" />
+  <meta property="image:height" content="630" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
+  <meta property="site_name" content="Grovix Lab" />
   <meta property="og:site_name" content="Grovix Lab" />
 
   {{#if article}}
