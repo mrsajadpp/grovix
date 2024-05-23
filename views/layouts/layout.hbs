@@ -17,6 +17,26 @@
   <meta name="msapplication-config" content="https://grovixlab.com/icons/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
 
+  {{#if article}}
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "{{article.title}}",
+      "image": [
+        "https://www.grovixlab.com/img/article/{{article._id}}"
+      ],
+      "datePublished": "{{article.created_time}}",
+      "dateModified": "{{article.updated_time}}",
+      "author": {
+        "@type": "Person",
+        "name": "{{author.first_name}} {{author.last_name}}"
+      }
+    }
+    </script>
+  {{/if}}
+
   <link rel="stylesheet" href="/css/style.css">
   {{#if style}}
   {{#each style}}
@@ -28,9 +48,10 @@
 
 <body>
 
-{{#if user.admin}}
-<button style="position: fixed; bottom: 20px; right: 20px; zindex: 999;" onclick="location.href = '/admin/'">Admin Panel</button>
-{{/if}}
+  {{#if user.admin}}
+  <button style="position: fixed; bottom: 20px; right: 20px; zindex: 999;" onclick="location.href = '/admin/'">Admin
+    Panel</button>
+  {{/if}}
   {{{body}}}
 
   {{!-- Footer --}}
