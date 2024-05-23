@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const User = require('../models/user');
+const Code = require('../models/code');
+const Article = require('../models/article');
 const { default: mongoose } = require('mongoose');
 let fs = require('fs');
 
@@ -35,6 +37,46 @@ function addOneDay(timestamp) {
   return `${day}/${month}/${year}`;
 }
 
+// Admin Home
+router.get('/', isAdmin, async (req, res, next) => {
+  try {
+    res.render('admin/index', { title: "Admin", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
 
+// Articles
+router.get('/articles', isAdmin, async (req, res, next) => {
+  try {
+    const article_list = await Article.find({ status: true }).lean();
+    res.render('admin/articles', { title: "Articles >> Admin", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+router.get('/articles/locked', isAdmin, async (req, res, next) => {
+  try {
+    const article_list = await Article.find({ status: 'locked' }).lean();
+    res.render('admin/locked', { title: "Locked >> Articles >> Admin", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+router.get('/articles/pending', isAdmin, async (req, res, next) => {
+  try {
+    const article_list = await Article.find({ status: false }).lean();
+    console.log(article_list);
+    res.render('admin/pending', { title: "Pending >> Articles >> Admin", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
 
 module.exports = router;

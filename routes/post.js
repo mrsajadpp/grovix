@@ -523,6 +523,69 @@ router.get('/article/delete/:article_id', isAuthorised, async (req, res, next) =
   }
 });
 
+router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, next) => {
+  try {
+    if (req.params.article_id) {
+      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
+      if (user.admin) {
+        await Article.deleteOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) });
+      }
+      res.redirect('/dashboard/admin/articles');
+    }
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Approve
+router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, next) => {
+  try {
+    if (req.params.article_id) {
+      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
+      if (user.admin) {
+        await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: true });
+      }
+      res.redirect('/dashboard/admin/articles');
+    }
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Lock
+router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, next) => {
+  try {
+    if (req.params.article_id) {
+      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
+      if (user.admin) {
+        await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: 'locked' });
+      }
+      res.redirect('/dashboard/admin/articles');
+    }
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Unlock
+router.get('/article/admin/unblock/:article_id', isAuthorised, async (req, res, next) => {
+  try {
+    if (req.params.article_id) {
+      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
+      if (user.admin) {
+        await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: true });
+      }
+      res.redirect('/dashboard/admin/articles');
+    }
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
 // Update article 
 router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
   try {
