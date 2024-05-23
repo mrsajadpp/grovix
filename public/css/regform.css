@@ -121,6 +121,7 @@ textarea {
     border: none;
     background: #f0f0f0;
     padding-left: 10px;
+    border-radius: 5px !important;
 }
 
 .container .regForm .inputBox select {
