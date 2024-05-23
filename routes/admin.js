@@ -71,8 +71,18 @@ router.get('/articles/locked', isAdmin, async (req, res, next) => {
 router.get('/articles/pending', isAdmin, async (req, res, next) => {
   try {
     const article_list = await Article.find({ status: false }).lean();
-    console.log(article_list);
     res.render('admin/pending', { title: "Pending >> Articles >> Admin", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Users
+router.get('/users', isAdmin, async (req, res, next) => {
+  try {
+    const user_list = await User.find().lean();
+    res.render('admin/users', { title: "Users >> Admin", style: ['dashboard'], user_list, user: req.session.user ? req.session.user : false });
   } catch (error) {
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
