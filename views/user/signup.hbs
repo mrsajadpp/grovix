@@ -25,6 +25,11 @@
                     and conditions</a>.
             </span>
         </div>
+        {{#if error}}
+        <div class="inputText">
+            <span class="textMsg" style="color: red;">{{error.message}}</span>
+        </div>
+        {{/if}}
         <div class="inputBox">
             <button>
                 SignUp

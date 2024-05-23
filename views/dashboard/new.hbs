@@ -2,8 +2,7 @@
 
 <!-- Writing Area -->
 <div class="container">
-    <form action="/article/request" method="post" class="regForm" 
-        enctype="multipart/form-data">
+    <form action="/article/request" method="post" class="regForm" enctype="multipart/form-data">
         <div class="inputBox">
             <input type="text" name="title" id="title" placeholder="Article Title*" required>
         </div>
@@ -142,6 +141,11 @@
                 disabled, try editing your title to trigger the validation.
             </span>
         </div>
+        {{#if error}}
+        <div class="inputText">
+            <span class="textMsg" style="color: red;">{{error.message}}</span>
+        </div>
+        {{/if}}
         <div class="inputBox">
             <button type="submit" class="regButton">Request</button>
         </div>
