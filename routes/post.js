@@ -11,7 +11,7 @@ let fs = require('fs');
 let path = require('path');
 let { sendMail } = require('../email/config')
 const speakeasy = require('speakeasy');
-const sharp = require('sharp');
+// const sharp = require('sharp');
 
 
 const { default: mongoose } = require('mongoose');
