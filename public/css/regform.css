@@ -7,7 +7,7 @@
 }
 
 .container .regForm {
-    width: 230px;
+    width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
