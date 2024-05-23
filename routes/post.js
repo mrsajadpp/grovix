@@ -642,7 +642,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 });
 
 // Block or Unblock User
-router.post('/users/block/:user_id', isAdmin, async (req, res, next) => {
+router.post('/admin/users/block/:user_id', isAdmin, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.user_id);
     user.status = !user.status;
@@ -655,9 +655,22 @@ router.post('/users/block/:user_id', isAdmin, async (req, res, next) => {
 });
 
 // Ban User
-router.post('/users/ban/:user_id', isAdmin, async (req, res, next) => {
+router.post('/admin/users/ban/:user_id', isAdmin, async (req, res, next) => {
   try {
     await User.findByIdAndDelete(req.params.user_id);
+    res.redirect('/admin/users');
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Admin User
+router.post('/admin/users/admin/:user_id', isAdmin, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.user_id);
+    user.admin = !user.admin;
+    await user.save();
     res.redirect('/admin/users');
   } catch (error) {
     console.log(error);

@@ -28,6 +28,9 @@
           <form action="/admin/users/block/{{this._id}}" method="POST" class="block-form" style="display:inline;">
             <button type="button" onclick="confirmBlock(this.form, '{{this.first_name}}')">{{#if this.status}}Block{{else}}Unblock{{/if}}</button>
           </form>
+          <form action="/admin/users/admin/{{this._id}}" method="POST" class="block-form" style="display:inline;">
+            <button type="button" onclick="confirmAdmin(this.form, '{{this.first_name}}')">{{#if this.admin}}Dismiss{{else}}Admin{{/if}}</button>
+          </form>
           <form action="/admin/users/ban/{{this._id}}" method="POST" class="ban-form" style="display:inline;">
             <button type="button" onclick="confirmBan(this.form, '{{this.first_name}}')">Ban</button>
           </form>
@@ -42,6 +45,15 @@
   function confirmBlock(form, userName) {
     const confirmation = prompt(`Type 'BLOCK THIS USER' to block ${userName}`);
     if (confirmation === 'BLOCK THIS USER') {
+      form.submit();
+    } else {
+      alert('User blocking cancelled.');
+    }
+  }
+
+  function confirmAdmin(form, userName) {
+    const confirmation = prompt(`Type 'MAKE ADMIN' to make admin ${userName}`);
+    if (confirmation === 'MAKE ADMIN') {
       form.submit();
     } else {
       alert('User blocking cancelled.');
