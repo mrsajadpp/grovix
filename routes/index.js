@@ -32,16 +32,6 @@ function searchProducts(products, query) {
   return result;
 }
 
-function formatDate(dateString) {
-  const date = new Date(dateString);
-
-  const options = { weekday: 'short', month: 'short', year: 'numeric' };
-  const formattedDate = date.toLocaleDateString('en-US', options);
-
-  const [weekday, month, year] = formattedDate.split(' ');
-  return `${weekday}, ${month} ${year}`;
-}
-
 const isNotAuthorised = (req, res, next) => {
   try {
     if (req.session.user) {
@@ -95,7 +85,7 @@ router.get('/auth/login', isNotAuthorised, (req, res, next) => {
 // Article
 router.get('/page/:endpoint', async (req, res, next) => {
   try {
-    let article = await Article.findOne({ endpoint: req.params.endpoint }).lean();
+    let article = await Article.findOne({ endpoint: req.params.endpoint, status: true }).lean();
     if (article && article.status) {
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
       res.render('user/article', { title: article.title, style: ['article'], article: article, author, user: req.session.user ? req.session.user : false });
