@@ -81,7 +81,7 @@ router.get('/articles/pending', isAdmin, async (req, res, next) => {
 // Users
 router.get('/users', isAdmin, async (req, res, next) => {
   try {
-    const user_list = await User.find().lean();
+    const user_list = await User.find({ admin: false }).lean();
     res.render('admin/users', { title: "Users >> Admin", style: ['dashboard'], user_list, user: req.session.user ? req.session.user : false });
   } catch (error) {
     console.log(error);
