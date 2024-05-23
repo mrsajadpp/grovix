@@ -1,42 +1,24 @@
 {{>headers/new}}
 
+
 <!-- Writing Area -->
 <div class="container">
-    <form action="/article/request" method="post" class="regForm" style="width: 90%;" enctype="multipart/form-data">
+    <form action="/article/update/{{article._id}}" method="post" class="regForm" enctype="multipart/form-data">
         <div class="inputBox">
-            <input type="text" name="title" id="title" placeholder="Article Title*" required>
+            <input type="text" name="title" id="title" value="{{article.title}}" placeholder="Article Title*" required>
         </div>
         <div class="inputBox">
-            <input type="text" name="description" id="description" maxlength="150" required
-                placeholder="Article Description*">
-        </div>
-        <div class="inputBox">
-            <select name="category" id="category" required>
-                <option value="" disabled selected>Select a category</option>
-                <option value="arts">Arts</option>
-                <option value="business">Business</option>
-                <option value="education">Education</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="health">Health</option>
-                <option value="lifestyle">Lifestyle</option>
-                <option value="news">News</option>
-                <option value="politics">Politics</option>
-                <option value="programming">Programming</option>
-                <option value="science">Science</option>
-                <option value="sports">Sports</option>
-                <option value="technology">Technology</option>
-                <option value="travel">Travel</option>
-                <option value="others">Others</option>
-            </select>
+            <input type="text" name="description" value="{{article.description}}" id="description" maxlength="150"
+                required placeholder="Article Description*">
         </div>
 
-        <div class="inputBox customCategory hide">
-            <input type="text" name="custom_category" id="customCategory" placeholder="Custom Category*">
+        <div class="inputBox">
+            <input type="text" name="category" value="{{article.category}}" id="customCategory"
+                placeholder="Custom Category*">
         </div>
 
-        <input type="file" name="thumbnail" hidden accept="image/jpg, image/jpeg, image/png" id="profileInp" required>
-        <div id="inputProfile" class="inputProfile"
-            style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyToeAH0Yw-KYJYVNPNZpfFo01EkgFB7RciZ4KZFNV-9fDhbXqWvGw2AnfyjaaFOMveb9nX69tzrD6EFkZPuu7ee2WylQBbeFeGxaJP6d7HoeVuIIbA9H-vndcJyCRHcC_zAnDojygpdBOjb1xTAnf5wx28366D3lGKP35jPxh2F2vfxQ/s220/IMG_20240502_231437_652.jpg');">
+        <input type="file" name="thumbnail" hidden accept="image/jpg, image/jpeg, image/png" id="profileInp">
+        <div id="inputProfile" class="inputProfile" style="background-image: url('/img/article/{{article._id}}.jpg');">
             <button type="button">
                 <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
                     class="style-scope tp-yt-iron-icon"
@@ -52,7 +34,8 @@
 
         <div class="inputText">
             <span class="textMsg">The thumbnail image should have dimensions of <span
-                    style="color: #0078e8;">1920x1080</span> pixels.</span>
+                    style="color: #0078e8;">1920x1080</span>
+                pixels.</span>
         </div>
 
         <div class="textBox">
@@ -129,20 +112,44 @@
                     </svg>
                 </button>
             </div>
-            <div id="editor" contenteditable="true"></div>
-            <textarea name="content" id="content" hidden></textarea>
-            <textarea id="htmlEditor" style="display: none; width: 100%; height: 300px;"></textarea>
+            <div id="editor" contenteditable="true">{{{article.body}}}</div>
+            <textarea name="content" id="content" hidden>{{article.body}}</textarea>
+            <textarea id="htmlEditor" style="display: none; width: 100%; height: 300px;">{{article.body}}</textarea>
         </div>
 
+        <!-- <div class="inputBox">
+                <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+            </div>
+            <div class="inputBox">
+                <input type="email" name="email" id="email" placeholder="Email">
+            </div>
+            <div class="inputBox">
+                <input type="tel" name="phone" id="phone" placeholder="Phone">
+            </div>
+            <div class="inputBox">
+                <input type="password" placeholder="Password" name="password" id="password">
+            </div> -->
+        <!-- <div class="inputText">
+                <input type="checkbox" name="terms_accept" id="terms">
+                <span>
+                    By using our services, you are accepting our <a href="terms-and-conditions.html"
+                        target="_blank">terms and conditions</a>.
+                </span>
+            </div> -->
         <div class="inputText">
             <span class="textMsg" style="color: red;">
-                If the request button is still disabled, please ensure all fields are correctly filled. If it remains
-                disabled, try editing your title to trigger the validation.
+                If the request button is still disabled, please ensure all fields are correctly filled. If it
+                remains disabled, try editing your title to trigger the validation.
             </span>
         </div>
         <div class="inputBox">
-            <button type="submit" class="regButton">Request</button>
+            <button type="submit" class="regButton">
+                Request
+            </button>
         </div>
+        <!-- <div class="inputText">
+                <span>Do you have a account? <a href="./login.html">LogIn</a>.</span>
+            </div> -->
     </form>
 </div>
 
@@ -162,6 +169,7 @@
         </div>
     </div>
 </div>
+
 
 <br><br>
 

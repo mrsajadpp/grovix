@@ -92,4 +92,14 @@ router.get('/new', isAuthorised, (req, res, next) => {
   res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session.user ? req.session.user : false });
 });
 
+// Edit Article
+router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {
+  try {
+    let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
+    res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
 module.exports = router;

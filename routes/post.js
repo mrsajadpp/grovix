@@ -523,5 +523,54 @@ router.get('/article/delete/:article_id', isAuthorised, async (req, res, next) =
   }
 });
 
+// Update article 
+router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
+  try {
+    const { title, description, category, content } = req.body;
+    let updateData = {
+      title,
+      description,
+      category,
+      body: content,
+      updated_at: new Date(),
+      status: false
+    };
+    if (title && description && category && content && updateData.updated_at) {
+      let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
+      if (article) {
+        await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, updateData);
+        if (req.files && req.files.thumbnail) {
+          let thumbnailFile = req.files.thumbnail;
+          let imagePath = await __dirname + '/../public/img/article/' + article._id + '.jpg';
+          let thumbnailPath = await __dirname + '/../public/img/article/' + article._id + '-1920x1080.jpg';
+
+          thumbnailFile.mv(imagePath, async function (err) {
+            if (err) {
+              return res.status(500).send("Error uploading profile image: " + err);
+            }
+
+            // Resize the image
+            sharp(imagePath)
+              .resize(1920, 1080) // Set the width and height
+              .toFile(thumbnailPath, (err, info) => {
+                if (err) {
+                  console.error(err);
+                } else {
+                  res.redirect('/dashboard/articles');
+                }
+              });
+
+          });
+        } else {
+          res.redirect('/dashboard/articles');
+        }
+      }
+    }
+    res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.error(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
 
 module.exports = router;

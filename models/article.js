@@ -37,6 +37,10 @@ const articleSchema = new Schema({
     endpoint: {
         type: String,
         require: true,
+    },
+    updated_at: {
+        type: String,
+        default: Date.now,
     }
 });
 
