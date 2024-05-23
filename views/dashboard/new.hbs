@@ -136,7 +136,7 @@
         </div>
 
         <div class="inputText">
-            <span class="textMsg" style="color: red;">
+            <span class="textMsg">
                 If the request button is still disabled, please ensure all fields are correctly filled. If it remains
                 disabled, try editing your title to trigger the validation.
             </span>
@@ -195,7 +195,7 @@
                     const height = img.naturalHeight;
 
                     if (width !== 1920 || height !== 1080) {
-                        errorMsg.style.color = 'red';
+                        errorMsg.style.color = 'orange';
                         errorMsg.textContent = 'Image dimensions must be 1920x1080';
                     } else {
                         errorMsg.style.color = 'green';
