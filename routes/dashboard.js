@@ -42,21 +42,21 @@ function addOneDay(timestamp) {
 
 // Dashboard
 router.get('/', isAuthorised, (req, res, next) => {
-  res.render('dashboard/index', { title: "Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+  res.render('dashboard/index', { title: "Dashboard", style: ['dashboard'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Articles
 router.get('/articles', isAuthorised, async (req, res, next) => {
   const article_list = await Article.find({ author_id: req.session.user._id, status: true }).lean();
-  res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
+  res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
 });
 
 router.get('/articles/pending', isAuthorised, async (req, res, next) => {
   try {
     const article_list = await Article.find({ author_id: req.session.user._id, status: false }).lean();
-    res.render('dashboard/pending_articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session.user ? req.session.user : false });
+    res.render('dashboard/pending_articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -67,38 +67,38 @@ router.get('/earnings', isAuthorised, async (req, res, next) => {
     const total_views = article_list.reduce((sum, article) => sum + (article.views || 0), 0);
     const views_graph = (total_views / 10000) * 100;
     const articles_graph = (article_list.length / 15) * 100;
-    res.render('dashboard/earnings', { title: "Earnings >> Dashboard", style: ['dashboard', 'earnings'], articles_graph, views_graph, articles: 15 - article_list.length, views: 10000 - total_views, user: req.session.user ? req.session.user : false });
+    res.render('dashboard/earnings', { title: "Earnings >> Dashboard", style: ['dashboard', 'earnings'], articles_graph, views_graph, articles: 15 - article_list.length, views: 10000 - total_views, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
 // Notifications
 router.get('/notifications', isAuthorised, (req, res, next) => {
-  res.render('dashboard/notifications', { title: "Notifications >> Dashboard", style: ['dashboard'], user: req.session.user ? req.session.user : false });
+  res.render('dashboard/notifications', { title: "Notifications >> Dashboard", style: ['dashboard'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Settnigs
 router.get('/settings', isAuthorised, (req, res, next) => {
-  res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false });
+  res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 router.get('/settings/payment', isAuthorised, (req, res, next) => {
-  res.render('dashboard/payment', { title: "Payment >> Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false });
+  res.render('dashboard/payment', { title: "Payment >> Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // New Article
 router.get('/new', isAuthorised, (req, res, next) => {
-  res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session.user ? req.session.user : false });
+  res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Edit Article
 router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {
   try {
     let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
-    res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session.user ? req.session.user : false });
+    res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 

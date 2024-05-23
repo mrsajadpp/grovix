@@ -60,27 +60,27 @@ function getCurrentDate() {
 
 // Home
 router.get('/', (req, res, next) => {
-  res.render('user/index', { title: "Grovix Lab", style: [], user: req.session.user ? req.session.user : false });
+  res.render('user/index', { title: "Grovix Lab", style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Trending
 router.get('/trending', (req, res, next) => {
-  res.render('user/trending', { title: "Trending", style: [], user: req.session.user ? req.session.user : false });
+  res.render('user/trending', { title: "Trending", style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Categories
 router.get('/categories', (req, res, next) => {
-  res.render('user/categories', { title: "Category", style: [], user: req.session.user ? req.session.user : false });
+  res.render('user/categories', { title: "Category", style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Signup
 router.get('/auth/signup', isNotAuthorised, (req, res, next) => {
-  res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false });
+  res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // login
 router.get('/auth/login', isNotAuthorised, (req, res, next) => {
-  res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false });
+  res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Article
@@ -89,12 +89,12 @@ router.get('/page/:endpoint', async (req, res, next) => {
     let article = await Article.findOne({ endpoint: req.params.endpoint, status: true }).lean();
     if (article && article.status) {
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
-      res.render('user/article', { title: article.title, style: ['article'], article: article, author, user: req.session.user ? req.session.user : false });
+      res.render('user/article', { title: article.title, style: ['article'], article: article, author, user: req.session && req.session.user ? req.session.user : false });
     } else {
-      res.render('error', { title: "404", status: 404, message: "Not found", style: ['error'], user: req.session.user ? req.session.user : false });
+      res.render('error', { title: "404", status: 404, message: "Not found", style: ['error'], user: req.session && req.session.user ? req.session.user : false });
     }
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -125,7 +125,7 @@ ${article_list.map(article => {
     res.send(xmlContent);
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 

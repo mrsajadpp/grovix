@@ -175,10 +175,10 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
                  <p>Thank you,<br>The Grovix Team</p>`,
         });
 
-        res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session.user ? req.session.user : false, user_id: user._id });
+        res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: user._id });
       } else {
         if (userExist.verified) {
-          res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: 'User already exist, Please try to login.' } });
+          res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: 'User already exist, Please try to login.' } });
         } else {
 
           const hashedPass = await crypash.hash('sha256', req.body.password);
@@ -243,14 +243,14 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
                    <p>Thank you,<br>The Grovix Team</p>`,
           });
 
-          res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session.user ? req.session.user : false, user_id: userExist._id });
+          res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: userExist._id });
         }
       }
     } else {
-      res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: 'Please enter valid information.' } });
+      res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: 'Please enter valid information.' } });
     }
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 })
 
@@ -295,25 +295,25 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
         req.session.user = userData;
         res.redirect('/');
       } else {
-        res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session.user ? req.session.user : false, user_id: req.params.user_id, error: { message: "Incorrect code" } });
+        res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: req.params.user_id, error: { message: "Incorrect code" } });
       }
     } else {
       res.redirect('/auth/signup');
     }
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 })
 
 
 // login
 router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
-  // res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false });
+  // res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
   try {
     if (req.body.email && req.body.password) {
       let user = await User.findOne({ email: req.body.email });
       if (!user) {
-        res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: "The account not exist, please try to signup." } });
+        res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "The account not exist, please try to signup." } });
       } else {
         let password_match = await crypash.check('sha256', req.body.password, user.password);
         if (password_match) {
@@ -353,16 +353,16 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
                  <p>Thank you,<br>The Grovix Team</p>`,
           });
 
-          res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session.user ? req.session.user : false, user_id: user._id });
+          res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: user._id });
         } else {
-          res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: "Password not match!" } });
+          res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Password not match!" } });
         }
       }
     } else {
-      res.render('user/login', { title: "Login", style: ['regform'], user: req.session.user ? req.session.user : false, error: { message: "Please enter valid data" } });
+      res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Please enter valid data" } });
     }
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -404,7 +404,7 @@ The Grovix Team`,
       status: 500,
       message: error.message,
       style: ['error'],
-      user: req.session.user ? req.session.user : false
+      user: req.session && req.session.user ? req.session.user : false
     });
   }
 });
@@ -479,11 +479,11 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       }
 
     } else {
-      res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session.user ? req.session.user : false, error: { message: "Please fill blank input box." } });
+      res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Please fill blank input box." } });
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -569,7 +569,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
 
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -624,7 +624,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -686,7 +686,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -730,7 +730,7 @@ router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, 
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -792,7 +792,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -854,7 +854,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -951,10 +951,10 @@ The Grovix Team`,
         }
       }
     }
-    res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session.user ? req.session.user : false });
+    res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -999,7 +999,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -1045,7 +1045,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
@@ -1090,7 +1090,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.log(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
