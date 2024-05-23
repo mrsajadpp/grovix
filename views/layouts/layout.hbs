@@ -17,6 +17,21 @@
   <meta name="msapplication-config" content="https://grovixlab.com/icons/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
 
+  {{!-- Search Engine Optiomisation --}}
+  <meta property="og:title" content="{{title}}" />
+  {{#if article}}
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
+  <meta property="og:image" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
+  {{else}}
+  <meta property="og:type" content="page" />
+  {{/if}}
+
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta property="og:site_name" content="Grovix Lab" />
+
   {{#if article}}
   <!-- Schema Markup -->
   <script type="application/ld+json">
