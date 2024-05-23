@@ -21,6 +21,8 @@
   <meta property="title" content="{{title}}" />
   <meta property="og:title" content="{{title}}" />
   {{#if article}}
+  <meta property="description" content="{{article.description}}" />
+  <meta property="og:description" content="{{article.description}}" />
   <meta property="type" content="article" />
   <meta property="url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
   <meta property="image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
@@ -30,6 +32,8 @@
   <meta property="og:image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   <meta property="og:image" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   {{else}}
+  <meta property="description" content="{{description}}" />
+  <meta property="og:description" content="{{description}}" />
   <meta property="type" content="website" />
   <meta property="og:type" content="website" />
   {{/if}}
