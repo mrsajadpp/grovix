@@ -2,7 +2,8 @@
 
 <!-- Writing Area -->
 <div class="container">
-    <form action="/article/request" method="post" class="regForm" style="width: 90% !important;" enctype="multipart/form-data">
+    <form action="/article/request" method="post" class="regForm" style="width: 90% !important;"
+        enctype="multipart/form-data">
         <div class="inputBox">
             <input type="text" name="title" id="title" placeholder="Article Title*" required>
         </div>
@@ -52,7 +53,7 @@
         </div>
 
         <div class="inputText">
-            <span class="textMsg">The thumbnail image should have dimensions of <span
+            <span class="textMsg">We prefer the thumbnail image to have dimensions of <span
                     style="color: #0078e8;">1920x1080</span> pixels.</span>
         </div>
 
@@ -196,7 +197,7 @@
 
                     if (width !== 1920 || height !== 1080) {
                         errorMsg.style.color = 'orange';
-                        errorMsg.textContent = 'Image dimensions must be 1920x1080';
+                        errorMsg.textContent = 'We prefer the image dimensions to be 1920x1080';
                     } else {
                         errorMsg.style.color = 'green';
                         errorMsg.textContent = 'Image dimensions are correct';
