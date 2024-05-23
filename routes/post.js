@@ -382,7 +382,6 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
     const {
       first_name,
       last_name,
-      email,
       phone,
       sex,
       bio,
@@ -394,7 +393,10 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       zip_code
     } = req.body;
 
-    if (first_name && last_name && email && phone && sex && bio && address_line_one && address_line_two && country && state && city && zip_code) {
+    console.log(req.body);
+
+    if (first_name && last_name && phone && sex && bio && address_line_one && address_line_two && country && state && city && zip_code) {
+      console.log('hi');
       let userData = await {
         first_name: first_name,
         last_name: last_name,
@@ -412,7 +414,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       };
 
       let user = await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
-      user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) });
+      user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
       req.session.user = user;
 
       if (req.files && req.files.profile) {
