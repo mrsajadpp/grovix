@@ -46,6 +46,14 @@ app.engine('hbs', handlebars.engine({
       }
 
       return num.toFixed(1).replace(/\.0$/, '') + unit;
+    },
+    formatDate: function (dateString) {
+      const date = new Date(dateString);
+      const options = { weekday: 'short', month: 'short', year: 'numeric' };
+      const formattedDate = date.toLocaleDateString('en-US', options);
+
+      const [weekday, month, year] = formattedDate.split(' ');
+      return `${weekday}, ${month} ${year}`;
     }
   }
 }));
