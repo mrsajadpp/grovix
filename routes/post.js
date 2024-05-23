@@ -530,7 +530,7 @@ router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, n
       if (user.admin) {
         await Article.deleteOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) });
       }
-      res.redirect('/dashboard/admin/articles');
+      res.redirect('/admin/articles');
     }
   } catch (error) {
     console.log(error);
@@ -546,7 +546,7 @@ router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, 
       if (user.admin) {
         await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: true });
       }
-      res.redirect('/dashboard/admin/articles');
+      res.redirect('/admin/articles');
     }
   } catch (error) {
     console.log(error);
@@ -562,7 +562,7 @@ router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, ne
       if (user.admin) {
         await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: 'locked' });
       }
-      res.redirect('/dashboard/admin/articles');
+      res.redirect('/admin/articles');
     }
   } catch (error) {
     console.log(error);
@@ -578,7 +578,7 @@ router.get('/article/admin/unblock/:article_id', isAuthorised, async (req, res, 
       if (user.admin) {
         await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, { status: true });
       }
-      res.redirect('/dashboard/admin/articles');
+      res.redirect('/admin/articles');
     }
   } catch (error) {
     console.log(error);
