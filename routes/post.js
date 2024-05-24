@@ -481,7 +481,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -568,7 +568,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
 
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -624,7 +624,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -687,7 +687,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -732,7 +732,7 @@ router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, 
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -795,7 +795,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -858,7 +858,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -1075,7 +1075,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -1122,7 +1122,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -1168,7 +1168,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -1275,7 +1275,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', {
       title: "500",
       status: 500,
@@ -1308,7 +1308,7 @@ router.post('/admin/send', isAdmin, async (req, res, next) => {
 
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', {
       title: "500",
       status: 500,

@@ -172,7 +172,7 @@ ${article_list.map(article => {
     res.send(xmlContent);
   } catch (error) {
     console.error(error);
-    console.log(error);
+    
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
