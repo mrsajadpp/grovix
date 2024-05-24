@@ -1161,7 +1161,7 @@ router.post('/auth/pass/new', async (req, res, next) => {
     const { password, email } = req.body;
 
     // Hash the new password
-    const hashedPassword = await crypash.hash(password, 10);
+    const hashedPassword = await crypash.hash('sha256', password);
 
     // Find the user by email
     const user = await User.findOne({ email }).lean();
