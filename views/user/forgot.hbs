@@ -1,0 +1,24 @@
+<div class="container">
+    <form action="/auth/recover/create" method="post" class="regForm">
+        <div class="inputImage">
+            <img src="/img/logo.png" alt="">
+        </div>
+        <div class="inputBox">
+            <input type="email" name="email" id="otp" placeholder="Registered Email*">
+        </div>
+        {{#if error}}
+        <div class="inputText">
+            <span class="textMsg" style="color: red;">{{error.message}}</span>
+        </div>
+        {{/if}}
+        <div class="inputBox">
+            <button>
+                Generate Link
+            </button>
+        </div>
+        <div class="inputText">
+            <span>You haven't received a reset link? Please check your email's <span style="color: #0078e8;">spam
+                    or junk</span> folder.</span>
+        </div>
+    </form>
+</div>

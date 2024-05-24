@@ -83,6 +83,11 @@ router.get('/auth/login', isNotAuthorised, (req, res, next) => {
   res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
+// Recovery
+router.get('/auth/recover', isNotAuthorised, (req, res, next) => {
+  res.render('user/forgot', { title: "Recover Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
+});
+
 // Article
 router.get('/page/:endpoint', async (req, res, next) => {
   try {

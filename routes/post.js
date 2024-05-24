@@ -5,6 +5,8 @@ const User = require('../models/user');
 const Code = require('../models/code');
 const Article = require('../models/article');
 const ArticleBin = require('../models/bin');
+const userBin = require('../models/userBin');
+const Page = require('../models/page');
 let mail = require('../email/config');
 var geoip = require('geoip-lite');
 let axios = require('axios');
@@ -1011,8 +1013,8 @@ router.post('/admin/users/ban/:user_id', isAdmin, async (req, res, next) => {
     // Find the user by ID
     const user = await User.findById(userId);
     if (user) {
-      // Move the user to the UserBin
-      const bannedUser = new UserBin(user.toObject());
+      // Move the user to the userBin
+      const bannedUser = new userBin(user.toObject());
       await bannedUser.save();
       await User.findByIdAndDelete(userId);
 
@@ -1091,6 +1093,64 @@ The Grovix Team`,
   } catch (error) {
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+  }
+});
+
+
+// Password Reset
+router.post('/auth/recover/create', async (req, res, next) => {
+  try {
+    const userEmail = req.body.email;
+
+    // Find the user by email
+    const user = await User.findOne({ email: userEmail }).lean();
+    if (user) {
+      const page = await new Page({ user_id: user._id, created_time: new Date() });
+      await page.save();
+
+      console.log(page);
+
+      const pageUrl = `https://www.grovixlab.com/reset/${page._id}`;
+
+      // Send email notification to the user
+      sendMail({
+        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+        to: user.email,
+        subject: "Password Reset Request",
+        text: `Hello ${user.first_name},
+
+We have received a request to reset your password. You can reset your password by clicking the link below:
+
+${pageUrl}
+
+If you did not request a password reset, please ignore this email or contact our support team.
+
+Thank you.
+
+Best regards,
+The Grovix Team`,
+
+        html: `<p>Hello ${user.first_name},</p>
+               <p>We have received a request to reset your password. You can reset your password by clicking the link below:</p>
+               <p><a href="${pageUrl}">${pageUrl}</a></p>
+               <p>If you did not request a password reset, please ignore this email or contact our support team.</p>
+               <p>Thank you.</p>
+               <p>Best regards,<br>The Grovix Team</p>`,
+      });
+
+      res.redirect('/auth/login');
+    } else {
+      res.redirect('/auth/recover?error=User not found');
+    }
+  } catch (error) {
+    console.log(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false
+    });
   }
 });
 

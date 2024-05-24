@@ -80,6 +80,6 @@ const userSchema = new Schema({
     },
 });
 
-const UserBin = mongoose.model('User', userSchema);
+const UserBin = mongoose.model('UserBin', userSchema);
 
 module.exports = UserBin;
