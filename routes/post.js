@@ -7,6 +7,8 @@ const Article = require('../models/article');
 const ArticleBin = require('../models/bin');
 const userBin = require('../models/userBin');
 const Page = require('../models/page');
+const Updation = require('../models/updation');
+const ArticleEditsBin = require('../models/editBin');
 let mail = require('../email/config');
 var geoip = require('geoip-lite');
 let axios = require('axios');
@@ -861,106 +863,176 @@ The Grovix Team`,
   }
 });
 
-// Update article 
+// Update article
 router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
   try {
     const { title, description, category, content } = req.body;
-    let updateData = {
-      title,
-      description,
-      category,
-      body: content,
-      updated_at: new Date(),
-      status: false
-    };
-    if (title && description && category && content && updateData.updated_at) {
-      let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
+    const { user } = req.session;
+    const articleId = req.params.article_id;
+
+    if (title && description && category && content) {
+      const article = await Article.findOne({ _id: mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
+
       if (article) {
-        await Article.updateOne({ _id: new mongoose.Types.ObjectId(req.params.article_id) }, updateData);
+        const updateData = {
+          article_id: article._id,
+          author_id: user._id,
+          title,
+          description,
+          category,
+          body: content,
+          created_time: article.created_time,
+          updated_at: new Date(),
+          status: 'pending',
+        };
+
+        const updation = new Updation(updateData);
+        await updation.save();
+
         if (req.files && req.files.thumbnail) {
-          let thumbnailFile = req.files.thumbnail;
-          let imagePath = await __dirname + '/../public/img/article/' + article._id + '.jpg';
-          let thumbnailPath = await __dirname + '/../public/img/article/' + article._id + '.jpg';
+          const thumbnailFile = req.files.thumbnail;
+          const imagePath = __dirname + '/../public/img/article/' + article._id + '.jpg';
 
-          thumbnailFile.mv(imagePath, async function (err) {
+          thumbnailFile.mv(imagePath, async (err) => {
             if (err) {
-              return res.status(500).send("Error uploading profile image: " + err);
+              return res.status(500).send("Error uploading thumbnail image: " + err);
             }
-
-            // Resize the image
-            // sharp(imagePath)
-            //   .resize(1920, 1080) // Set the width and height
-            //   .toFile(thumbnailPath, (err, info) => {
-            //     if (err) {
-            //       console.error(err);
-            //     } else {
-            //       res.redirect('/dashboard/articles');
-            //     }
-            //   });
-
-            // Send email notification to the author
-            sendMail({
-              from: '"Grovix Lab" <noreply.grovix@gmail.com>',
-              to: req.session.user.email,
-              subject: "Your Article Edits Have Been Requested for Review",
-              text: `Hello ${req.session.user.first_name},
-
-Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, your article will be private.
-
-If you have any questions, please contact our support team for assistance.
-
-Thank you for your understanding.
-
-Best regards,
-The Grovix Team`,
-
-              html: `<p>Hello ${req.session.user.first_name},</p>
-                 <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, your article will be private.</p>
-                 <p>If you have any questions, please contact our support team for assistance.</p>
-                 <p>Thank you for your understanding.</p>
-                 <p>Best regards,<br>The Grovix Team</p>`,
-            });
-
-
-            res.redirect('/dashboard/articles');
-
           });
-        } else {
-          // Send email notification to the author
-          sendMail({
-            from: '"Grovix Lab" <noreply.grovix@gmail.com>',
-            to: req.session.user.email,
-            subject: "Your Article Edits Have Been Requested for Review",
-            text: `Hello ${req.session.user.first_name},
-
-Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, your article will be private.
-
-If you have any questions, please contact our support team for assistance.
-
-Thank you for your understanding.
-
-Best regards,
-The Grovix Team`,
-
-            html: `<p>Hello ${req.session.user.first_name},</p>
-                 <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, your article will be private.</p>
-                 <p>If you have any questions, please contact our support team for assistance.</p>
-                 <p>Thank you for your understanding.</p>
-                 <p>Best regards,<br>The Grovix Team</p>`,
-          });
-
-
-          res.redirect('/dashboard/articles');
         }
+
+        // Send email notification to the author
+        sendMail({
+          from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+          to: user.email,
+          subject: "Your Article Edits Have Been Requested for Review",
+          text: `Hello ${user.first_name},
+
+Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, the current version of your article remains published.
+
+If you have any questions, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
+          html: `<p>Hello ${user.first_name},</p>
+                 <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, the current version of your article remains published.</p>
+                 <p>If you have any questions, please contact our support team for assistance.</p>
+                 <p>Thank you for your understanding.</p>
+                 <p>Best regards,<br>The Grovix Team</p>`,
+        });
+
+        res.redirect('/dashboard/articles');
+      } else {
+        res.render('error', { title: "404", status: 404, message: "Article not found", style: ['error'], user });
       }
+    } else {
+      res.render('dashboard/edit', { title: "Edit Article", style: ['dashboard', 'regform'], article, error: { message: "Please fill in all fields" }, user });
     }
-    res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
-    console.error(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
 });
+
+// Approve article update
+router.post('/admin/article/approve/:updation_id', isAdmin, async (req, res, next) => {
+  try {
+    const updationId = req.params.updation_id;
+    const updation = await Updation.findById(updationId).lean();
+
+    if (updation) {
+      const { article_id, title, description, category, body } = updation;
+
+      await Article.updateOne({ _id: article_id }, { title, description, category, body, updated_at: new Date() });
+      await Updation.deleteOne({ _id: updationId });
+
+      // Notify the author
+      const user = await User.findById(updation.author_id).lean();
+      sendMail({
+        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+        to: user.email,
+        subject: "Your Article Edits Have Been Approved",
+        text: `Hello ${user.first_name},
+
+Your edits for the article titled "${title}" have been approved and published.
+
+Thank you for your contribution.
+
+Best regards,
+The Grovix Team`,
+        html: `<p>Hello ${user.first_name},</p>
+               <p>Your edits for the article titled "<strong>${title}</strong>" have been approved and published.</p>
+               <p>Thank you for your contribution.</p>
+               <p>Best regards,<br>The Grovix Team</p>`,
+      });
+
+      res.redirect('/admin/articles');
+    } else {
+      res.render('error', { title: "404", status: 404, message: "Updation not found", style: ['error'], user: req.session.user ? req.session.user : false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Cancel article update
+router.post('/admin/article/cancel/:updation_id', isAdmin, async (req, res, next) => {
+  try {
+    const updationId = req.params.updation_id;
+    const updation = await Updation.findById(updationId).lean();
+
+    if (updation) {
+      const { article_id, author_id, title, description, category, body, created_time, updated_at } = updation;
+
+      // Move to ArticleEditsBin
+      const articleEditsBinData = {
+        article_id,
+        author_id,
+        title,
+        description,
+        category,
+        body,
+        created_time,
+        updated_at: new Date(),
+        status: 'canceled',
+      };
+
+      const articleEditsBin = new ArticleEditsBin(articleEditsBinData);
+      await articleEditsBin.save();
+      await Updation.deleteOne({ _id: updationId });
+
+      // Notify the author
+      const user = await User.findById(author_id).lean();
+      sendMail({
+        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+        to: user.email,
+        subject: "Your Article Edits Have Been Canceled",
+        text: `Hello ${user.first_name},
+
+Your edits for the article titled "${title}" have been canceled by the admin. The current version of your article remains published.
+
+If you have any questions, please contact our support team for assistance.
+
+Best regards,
+The Grovix Team`,
+        html: `<p>Hello ${user.first_name},</p>
+               <p>Your edits for the article titled "<strong>${title}</strong>" have been canceled by the admin. The current version of your article remains published.</p>
+               <p>If you have any questions, please contact our support team for assistance.</p>
+               <p>Best regards,<br>The Grovix Team</p>`,
+      });
+
+      res.redirect('/admin/articles');
+    } else {
+      res.render('error', { title: "404", status: 404, message: "Updation not found", style: ['error'], user: req.session.user ? req.session.user : false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
 
 // Block or Unblock User
 router.post('/admin/users/block/:user_id', isAdmin, async (req, res, next) => {
