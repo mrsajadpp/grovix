@@ -936,7 +936,7 @@ The Grovix Team`,
 });
 
 // Approve article update
-router.post('/admin/article/approve/:updation_id', isAdmin, async (req, res, next) => {
+router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
   try {
     const updationId = req.params.updation_id;
     const updation = await Updation.findById(updationId).lean();
@@ -978,7 +978,7 @@ The Grovix Team`,
 });
 
 // Cancel article update
-router.post('/admin/article/cancel/:updation_id', isAdmin, async (req, res, next) => {
+router.get('/article/cancel/:updation_id', isAdmin, async (req, res, next) => {
   try {
     const updationId = req.params.updation_id;
     const updation = await Updation.findById(updationId).lean();
