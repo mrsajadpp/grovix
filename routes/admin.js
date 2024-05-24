@@ -3,6 +3,8 @@ var router = express.Router();
 const User = require('../models/user');
 const Code = require('../models/code');
 const Article = require('../models/article');
+const Updation = require('../models/updation');
+const ArticleEditsBin = require('../models/editBin');
 const { default: mongoose } = require('mongoose');
 let fs = require('fs');
 
@@ -79,6 +81,72 @@ router.get('/articles/pending', isAdmin, async (req, res, next) => {
     console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+  }
+});
+
+// Route to get pending article edits
+router.get('/articles/edits', isAdmin, async (req, res, next) => {
+  try {
+    const article_list = await Updation.find({ status: 'pending' }).lean();
+    res.render('admin/edits', {
+      title: "Pending Edits >> Articles >> Admin",
+      style: ['dashboard'],
+      article_list,
+      user: req.session && req.session.user ? req.session.user : false
+    });
+  } catch (error) {
+    console.error(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false
+    });
+  }
+});
+
+// Route to preview article edit
+router.get('/article/edits/prev/:updation_id', isAdmin, async (req, res, next) => {
+  try {
+    const updationId = req.params.updation_id;
+    const updation = await Updation.findById(updationId).lean();
+
+    if (updation) {
+      res.render('admin/preview', {
+        title: "Preview Article Edit",
+        style: ['dashboard', 'article'],
+        article: updation, // Pass the updation details to the template
+        user: req.session && req.session.user ? req.session.user : false
+      });
+    } else {
+      res.render('error', { title: "404", status: 404, message: "Article edit not found", style: ['error'], user: req.session.user ? req.session.user : false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
+// Route to preview article pending
+router.get('/article/prev/:updation_id', isAdmin, async (req, res, next) => {
+  try {
+    const updationId = req.params.updation_id;
+    const updation = await Article.findById(updationId).lean();
+
+    if (updation) {
+      res.render('admin/preview', {
+        title: "Preview Article Pending",
+        style: ['dashboard', 'article'],
+        article: updation, // Pass the updation details to the template
+        user: req.session && req.session.user ? req.session.user : false
+      });
+    } else {
+      res.render('error', { title: "404", status: 404, message: "Article edit not found", style: ['error'], user: req.session.user ? req.session.user : false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
 });
 

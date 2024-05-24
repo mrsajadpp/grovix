@@ -6,14 +6,14 @@
         <div class="seLeft">
             <a href="/admin/articles">
                 <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
-                        style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"
+                        focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
                         <path
                             d="M14.97 16.95 10 13.87V7h2v5.76l4.03 2.49-1.06 1.7zM12 2C8.73 2 5.8 3.44 4 5.83V3.02H2V9h6V7H5.62C7.08 5.09 9.36 4 12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8H2c0 5.51 4.49 10 10 10s10-4.49 10-10S17.51 2 12 2z">
                         </path>
                     </svg>
                 </button>
-                <span class="sepText">Approved</span>
+                <span class="sepText ">Approved</span>
             </a>
         </div>
         <div class="seRight">
@@ -29,21 +29,8 @@
                 <span class="sepText">Locked</span>
             </a>
         </div>
-        <div class="seRight selected">
-            <a href="/admin/articles/pending">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="active" height="24" viewBox="0 0 24 24" width="24"
-                        focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
-                        <path
-                            d="M14.97 16.95 10 13.87V7h2v5.76l4.03 2.49-1.06 1.7zM12 3c-4.96 0-9 4.04-9 9s4.04 9 9 9 9-4.04 9-9-4.04-9-9-9m0-1c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z">
-                        </path>
-                    </svg>
-                </button>
-                <span class="sepText active">Pending</span>
-            </a>
-        </div>
         <div class="seRight">
-            <a href="/admin/articles/edits">
+            <a href="/admin/articles/pending">
                 <button>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
                         style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
@@ -52,7 +39,20 @@
                         </path>
                     </svg>
                 </button>
-                <span class="sepText">Pending Edits</span>
+                <span class="sepText">Pending</span>
+            </a>
+        </div>
+        <div class="seRight  selected">
+            <a href="/admin/articles/edits">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="active" height="24" viewBox="0 0 24 24" width="24" focusable="false"
+                        style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                        <path
+                            d="M14.97 16.95 10 13.87V7h2v5.76l4.03 2.49-1.06 1.7zM12 3c-4.96 0-9 4.04-9 9s4.04 9 9 9 9-4.04 9-9-4.04-9-9-9m0-1c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z">
+                        </path>
+                    </svg>
+                </button>
+                <span class="sepText active">Pending Edits</span>
             </a>
         </div>
     </div>
@@ -63,7 +63,7 @@
     <div class="articles">
         {{#if article_list}}
         {{#each article_list}}
-        <div class="article" onclick="location.href = '/admin/article/prev/{{this._id}}'">
+        <div class="article" onclick="location.href = '/admin/article/edits/prev/{{this._id}}'">
             <div class="articleCont">
                 <div class="articleImg">
                     <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
@@ -83,7 +83,7 @@
                         </button>
                     </div>
                     <div class="deleteIcon">
-                        <button onclick="confirmDelete('{{this._id}}')">
+                        <button onclick="confirmCancel('{{this._id}}')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 style="fill: rgba(0, 0, 0, 1);">
                                 <path
@@ -111,21 +111,32 @@
         var userInput = prompt("To delete this article, please type 'DELETE THIS ARTICLE' in capital letters:");
         if (userInput === "DELETE THIS ARTICLE") {
             // If the user input matches the required text, proceed with the deletion
-            window.location.href = '/article/admin/delete/' + articleId;
+            window.location.href = '/article/delete/' + articleId;
         } else {
             // If the user input doesn't match, show an alert
-            alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+            alert("Invalid input. Please type 'DELETE THIS ARTICLE' in capital letters to delete the article.");
         }
     }
 
     function confirmApprove(articleId) {
-        var userInput = prompt("To approv this article, please type 'APPROVE THIS ARTICLE' in capital letters:");
+        var userInput = prompt("To approve this article, please type 'APPROVE THIS ARTICLE' in capital letters:");
         if (userInput === "APPROVE THIS ARTICLE") {
-            // If the user input matches the required text, proceed with the deletion
-            window.location.href = '/article/admin/approve/' + articleId;
+            // If the user input matches the required text, proceed with the approval
+            window.location.href = '/article/approve/' + articleId;
         } else {
             // If the user input doesn't match, show an alert
-            alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+            alert("Invalid input. Please type 'APPROVE THIS ARTICLE' in capital letters to approve the article.");
+        }
+    }
+
+    function confirmCancel(articleId) {
+        var userInput = prompt("To cancel this article update, please type 'CANCEL THIS UPDATE' in capital letters:");
+        if (userInput === "CANCEL THIS UPDATE") {
+            // If the user input matches the required text, proceed with the cancellation
+            window.location.href = '/article/cancel/' + articleId;
+        } else {
+            // If the user input doesn't match, show an alert
+            alert("Invalid input. Please type 'CANCEL THIS UPDATE' in capital letters to cancel the update.");
         }
     }
 </script>
