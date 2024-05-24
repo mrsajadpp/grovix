@@ -107,16 +107,38 @@ router.get('/page/:endpoint', async (req, res, next) => {
 // Recover Page
 router.get('/reset/:page_id', isNotAuthorised, async (req, res, next) => {
   try {
-    let page = await Page.findOne({ _id: new mongoose.Types.ObjectId(req.params.page_id), status: true }).lean();
-    let user = await User.findOne({ _id: new mongoose.Types.ObjectId(page.user_id) }).lean();
-    if (page && user) {
-      let newP = await Page.findById(page._id);
-      newp.status = false;
-      await newP.save();
-      res.render('user/reset', { title: "New Password", style: ['resform'], user, user: req.session && req.session.user ? req.session.user : false });
+    const pageId = new mongoose.Types.ObjectId(req.params.page_id);
+    const page = await Page.findOne({ _id: pageId, status: true }).lean();
+
+    if (!page) {
+      throw new Error('Invalid or expired reset link.');
+    }
+
+    const user = await User.findOne({ _id: new mongoose.Types.ObjectId(page.user_id) }).lean();
+
+    if (user) {
+      const newPage = await Page.findById(page._id);
+      newPage.status = false;
+      await newPage.save();
+
+      res.render('user/reset', {
+        title: "New Password",
+        style: ['regform'],
+        user,
+        sessionUser: req.session && req.session.user ? req.session.user : false,
+      });
+    } else {
+      throw new Error('User not found.');
     }
   } catch (error) {
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+    console.error(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false,
+    });
   }
 });
 

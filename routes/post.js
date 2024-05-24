@@ -1105,7 +1105,7 @@ router.post('/auth/recover/create', async (req, res, next) => {
     // Find the user by email
     const user = await User.findOne({ email: userEmail }).lean();
     if (user) {
-      const page = await new Page({ user_id: user._id, created_time: new Date() });
+      const page = await new Page({ user_id: user._id, created_time: new Date(), status: true });
       await page.save();
 
       console.log(page);
@@ -1143,7 +1143,7 @@ The Grovix Team`,
       res.redirect('/auth/recover?error=User not found');
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.render('error', {
       title: "500",
       status: 500,
