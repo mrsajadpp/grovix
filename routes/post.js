@@ -108,18 +108,20 @@ const isNotAuthorised = (req, res, next) => {
   }
 }
 
+// Signup Route
 router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
   try {
-    if (req.body.first_name && req.body.last_name && req.body.email && req.body.phone && req.body.password && req.body.terms_accept) {
-      let userExist = await User.findOne({ email: req.body.email }).lean();
+    const { first_name, last_name, email, phone, password, terms_accept } = req.body;
+
+    if (first_name && last_name && email && phone && password && terms_accept) {
+      let userExist = await User.findOne({ email: email.toLowerCase() }).lean();
       if (!userExist) {
-        const hashedPass = await crypash.hash('sha256', req.body.password);
-        console.log(hashedPass);
-        let userData = await {
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          email: await req.body.email.toLowerCase(),
-          contact_no: req.body.phone,
+        const hashedPass = await crypash.hash('sha256', password);
+        const userData = {
+          first_name,
+          last_name,
+          email: email.toLowerCase(),
+          contact_no: phone,
           password: hashedPass,
           date: new Date(),
           admin: false,
@@ -140,39 +142,33 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
         const user = new User(userData);
         await user.save();
 
-        // Generate a TOTP code using the secret key 
-        const code = await speakeasy.totp({
-
-          // Use the Base32 encoding of the secret key 
-          secret: secret.base32,
-
-          // Tell Speakeasy to use the Base32  
-          // encoding format for the secret key 
+        // Generate a TOTP code using the secret key
+        const code = speakeasy.totp({
+          secret: secret.base32, // Ensure 'secret' is defined
           encoding: 'base32'
         });
 
-        let verification = {
+        const verification = {
           user_id: user._id,
           verification_code: code,
           created_time: new Date()
-        }
+        };
 
         const verification_code = new Code(verification);
         await verification_code.save();
-        console.log(verification_code);
 
         sendMail({
-          from: '"Grovix Lab" noreply.grovix@gmail.com',
+          from: '"Grovix Lab" <noreply.grovix@gmail.com>',
           to: userData.email,
           subject: "Your One-Time Verification Code",
           text: `Hello,
-        
-        Your verification code is: ${code}
-        
-        Please use this code to complete your verification process.
-        
-        Thank you,
-        The Grovix Team`,
+
+Your verification code is: ${code}
+
+Please use this code to complete your verification process.
+
+Thank you,
+The Grovix Team`,
           html: `<p>Hello,</p>
                  <p>Your verification code is: <strong>${code}</strong></p>
                  <p>Please use this code to complete your verification process.</p>
@@ -182,16 +178,14 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
         res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: user._id });
       } else {
         if (userExist.verified) {
-          res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: 'User already exist, Please try to login.' } });
+          res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: 'User already exists, please try to login.' } });
         } else {
-
-          const hashedPass = await crypash.hash('sha256', req.body.password);
-
-          let userData = await {
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            email: await req.body.email.toLowerCase(),
-            contact_no: req.body.phone,
+          const hashedPass = await crypash.hash('sha256', password);
+          const userData = {
+            first_name,
+            last_name,
+            email: email.toLowerCase(),
+            contact_no: phone,
             password: hashedPass,
             date: new Date(),
             admin: false,
@@ -209,38 +203,33 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
             }
           };
 
-          let user = await User.updateOne({ _id: userExist._id }, userData);
+          await User.updateOne({ _id: userExist._id }, userData);
 
-          // Generate a TOTP code using the secret key 
-          const code = await speakeasy.totp({
-
-            // Use the Base32 encoding of the secret key 
+          const code = speakeasy.totp({
             secret: secret.base32,
-
-            // Tell Speakeasy to use the Base32  
-            // encoding format for the secret key 
             encoding: 'base32'
           });
 
-          let verification = {
+          const verification = {
             user_id: userExist._id.toString(),
             verification_code: code,
             created_time: new Date()
-          }
-          const one_time_code = await Code.updateOne({ user_id: userExist._id.toString() }, verification);
+          };
+
+          await Code.updateOne({ user_id: userExist._id.toString() }, verification);
 
           sendMail({
-            from: '"Grovix Lab" noreply.grovix@gmail.com',
+            from: '"Grovix Lab" <noreply.grovix@gmail.com>',
             to: userData.email,
             subject: "Your One-Time Verification Code",
             text: `Hello,
-          
-          Your verification code is: ${code}
-          
-          Please use this code to complete your verification process.
-          
-          Thank you,
-          The Grovix Team`,
+
+Your verification code is: ${code}
+
+Please use this code to complete your verification process.
+
+Thank you,
+The Grovix Team`,
             html: `<p>Hello,</p>
                    <p>Your verification code is: <strong>${code}</strong></p>
                    <p>Please use this code to complete your verification process.</p>
@@ -257,7 +246,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
     console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
-})
+});
 
 // Verify New User
 router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next) => {
