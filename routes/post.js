@@ -581,7 +581,7 @@ router.get('/article/delete/:article_id', isAuthorised, async (req, res, next) =
 
     if (articleId) {
       // Find the article by ID and author ID
-      let article = await Article.findOneAndDelete({ _id: mongoose.Types.ObjectId(articleId), author_id: userId });
+      let article = await Article.findOneAndDelete({ _id: new mongoose.Types.ObjectId(articleId), author_id: userId });
 
       if (article) {
         // Move the article to the ArticleBin
@@ -637,10 +637,10 @@ router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, n
 
     if (articleId) {
       // Check if the user is an admin
-      const user = await User.findOne({ _id: mongoose.Types.ObjectId(adminUserId) }).lean();
+      const user = await User.findOne({ _id: new mongoose.Types.ObjectId(adminUserId) }).lean();
       if (user && user.admin) {
         // Find the article
-        const article = await Article.findOneAndDelete({ _id: mongoose.Types.ObjectId(articleId) });
+        const article = await Article.findOneAndDelete({ _id: new mongoose.Types.ObjectId(articleId) });
 
         if (article) {
           // Move the article to the ArticleBin
@@ -648,7 +648,7 @@ router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, n
           await deletedArticle.save();
 
           // Find the article's author to send the notification email
-          const author = await User.findOne({ _id: mongoose.Types.ObjectId(article.author_id) }).lean();
+          const author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
 
           if (author) {
             // Send email notification to the article's author
@@ -745,18 +745,18 @@ router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, ne
 
     if (articleId) {
       // Check if the user is an admin
-      const user = await User.findOne({ _id: mongoose.Types.ObjectId(adminUserId) });
+      const user = await User.findOne({ _id: new mongoose.Types.ObjectId(adminUserId) });
       if (user && user.admin) {
         // Lock the article by updating its status
         const article = await Article.findOneAndUpdate(
-          { _id: mongoose.Types.ObjectId(articleId) },
+          { _id: new mongoose.Types.ObjectId(articleId) },
           { status: 'locked' },
           { new: true }
         );
 
         if (article) {
           // Find the article's author to send the notification email
-          const author = await User.findOne({ _id: mongoose.Types.ObjectId(article.author_id) }).lean();
+          const author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
 
           if (author) {
             // Send email notification to the article's author
@@ -808,18 +808,18 @@ router.get('/article/admin/unblock/:article_id', isAuthorised, async (req, res, 
 
     if (articleId) {
       // Check if the user is an admin
-      const user = await User.findOne({ _id: mongoose.Types.ObjectId(adminUserId) });
+      const user = await User.findOne({ _id: new mongoose.Types.ObjectId(adminUserId) });
       if (user && user.admin) {
         // Unlock the article by updating its status
         const article = await Article.findOneAndUpdate(
-          { _id: mongoose.Types.ObjectId(articleId) },
+          { _id: new mongoose.Types.ObjectId(articleId) },
           { status: true }, // Assuming 'unlocked' is the status you want to set
           { new: true }
         );
 
         if (article) {
           // Find the article's author to send the notification email
-          const author = await User.findOne({ _id: mongoose.Types.ObjectId(article.author_id) }).lean();
+          const author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
 
           if (author) {
             // Send email notification to the article's author
@@ -871,7 +871,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
     const articleId = req.params.article_id;
 
     if (title && description && category && content) {
-      const article = await Article.findOne({ _id: mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
+      const article = await Article.findOne({ _id: new mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
 
       if (article) {
         const updateData = {
