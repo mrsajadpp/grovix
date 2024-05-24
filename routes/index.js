@@ -46,6 +46,7 @@ const isNotAuthorised = (req, res, next) => {
       next();
     }
   } catch (error) {
+    console.error(error);
     console.error("Error:", err);
   }
 }
@@ -100,6 +101,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
       res.render('error', { title: "404", status: 404, message: "Not found", style: ['error'], user: req.session && req.session.user ? req.session.user : false });
     }
   } catch (error) {
+    console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -131,6 +133,7 @@ router.get('/reset/:page_id', isNotAuthorised, async (req, res, next) => {
       throw new Error('User not found.');
     }
   } catch (error) {
+    console.error(error);
     console.error(error);
     res.render('error', {
       title: "500",
@@ -168,6 +171,7 @@ ${article_list.map(article => {
 
     res.send(xmlContent);
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }

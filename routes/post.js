@@ -86,6 +86,7 @@ const isAuthorised = (req, res, next) => {
       }
     }
   } catch (error) {
+    console.error(error);
 
   }
 }
@@ -102,6 +103,7 @@ const isNotAuthorised = (req, res, next) => {
       next();
     }
   } catch (error) {
+    console.error(error);
     console.error("Error:", err);
   }
 }
@@ -109,14 +111,14 @@ const isNotAuthorised = (req, res, next) => {
 router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
   try {
     if (req.body.first_name && req.body.last_name && req.body.email && req.body.phone && req.body.password && req.body.terms_accept) {
-      let userExist = await User.findOne({ email: req.body.email });
+      let userExist = await User.findOne({ email: req.body.email }).lean();
       if (!userExist) {
         const hashedPass = await crypash.hash('sha256', req.body.password);
         console.log(hashedPass);
         let userData = await {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
-          email: req.body.email.toLowerCase(),
+          email: await req.body.email.toLowerCase(),
           contact_no: req.body.phone,
           password: hashedPass,
           date: new Date(),
@@ -188,7 +190,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
           let userData = await {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
-            email: req.body.email.toLowerCase(),
+            email: await req.body.email.toLowerCase(),
             contact_no: req.body.phone,
             password: hashedPass,
             date: new Date(),
@@ -252,6 +254,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
       res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: 'Please enter valid information.' } });
     }
   } catch (error) {
+    console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 })
@@ -303,6 +306,7 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
       res.redirect('/auth/signup');
     }
   } catch (error) {
+    console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 })
@@ -364,6 +368,7 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
       res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Please enter valid data" } });
     }
   } catch (error) {
+    console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -401,6 +406,7 @@ The Grovix Team`,
     res.redirect('/auth/login');
   } catch (error) {
     console.error(error);
+    console.error(error);
     res.render('error', {
       title: "500",
       status: 500,
@@ -432,7 +438,6 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
     console.log(req.body);
 
     if (first_name && last_name && phone && sex && bio && address_line_one && address_line_two && country && state && city && zip_code) {
-      console.log('hi');
       let userData = await {
         first_name: first_name,
         last_name: last_name,
@@ -484,6 +489,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Please fill blank input box." } });
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -570,6 +576,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
     }
 
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -625,6 +632,7 @@ The Grovix Team`,
       res.redirect('/dashboard/articles?error=Invalid article ID');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -687,6 +695,7 @@ The Grovix Team`,
       res.redirect('/admin/articles?error=Invalid article ID');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -731,6 +740,7 @@ router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, 
       res.redirect('/admin/articles');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -793,6 +803,7 @@ The Grovix Team`,
       res.redirect('/admin/articles?error=Invalid article ID');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -855,6 +866,7 @@ The Grovix Team`,
       res.redirect('/admin/articles?error=Invalid article ID');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -956,6 +968,7 @@ The Grovix Team`,
     res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
+    console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -1000,6 +1013,7 @@ The Grovix Team`,
       res.redirect('/admin/users?error=User not found');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -1046,6 +1060,7 @@ The Grovix Team`,
       res.redirect('/admin/users?error=User not found');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -1091,6 +1106,7 @@ The Grovix Team`,
       res.redirect('/admin/users?error=User not found');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
@@ -1144,6 +1160,7 @@ The Grovix Team`,
     }
   } catch (error) {
     console.error(error);
+    console.error(error);
     res.render('error', {
       title: "500",
       status: 500,
@@ -1196,6 +1213,7 @@ The Grovix Team`,
       res.redirect('/auth/recover?error=User not found');
     }
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', {
       title: "500",
@@ -1228,6 +1246,7 @@ router.post('/admin/send', isAdmin, async (req, res, next) => {
     }
 
   } catch (error) {
+    console.error(error);
     console.log(error);
     res.render('error', {
       title: "500",

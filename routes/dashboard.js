@@ -17,6 +17,7 @@ const isAuthorised = (req, res, next) => {
       }
     }
   } catch (error) {
+    console.error(error);
 
   }
 }
@@ -56,6 +57,7 @@ router.get('/articles/pending', isAuthorised, async (req, res, next) => {
     const article_list = await Article.find({ author_id: req.session.user._id, status: false }).lean();
     res.render('dashboard/pending_articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
+    console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -69,6 +71,7 @@ router.get('/earnings', isAuthorised, async (req, res, next) => {
     const articles_graph = (article_list.length / 15) * 100;
     res.render('dashboard/earnings', { title: "Earnings >> Dashboard", style: ['dashboard', 'earnings'], articles_graph, views_graph, articles: 15 - article_list.length, views: 10000 - total_views, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
+    console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -98,6 +101,7 @@ router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {
     let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
     res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
+    console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
