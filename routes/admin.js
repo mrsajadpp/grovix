@@ -78,6 +78,16 @@ router.get('/articles/pending', isAdmin, async (req, res, next) => {
   }
 });
 
+// Alert
+router.get('/alert', isAdmin, async (req, res, next) => {
+  try {
+    res.render('admin/alert', { title: "Alert", style: ['dashboard', 'regform'], user: req.session && req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.log(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+  }
+});
+
 // Users
 router.get('/users', isAdmin, async (req, res, next) => {
   try {

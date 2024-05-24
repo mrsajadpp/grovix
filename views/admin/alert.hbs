@@ -1,1 +1,34 @@
 {{>headers/admin/alert}}
+
+<style>
+    .container .regForm .textBox textarea {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: #f0f0f0;
+        padding-left: 10px;
+        border-radius: 5px !important;
+    }
+</style>
+
+<div class="container">
+    <form action="/admin/send" method="post" class="regForm">
+        <div class="inputBox">
+            <input type="text" name="subject" id="subject" placeholder="Subject*" required>
+        </div>
+        <div class="textBox">
+            <textarea name="body" id="body" placeholder="Message*" required></textarea>
+        </div>
+        {{#if error}}
+        <div class="inputText">
+            <span class="textMsg" style="color: red;">{{error.message}}</span>
+        </div>
+        {{/if}}
+        <div class="inputBox">
+            <button>
+                Send
+            </button>
+        </div>
+    </form>
+</div>
+<br><br>

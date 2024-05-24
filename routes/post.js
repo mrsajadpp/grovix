@@ -1207,4 +1207,36 @@ The Grovix Team`,
   }
 });
 
+// Admin alert
+router.post('/admin/send', isAdmin, async (req, res, next) => {
+  try {
+
+    if (req.body.subject && req.body.body) {
+      let users = await User.find().lean();
+      users.forEach(user => {
+        // Send email notification to the user
+        sendMail({
+          from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+          to: user.email,
+          subject: req.body.subject,
+          text: req.body.body,
+
+          html: req.body.body,
+        });
+      });
+      res.redirect('/admin/alert');
+    }
+
+  } catch (error) {
+    console.log(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false
+    });
+  }
+});
+
 module.exports = router;
