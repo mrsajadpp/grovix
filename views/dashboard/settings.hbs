@@ -114,6 +114,11 @@
         <div class="inputBox">
             <input type="text" placeholder="Zip Code*" name="zip_code" id="bio" value="{{user.address.zip_code}}">
         </div>
+        {{#if error}}
+        <div class="inputText">
+            <span class="textMsg" style="color: red;">{{error.message}}</span>
+        </div>
+        {{/if}}
         <!-- <div class="inputText">
                 <input type="checkbox" name="terms_accept" id="terms">
                 <span>
