@@ -82,7 +82,7 @@ router.get('/articles/pending', isAdmin, async (req, res, next) => {
 router.get('/users', isAdmin, async (req, res, next) => {
   try {
     const user_list = await User.find({ _id: { $ne: new mongoose.Types.ObjectId(req.session.user._id) } }).lean();
-    res.render('admin/users', { title: "Users >> Admin", style: ['dashboard'], user_list, user: req.session && req.session.user ? req.session.user : false });
+    res.render('admin/users', { title: "Users >> Admin", style: ['dashboard'], user_list, totalUsers: user_list.length, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.log(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });

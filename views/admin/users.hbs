@@ -4,6 +4,10 @@
   <table class="user-table">
     <thead>
       <tr>
+        <th style="color: green;">Total Users:</th>
+        <th style="color: green;">{{totalUsers}}</th>
+      </tr>
+      <tr>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email</th>
@@ -22,8 +26,8 @@
         <td>{{this.email}}</td>
         <td>{{this.contact_no}}</td>
         <td>{{#if this.admin}}Yes{{else}}No{{/if}}</td>
-        <td>{{#if this.verified}}Yes{{else}}No{{/if}}</td>
-        <td>{{#if this.status}}Active{{else}}Blocked{{/if}}</td>
+        <td>{{#if this.verified}}<span style="color: geen;">Yes</span>{{else}}<span style="color: orange;">No</span>{{/if}}</td>
+        <td>{{#if this.status}}<span style="color: geen;">Active</span>{{else}}<span style="color: red;">Blocked</span>{{/if}}</td>
         <td>
           <form action="/admin/users/block/{{this._id}}" method="POST" class="block-form" style="display:inline;">
             <button type="button" onclick="confirmBlock(this.form, '{{this.first_name}}')">{{#if this.status}}Block{{else}}Unblock{{/if}}</button>
