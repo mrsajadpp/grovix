@@ -63,12 +63,12 @@
     <div class="articles">
         {{#if article_list}}
         {{#each article_list}}
-        <div class="article" onclick="location.href = '/admin/article/edits/prev/{{this._id}}'">
-            <div class="articleCont">
-                <div class="articleImg">
+        <div class="article" >
+            <div class="articleCont"> 
+                <div onclick="location.href = '/admin/article/edits/prev/{{this._id}}'" class="articleImg">
                     <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
                 </div>
-                <div class="articleContent">
+                <div onclick="location.href = '/admin/article/edits/prev/{{this._id}}'" class="articleContent">
                     <h4>{{this.title}}</h4>
                     <p>{{this.description}}</p>
                 </div>
