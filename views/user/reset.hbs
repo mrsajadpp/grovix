@@ -1,0 +1,25 @@
+<div class="container">
+    <form action="/auth/pass/new" method="post" class="regForm">
+        <div class="inputImage">
+            <img src="/img/logo.png" alt="">
+        </div>
+        <div class="inputBox">
+            <input type="password" name="password" id="otp" placeholder="New Password*">
+            <input type="email" name="email" hidden value="{{user.email}}" id="">
+        </div>
+        {{#if error}}
+        <div class="inputText">
+            <span class="textMsg" style="color: red;">{{error.message}}</span>
+        </div>
+        {{/if}}
+        <div class="inputBox">
+            <button>
+                Change Password
+            </button>
+        </div>
+        <div class="inputText">
+            <span>This link only works one time. If you have opened this page, you need to generate a new link. Please
+                do not refresh this page.</span>
+        </div>
+    </form>
+</div>

@@ -10,6 +10,10 @@ const codeSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    status: {
+        type: Boolean,
+        require: true,
+    },
 });
 
 const Page = mongoose.model('RecoveryPage', codeSchema);

@@ -1154,4 +1154,57 @@ The Grovix Team`,
   }
 });
 
+
+// Password Update
+router.post('/auth/pass/new', async (req, res, next) => {
+  try {
+    const { password, email } = req.body;
+
+    // Hash the new password
+    const hashedPassword = await hash(password, 10);
+
+    // Find the user by email
+    const user = await User.findOne({ email }).lean();
+    if (user) {
+      // Update the user's password
+      let upUser = await User.findById(user._id);
+      upUser.password = hashedPassword;
+      await upUser.save();
+
+      // Send email notification to the user
+      sendMail({
+        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+        to: user.email,
+        subject: "Your Password Has Been Reset",
+        text: `Hello ${user.first_name},
+
+This is to confirm that your password has been successfully reset. If you did not request this change, please contact our support team immediately.
+
+Thank you.
+
+Best regards,
+The Grovix Team`,
+
+        html: `<p>Hello ${user.first_name},</p>
+               <p>This is to confirm that your password has been successfully reset. If you did not request this change, please contact our support team immediately.</p>
+               <p>Thank you.</p>
+               <p>Best regards,<br>The Grovix Team</p>`,
+      });
+
+      res.redirect('/auth/login');
+    } else {
+      res.redirect('/auth/recover?error=User not found');
+    }
+  } catch (error) {
+    console.log(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false
+    });
+  }
+});
+
 module.exports = router;

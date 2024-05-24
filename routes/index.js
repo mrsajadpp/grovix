@@ -1,6 +1,7 @@
 var express = require('express');
 const User = require('../models/user');
 const Article = require('../models/article');
+const Page = require('../models/page');
 let mongoose = require('mongoose');
 const SitemapGenerator = require('sitemap-generator');
 
@@ -103,6 +104,22 @@ router.get('/page/:endpoint', async (req, res, next) => {
   }
 });
 
+// Recover Page
+router.get('/reset/:page_id', isNotAuthorised, async (req, res, next) => {
+  try {
+    let page = await Page.findOne({ _id: new mongoose.Types.ObjectId(req.params.page_id), status: true }).lean();
+    let user = await User.findOne({ _id: new mongoose.Types.ObjectId(page.user_id) }).lean();
+    if (page && user) {
+      let newP = await Page.findById(page._id);
+      newp.status = false;
+      await newP.save();
+      res.render('user/reset', { title: "New Password", style: ['resform'], user, user: req.session && req.session.user ? req.session.user : false });
+    }
+  } catch (error) {
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+  }
+});
+
 // Articles Sitemap.xml
 router.get('/articles.xml', async (req, res, next) => {
   try {
@@ -138,6 +155,6 @@ ${article_list.map(article => {
 router.get('/robots.txt', (req, res) => {
   res.type('text/plain');
   res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
-}); 
+});
 
 module.exports = router; 
