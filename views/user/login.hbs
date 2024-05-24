@@ -8,6 +8,10 @@
         </div>
         <div class="inputBox">
             <input type="password" placeholder="Password" name="password" id="password">
+            <button type="button" id="togglePassword"
+                style="margin-left: -30px; background: none; border: none; cursor: pointer;">
+                👁️
+            </button>
         </div>
         <div class="inputText">
             <span>
@@ -29,3 +33,12 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.textContent = type === 'password' ? '👁️' : '🔒';
+    });
+</script>

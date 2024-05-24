@@ -37,6 +37,11 @@
     margin-top: 20px;
     border-radius: 5px !important;
     overflow: hidden;
+    background: #f0f0f0;
+}
+
+#togglePassword {
+    width: 40px;
 }
 
 .container .regForm .textBox {
@@ -224,6 +229,8 @@ textarea {
     right: 10px;
     cursor: pointer;
 }
+
+
 
 
 @media (min-width: 550px) {
