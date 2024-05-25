@@ -67,9 +67,9 @@ router.get('/earnings', isAuthorised, async (req, res, next) => {
   try {
     const article_list = await Article.find({ author_id: req.session.user._id, status: true }).lean();
     const total_views = article_list.reduce((sum, article) => sum + (article.views || 0), 0);
-    const views_graph = (total_views / 10000) * 100;
+    const views_graph = (total_views / 20000) * 100;
     const articles_graph = (article_list.length / 15) * 100;
-    res.render('dashboard/earnings', { title: "Earnings >> Dashboard", style: ['dashboard', 'earnings'], articles_graph, views_graph, articles: 15 - article_list.length, views: 10000 - total_views, user: req.session && req.session.user ? req.session.user : false });
+    res.render('dashboard/earnings', { title: "Earnings >> Dashboard", style: ['dashboard', 'earnings'], articles_graph, views_graph, articles: 15 - article_list.length, views: 20000 - total_views, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
