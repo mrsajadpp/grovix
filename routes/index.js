@@ -93,18 +93,42 @@ router.get('/auth/recover', isNotAuthorised, (req, res, next) => {
 // Article
 router.get('/page/:endpoint', async (req, res, next) => {
   try {
-    let article = await Article.findOne({ endpoint: req.params.endpoint, status: true }).lean();
-    if (article && article.status) {
+    let article = await Article.findOneAndUpdate(
+      { endpoint: req.params.endpoint, status: true },
+      { $inc: { views: 1 } }, // Increment the views field by 1
+      { new: true } // Return the updated document
+    ).lean();
+
+    if (article) {
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
-      res.render('user/article', { title: article.title, style: ['article'], article: article, author, user: req.session && req.session.user ? req.session.user : false });
+      res.render('user/article', {
+        title: article.title,
+        style: ['article'],
+        article: article,
+        author,
+        user: req.session && req.session.user ? req.session.user : false
+      });
     } else {
-      res.render('error', { title: "404", status: 404, message: "Not found", style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+      res.render('error', {
+        title: "404",
+        status: 404,
+        message: "Not found",
+        style: ['error'],
+        user: req.session && req.session.user ? req.session.user : false
+      });
     }
   } catch (error) {
     console.error(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false
+    });
   }
 });
+
 
 // Recover Page
 router.get('/reset/:page_id', isNotAuthorised, async (req, res, next) => {
@@ -172,7 +196,7 @@ ${article_list.map(article => {
     res.send(xmlContent);
   } catch (error) {
     console.error(error);
-    
+
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
