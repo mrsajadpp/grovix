@@ -108,9 +108,9 @@
 
 <script>
     function confirmDelete(articleId) {
-        let reason = prompt("Enter the reson to delete this article!.");
+        let reason = prompt("Enter the reason to delete this article!.");
         var userInput = prompt("To delete this article, please type 'DELETE THIS ARTICLE' in capital letters:");
-        if (userInput === "DELETE THIS ARTICLE") {
+        if (userInput === "DELETE THIS ARTICLE" && reason) {
             // If the user input matches the required text, proceed with the deletion
             window.location.href = '/article/admin/delete/' + articleId + '/' + reason;
         } else {

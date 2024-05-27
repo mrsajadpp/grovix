@@ -110,9 +110,9 @@
 
 <script>
     function confirmDelete(articleId) {
-        var blokcReson = prompt("Enter delete reson!.");
+        var blokcReson = prompt("Enter delete reason!.");
         var userInput = prompt("To delete this article, please type 'DELETE THIS ARTICLE' in capital letters:");
-        if (userInput === "DELETE THIS ARTICLE") {
+        if (userInput === "DELETE THIS ARTICLE" && blokcReson) {
             // If the user input matches the required text, proceed with the deletion
             window.location.href = '/article/admin/delete/' + articleId + '/' + blokcReson;
         } else {
@@ -122,9 +122,9 @@
     }
 
     function confirmBlock(articleId) {
-        var blokcReson = prompt("Enter block reson!.");
+        var blokcReson = prompt("Enter block reason!.");
         var userInput = prompt("To block this article, please type 'BLOCK THIS ARTICLE' in capital letters:");
-        if (userInput === "BLOCK THIS ARTICLE") {
+        if (userInput === "BLOCK THIS ARTICLE" && blokcReson) {
             // If the user input matches the required text, proceed with the deletion
             window.location.href = '/article/admin/block/' + articleId + '/' + blokcReson;
         } else {
