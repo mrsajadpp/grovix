@@ -142,7 +142,7 @@ router.get('/article/prev/:updation_id', isAdmin, async (req, res, next) => {
         title: "Preview Article Pending",
         style: ['dashboard', 'article'],
         article: updation, // Pass the updation details to the template
-        auhtor,
+        author,
         user: req.session && req.session.user ? req.session.user : false
       });
     } else {
