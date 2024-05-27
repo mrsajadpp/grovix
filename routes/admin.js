@@ -111,12 +111,14 @@ router.get('/article/edits/prev/:updation_id', isAdmin, async (req, res, next) =
   try {
     const updationId = req.params.updation_id;
     const updation = await Updation.findById(updationId).lean();
+    const author = await User.findById(updation.author_id).lean();
 
     if (updation) {
       res.render('admin/preview', {
         title: "Preview Article Edit",
         style: ['dashboard', 'article'],
         article: updation, // Pass the updation details to the template
+        author,
         user: req.session && req.session.user ? req.session.user : false
       });
     } else {
@@ -133,12 +135,14 @@ router.get('/article/prev/:updation_id', isAdmin, async (req, res, next) => {
   try {
     const updationId = req.params.updation_id;
     const updation = await Article.findById(updationId).lean();
+    const author = await User.findById(updation.author_id).lean();
 
     if (updation) {
       res.render('admin/preview', {
         title: "Preview Article Pending",
         style: ['dashboard', 'article'],
         article: updation, // Pass the updation details to the template
+        auhtor,
         user: req.session && req.session.user ? req.session.user : false
       });
     } else {
