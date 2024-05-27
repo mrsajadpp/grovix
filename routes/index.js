@@ -62,32 +62,32 @@ function getCurrentDate() {
 
 // Home
 router.get('/', (req, res, next) => {
-  res.render('user/index', { title: "Grovix Lab", style: [], user: req.session && req.session.user ? req.session.user : false });
+  res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Trending
 router.get('/trending', (req, res, next) => {
-  res.render('user/trending', { title: "Trending", style: [], user: req.session && req.session.user ? req.session.user : false });
+  res.render('user/trending', { title: "Trending Articles Insights", description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.", url: 'https://www.grovixlab.com/trending', style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Categories
 router.get('/categories', (req, res, next) => {
-  res.render('user/categories', { title: "Category", style: [], user: req.session && req.session.user ? req.session.user : false });
+  res.render('user/categories', { title: "Article Categories, Explore Diverse Topics on Grovix Lab", description: "Explore diverse article categories on Grovix Lab. Find and read content on various topics tailored to your interests.", url: 'https://www.grovixlab.com/categories', style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Signup
 router.get('/auth/signup', isNotAuthorised, (req, res, next) => {
-  res.render('user/signup', { title: "Signup", style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
+  res.render('user/signup', { title: "Join Grovix Lab", description: "Join Grovix Lab today and start earning by writing articles. Sign up now to connect with businesses and boost your income with quality content.", url: 'https://www.grovixlab.com/auth/signup', style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // login
 router.get('/auth/login', isNotAuthorised, (req, res, next) => {
-  res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
+  res.render('user/login', { title: "Login to Grovix Lab", description: "Login to Grovix Lab to access your writing dashboard. Manage your articles, track your earnings, and connect with clients seamlessly.", url: 'https://www.grovixlab.com/auth/login', style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Recovery
 router.get('/auth/recover', isNotAuthorised, (req, res, next) => {
-  res.render('user/forgot', { title: "Recover Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
+  res.render('user/forgot', { title: "Recover Account", url: 'https://www.grovixlab.com/auth/recover', style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Article
@@ -106,6 +106,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
         style: ['article'],
         article: article,
         author,
+        url: `https://www.grovixlab.com/page/${article.endpoint}`,
         user: req.session && req.session.user ? req.session.user : false
       });
     } else {
@@ -151,6 +152,7 @@ router.get('/reset/:page_id', isNotAuthorised, async (req, res, next) => {
         title: "New Password",
         style: ['regform'],
         user,
+        url: `https://www.grovixlab.com/reset/${req.params.page_id}`,
         sessionUser: req.session && req.session.user ? req.session.user : false,
       });
     } else {
