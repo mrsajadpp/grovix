@@ -109,25 +109,26 @@
 </div>
 
 <script>
-function confirmDelete(articleId) {
-    var userInput = prompt("To delete this article, please type 'DELETE THIS ARTICLE' in capital letters:");
-    if (userInput === "DELETE THIS ARTICLE") {
-        // If the user input matches the required text, proceed with the deletion
-        window.location.href = '/article/admin/delete/' + articleId;
-    } else {
-        // If the user input doesn't match, show an alert
-        alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+    function confirmDelete(articleId) {
+        var userInput = prompt("To delete this article, please type 'DELETE THIS ARTICLE' in capital letters:");
+        if (userInput === "DELETE THIS ARTICLE") {
+            // If the user input matches the required text, proceed with the deletion
+            window.location.href = '/article/admin/delete/' + articleId;
+        } else {
+            // If the user input doesn't match, show an alert
+            alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+        }
     }
-}
 
-function confirmBlock(articleId) {
-    var userInput = prompt("To block this article, please type 'BLOCK THIS ARTICLE' in capital letters:");
-    if (userInput === "BLOCK THIS ARTICLE") {
-        // If the user input matches the required text, proceed with the deletion
-        window.location.href = '/article/admin/block/' + articleId;
-    } else {
-        // If the user input doesn't match, show an alert
-        alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+    function confirmBlock(articleId) {
+        var blokcReson = prompt("Enter block reson!.");
+        var userInput = prompt("To block this article, please type 'BLOCK THIS ARTICLE' in capital letters:");
+        if (userInput === "BLOCK THIS ARTICLE") {
+            // If the user input matches the required text, proceed with the deletion
+            window.location.href = '/article/admin/block/' + articleId + '/' + blokcReson;
+        } else {
+            // If the user input doesn't match, show an alert
+            alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+        }
     }
-}
 </script>

@@ -644,12 +644,13 @@ The Grovix Team`,
 });
 
 // Admin delete article
-router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, next) => {
+router.get('/article/admin/delete/:article_id/:delete_reason', isAuthorised, async (req, res, next) => {
   try {
     const articleId = req.params.article_id;
     const adminUserId = req.session.user._id;
+    const deleteReson = req.params.delete_reason;
 
-    if (articleId) {
+    if (articleId && deleteReson) {
       // Check if the user is an admin
       const user = await User.findOne({ _id: new mongoose.Types.ObjectId(adminUserId) }).lean();
       if (user && user.admin) {
@@ -672,7 +673,7 @@ router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, n
               subject: "Your Article Has Been Deleted by Admin",
               text: `Hello ${author.first_name},
 
-This is to inform you that your article titled "${article.title}" has been deleted by an admin.
+This is to inform you that your article titled "${article.title}" has been deleted by an admin, Reson: ${deleteReson}.
 
 If you have any questions, please contact our support team for assistance.
 
@@ -682,7 +683,7 @@ Best regards,
 The Grovix Team`,
 
               html: `<p>Hello ${author.first_name},</p>
-                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been deleted by an admin.</p>
+                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been deleted by an admin,  <span style="colour: red;">Reson: ${deleteReson}</span>.</p>
                      <p>If you have any questions, please contact our support team for assistance.</p>
                      <p>Thank you for your understanding.</p>
                      <p>Best regards,<br>The Grovix Team</p>`,
@@ -752,12 +753,13 @@ router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, 
 });
 
 // Lock article
-router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, next) => {
+router.get('/article/admin/block/:article_id/:lock_reason', isAuthorised, async (req, res, next) => {
   try {
     const articleId = req.params.article_id;
     const adminUserId = req.session.user._id;
+    const lockReason = req.params.lock_reason;
 
-    if (articleId) {
+    if (articleId && lockReason) {
       // Check if the user is an admin
       const user = await User.findOne({ _id: new mongoose.Types.ObjectId(adminUserId) });
       if (user && user.admin) {
@@ -780,7 +782,7 @@ router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, ne
               subject: "Your Article Has Been Locked",
               text: `Hello ${author.first_name},
 
-This is to inform you that your article titled "${article.title}" has been locked by an admin.
+This is to inform you that your article titled "${article.title}" has been locked by an admin, Reson: ${lockReason}.
 
 If you have any questions or believe this to be a mistake, please contact our support team for assistance.
 
@@ -790,7 +792,7 @@ Best regards,
 The Grovix Team`,
 
               html: `<p>Hello ${author.first_name},</p>
-                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been locked by an admin.</p>
+                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been locked by an admin,  <span style="colour: red;">Reson: ${lockReason}</span>.</p>
                      <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
                      <p>Thank you for your understanding.</p>
                      <p>Best regards,<br>The Grovix Team</p>`,
