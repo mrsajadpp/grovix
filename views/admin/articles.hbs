@@ -110,10 +110,11 @@
 
 <script>
     function confirmDelete(articleId) {
+        var blokcReson = prompt("Enter delete reson!.");
         var userInput = prompt("To delete this article, please type 'DELETE THIS ARTICLE' in capital letters:");
         if (userInput === "DELETE THIS ARTICLE") {
             // If the user input matches the required text, proceed with the deletion
-            window.location.href = '/article/admin/delete/' + articleId;
+            window.location.href = '/article/admin/delete/' + articleId + '/' + blokcReson;
         } else {
             // If the user input doesn't match, show an alert
             alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
