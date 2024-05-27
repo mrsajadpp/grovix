@@ -659,6 +659,7 @@ router.get('/article/admin/delete/:article_id/:delete_reason', isAuthorised, asy
 
         if (article) {
           // Move the article to the ArticleBin
+          article.article_id = await article._id;
           const deletedArticle = new ArticleBin(article.toObject());
           await deletedArticle.save();
 
@@ -779,7 +780,7 @@ router.get('/article/admin/block/:article_id/:lock_reason', isAuthorised, async 
             sendMail({
               from: '"Grovix Lab" <noreply.grovix@gmail.com>',
               to: author.email,
-              subject: "Your Article Has Been Locked",
+              subject: "Your Article Has Been Bin",
               text: `Hello ${author.first_name},
 
 This is to inform you that your article titled "${article.title}" has been locked by an admin, Reson: ${lockReason}.

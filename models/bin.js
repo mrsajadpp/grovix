@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const articleSchema = new Schema({
-    _id: {
+    article_id: {
         type: String,
         required: true,
     },

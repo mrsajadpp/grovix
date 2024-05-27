@@ -7,6 +7,7 @@ const Updation = require('../models/updation');
 const ArticleEditsBin = require('../models/editBin');
 const { default: mongoose } = require('mongoose');
 let fs = require('fs');
+const ArticleBin = require('../models/bin');
 
 const isAdmin = (req, res, next) => {
   if (!req.session.user) {
@@ -45,7 +46,7 @@ router.get('/', isAdmin, async (req, res, next) => {
     res.render('admin/index', { title: "Admin", style: ['dashboard'], user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
-    
+
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -57,18 +58,18 @@ router.get('/articles', isAdmin, async (req, res, next) => {
     res.render('admin/articles', { title: "Articles >> Admin", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
-    
+
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
 
-router.get('/articles/locked', isAdmin, async (req, res, next) => {
+router.get('/articles/bin', isAdmin, async (req, res, next) => {
   try {
-    const article_list = await Article.find({ status: 'locked' }).lean();
-    res.render('admin/locked', { title: "Locked >> Articles >> Admin", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
+    const article_list = await ArticleBin.find({ status: true }).lean();
+    res.render('admin/locked', { title: "Bin >> Articles >> Admin", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
-    
+
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -79,7 +80,7 @@ router.get('/articles/pending', isAdmin, async (req, res, next) => {
     res.render('admin/pending', { title: "Pending >> Articles >> Admin", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
-    
+
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -160,7 +161,7 @@ router.get('/alert', isAdmin, async (req, res, next) => {
     res.render('admin/alert', { title: "Alert", style: ['dashboard', 'regform'], user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
-    
+
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
@@ -172,7 +173,7 @@ router.get('/users', isAdmin, async (req, res, next) => {
     res.render('admin/users', { title: "Users >> Admin", style: ['dashboard'], user_list, totalUsers: user_list.length, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
-    
+
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
