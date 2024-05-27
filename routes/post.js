@@ -659,8 +659,20 @@ router.get('/article/admin/delete/:article_id/:delete_reason', isAuthorised, asy
 
         if (article) {
           // Move the article to the ArticleBin
-          article.article_id = await article._id;
-          const deletedArticle = new ArticleBin(article.toObject());
+          let delArticle = {
+            article_id: article._id,
+            author_id: article.author_id,
+            title: article.title,
+            description: article.description,
+            category: article.category,
+            status: article.status,
+            body: article.body,
+            created_time: article.created_time,
+            views: article.views,
+            endpoint: article.endpoint,
+            updated_at: article.updated_at
+          };
+          const deletedArticle = new ArticleBin(delArticle);
           await deletedArticle.save();
 
           // Find the article's author to send the notification email
