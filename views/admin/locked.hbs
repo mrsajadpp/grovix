@@ -63,7 +63,7 @@
     <div class="articles">
         {{#if article_list}}
         {{#each article_list}}
-        <div class="article" >
+        <div class="article">
             <div class="articleCont">
                 <div onclick="location.href = '/admin/article/prev/{{this._id}}'" class="articleImg">
                     <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
@@ -83,16 +83,6 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="deleteIcon">
-                        <button onclick="confirmDelete('{{this._id}}')">
-                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
-                                viewBox="0 0 24 24" width="24" focusable="false"
-                                style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
-                                <path d="M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -108,25 +98,25 @@
 </div>
 
 <script>
-function confirmDelete(articleId) {
-    var userInput = prompt("To delete this article, please type 'DELETE THIS ARTICLE' in capital letters:");
-    if (userInput === "DELETE THIS ARTICLE") {
-        // If the user input matches the required text, proceed with the deletion
-        window.location.href = '/article/admin/delete/' + articleId;
-    } else {
-        // If the user input doesn't match, show an alert
-        alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+    function confirmDelete(articleId) {
+        var userInput = prompt("To delete this article, please type 'DELETE THIS ARTICLE' in capital letters:");
+        if (userInput === "DELETE THIS ARTICLE") {
+            // If the user input matches the required text, proceed with the deletion
+            window.location.href = '/article/admin/delete/' + articleId;
+        } else {
+            // If the user input doesn't match, show an alert
+            alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+        }
     }
-}
 
-function confirmUnBlock(articleId) {
-    var userInput = prompt("To unblock this article, please type 'UNBLOCK THIS ARTICLE' in capital letters:");
-    if (userInput === "UNBLOCK THIS ARTICLE") {
-        // If the user input matches the required text, proceed with the deletion
-        window.location.href = '/article/admin/unblock/' + articleId;
-    } else {
-        // If the user input doesn't match, show an alert
-        alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+    function confirmUnBlock(articleId) {
+        var userInput = prompt("To unblock this article, please type 'UNBLOCK THIS ARTICLE' in capital letters:");
+        if (userInput === "UNBLOCK THIS ARTICLE") {
+            // If the user input matches the required text, proceed with the deletion
+            window.location.href = '/article/admin/unblock/' + articleId;
+        } else {
+            // If the user input doesn't match, show an alert
+            alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+        }
     }
-}
 </script>
