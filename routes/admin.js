@@ -7,7 +7,7 @@ const Updation = require('../models/updation');
 const ArticleEditsBin = require('../models/editBin');
 const { default: mongoose } = require('mongoose');
 let fs = require('fs');
-const ArticleBin = require('../models/bin');
+const ArticleBin = require('../models/artBin');
 
 const isAdmin = (req, res, next) => {
   if (!req.session.user) {
