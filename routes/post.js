@@ -1075,6 +1075,7 @@ The Grovix Team`,
 router.post('/admin/users/block/:user_id', isAdmin, async (req, res, next) => {
   try {
     const userId = req.params.user_id;
+    const { block_reason } = req.body;
 
     // Find the user by ID
     const user = await User.findById(userId);
@@ -1090,7 +1091,7 @@ router.post('/admin/users/block/:user_id', isAdmin, async (req, res, next) => {
         subject: user.status ? "Your Account Has Been Unblocked" : "Your Account Has Been Blocked",
         text: `Hello ${user.first_name},
 
-This is to inform you that your account has been ${user.status ? "unblocked" : "blocked"} by an admin.
+This is to inform you that your account has been ${user.status ? "unblocked" : "blocked"} by an admin. Reason: ${block_reason}
 
 If you have any questions or believe this to be a mistake, please contact our support team for assistance.
 
@@ -1100,7 +1101,7 @@ Best regards,
 The Grovix Team`,
 
         html: `<p>Hello ${user.first_name},</p>
-               <p>This is to inform you that your account has been <strong>${user.status ? "unblocked" : "blocked"}</strong> by an admin.</p>
+               <p>This is to inform you that your account has been <strong>${user.status ? "unblocked" : "blocked"}</strong> by an admin. Reason: ${block_reason}</p>
                <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
                <p>Thank you for your understanding.</p>
                <p>Best regards,<br>The Grovix Team</p>`,
@@ -1117,10 +1118,12 @@ The Grovix Team`,
   }
 });
 
+
 // Ban User
 router.post('/admin/users/ban/:user_id', isAdmin, async (req, res, next) => {
   try {
     const userId = req.params.user_id;
+    const { ban_reason } = req.body;
 
     // Find the user by ID
     const user = await User.findById(userId);
@@ -1137,7 +1140,7 @@ router.post('/admin/users/ban/:user_id', isAdmin, async (req, res, next) => {
         subject: "Your Account Has Been Banned",
         text: `Hello ${user.first_name},
 
-This is to inform you that your account has been banned by an admin.
+This is to inform you that your account has been banned by an admin. Reason: ${ban_reason}
 
 If you have any questions or believe this to be a mistake, please contact our support team for assistance.
 
@@ -1147,7 +1150,7 @@ Best regards,
 The Grovix Team`,
 
         html: `<p>Hello ${user.first_name},</p>
-               <p>This is to inform you that your account has been <strong>banned</strong> by an admin.</p>
+               <p>This is to inform you that your account has been <strong>banned</strong> by an admin. Reason: ${ban_reason}</p>
                <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
                <p>Thank you for your understanding.</p>
                <p>Best regards,<br>The Grovix Team</p>`,
@@ -1163,6 +1166,7 @@ The Grovix Team`,
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
+
 
 // Promote or Demote User to Admin
 router.post('/admin/users/admin/:user_id', isAdmin, async (req, res, next) => {

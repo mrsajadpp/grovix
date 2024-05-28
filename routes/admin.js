@@ -72,7 +72,7 @@ router.get('/articles/bin', isAdmin, async (req, res, next) => {
 
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
-});
+}); 
 
 router.get('/articles/pending', isAdmin, async (req, res, next) => {
   try {
