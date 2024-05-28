@@ -206,45 +206,31 @@ ${article_list.map(article => {
 // Get famous top writer author details based on article views and total article amount
 router.get('/top-writers', async (req, res, next) => {
   try {
-    // Aggregate articles to get total views and count for each author
-    const topWriters = await Article.aggregate([
+    // Aggregate articles to get the total views per author
+    const topAuthors = await Article.aggregate([
+      { $match: { status: true } },
       {
         $group: {
-          _id: '$author_id',
-          totalViews: { $sum: '$views' },
-          totalArticles: { $sum: 1 }
+          _id: "$author_id",
+          totalViews: { $sum: "$views" },
+          articleCount: { $sum: 1 }
         }
       },
-      {
-        $sort: { totalViews: -1, totalArticles: -1 }
-      },
-      {
-        $limit: 10 // Limit to top 10 writers
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'authorDetails'
-        }
-      },
-      {
-        $unwind: '$authorDetails'
-      },
-      {
-        $project: {
-          _id: 1,
-          totalViews: 1,
-          totalArticles: 1,
-          'authorDetails.first_name': 1,
-          'authorDetails.last_name': 1,
-          'authorDetails.email': 1,
-        }
-      }
+      { $sort: { totalViews: -1 } },
+      { $limit: 10 } // Limit to top 10 authors, adjust as needed
     ]);
 
-    res.json(topWriters);
+    // Fetch the user details for the top authors
+    const topWriters = await Promise.all(topAuthors.map(async author => {
+      const user = await User.findById(author._id).lean();
+      return {
+        ...user,
+        totalViews: author.totalViews,
+        articleCount: author.articleCount
+      };
+    }));
+
+    res.json(topWriters)
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
