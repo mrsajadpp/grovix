@@ -4,9 +4,15 @@ html {
     scroll-behavior: smooth;
 }
 
+/* html::-webkit-scrollbar {
+    display: none;
+} */
+
 body {
     margin: 0px;
     padding: 0px;
+    width: 100%;
+    min-width: 100vw;
     font-family: "Poppins", sans-serif;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
