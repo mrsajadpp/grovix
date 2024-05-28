@@ -1,0 +1,231 @@
+<div class="topWriters">
+    <div class="topContainer">
+        <div class="cardTitle">
+            <h3>Top Writers</h3>
+        </div>
+        <div class="slideIcon">
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    style="fill: rgba(0, 0, 0, 1);">
+                    <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
+                </svg>
+            </button>
+            &nbsp;
+            &nbsp;
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    style="fill: rgba(0, 0, 0, 1);">
+                    <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Card -->
+    <div class="cardContainer">
+        <div class="card">
+            <div class="topCard">
+                <div class="topperText">
+                    <marquee class="marquee" scrollamount="7" scrolldelay="100" direction="left">START WRITING, NO
+                        MATTER WHAT. THE
+                        WATER DOES NOT FLOW UNTIL THE FAUCET IS TURNED ON.</marquee>
+                </div>
+            </div>
+            <div class="bottomCard">
+                <div class="profileArea">
+                    <div class="profile">
+                        <img src="/img/user/664db35243ee256cf1665ba5-75x75.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profileText">
+                    <div class="name">
+                        <h3>Sajad PP</h3>
+                    </div>
+                    <div class="articleAmount">
+                        <span>Founder and CEO of Thintry.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Duplicate card as needed -->
+        <div class="card">
+            <div class="topCard">
+                <div class="topperText">
+                    <marquee scrollamount="7" scrolldelay="100" direction="left" >START WRITING, NO MATTER WHAT. THE
+                        WATER DOES NOT FLOW UNTIL THE FAUCET IS TURNED ON.</marquee>
+                </div>
+            </div>
+            <div class="bottomCard">
+                <div class="profileArea">
+                    <div class="profile">
+                        <img src="/img/user/664db35243ee256cf1665ba5-75x75.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profileText">
+                    <div class="name">
+                        <h3>Sajad PP</h3>
+                    </div>
+                    <div class="articleAmount">
+                        <span>Founder and CEO of Thintry.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add more cards as necessary -->
+    </div>
+</div>
+
+<style>
+    .topWriters {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .topWriters .topContainer {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .topWriters .cardTitle {
+        display: flex;
+        align-items: center;
+    }
+
+    .topWriters .slideIcon {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .topWriters .slideIcon button {
+        width: 40px;
+        height: 40px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: transparent;
+        cursor: pointer;
+        background-color: #f6f6f6;
+    }
+
+    .topWriters .cardContainer {
+        width: 90vw;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        overflow-x: auto;
+        padding-bottom: 20px;
+    }
+
+    .topWriters .cardContainer::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .topWriters .cardContainer::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+    }
+
+    .topWriters .cardContainer .card {
+        min-width: 250px;
+        max-width: 250px;
+        height: 170px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        border-radius: 13px;
+        overflow: hidden;
+        background-image: linear-gradient(#0078e8, #d88ff5);
+        margin-right: 20px;
+    }
+
+    .topWriters .cardContainer .card .topCard {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        overflow: hidden;
+        align-items: end;
+        justify-content: center;
+    }
+
+    .topWriters .cardContainer .card .topCard .topperText {
+        width: 100%;
+        height: 20px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+
+    .topWriters .cardContainer .card .topCard .topperText marquee {
+        color: #000;
+        text-transform: capitalize;
+        font-size: 12px;
+    }
+
+    .topWriters .cardContainer .card .bottomCard {
+        width: 100%;
+        height: calc(100% - 70px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .topWriters .cardContainer .card .bottomCard .profileArea {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 85px;
+        height: 100%;
+    }
+
+    .topWriters .cardContainer .card .bottomCard .profileArea .profile {
+        width: 60px;
+        height: 60px;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
+
+    .topWriters .cardContainer .card .bottomCard .profileArea .profile img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .topWriters .cardContainer .card .bottomCard .profileText {
+        width: calc(100% - 85px);
+        height: 100%;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column;
+        color: #333;
+        padding: 10px;
+    }
+
+    .topWriters .cardContainer .card .bottomCard .profileText h3 {
+        margin: 0;
+        font-weight: 400;
+        font-size: 17px;
+        color: #000;
+        line-height: 15px;
+    }
+
+    .topWriters .cardContainer .card .bottomCard .profileText span {
+        font-size: 12px;
+        color: #333333;
+        margin: 0px;
+        line-height: 20px;
+    }
+</style>

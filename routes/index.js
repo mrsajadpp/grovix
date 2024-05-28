@@ -203,6 +203,54 @@ ${article_list.map(article => {
   }
 });
 
+// Get famous top writer author details based on article views and total article amount
+router.get('/top-writers', async (req, res, next) => {
+  try {
+    // Aggregate articles to get total views and count for each author
+    const topWriters = await Article.aggregate([
+      {
+        $group: {
+          _id: '$author_id',
+          totalViews: { $sum: '$views' },
+          totalArticles: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { totalViews: -1, totalArticles: -1 }
+      },
+      {
+        $limit: 10 // Limit to top 10 writers
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'authorDetails'
+        }
+      },
+      {
+        $unwind: '$authorDetails'
+      },
+      {
+        $project: {
+          _id: 1,
+          totalViews: 1,
+          totalArticles: 1,
+          'authorDetails.first_name': 1,
+          'authorDetails.last_name': 1,
+          'authorDetails.email': 1,
+        }
+      }
+    ]);
+
+    res.json(topWriters);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Robots.txt
 router.get('/robots.txt', (req, res) => {
   res.type('text/plain');
