@@ -87,7 +87,8 @@
     }
 
     .header .hRight svg,
-    .headerMobile .hRight svg, .headerMobile .hLeft svg {
+    .headerMobile .hRight svg,
+    .headerMobile .hLeft svg {
         fill: #fff;
     }
 </style>
@@ -97,6 +98,8 @@
         const header = document.querySelector('.header');
         const mobileHeader = document.querySelector('.headerMobile');
         const icons = document.querySelectorAll('.headerMobile .hLeft svg, .header .hRight svg, .headerMobile .hRight svg');
+        const logo = document.querySelector('.header .hLeft img');
+        const mobileLogo = document.querySelector('.headerMobile .logo img');
 
         window.addEventListener('scroll', function () {
             if (window.scrollY > window.innerHeight * 0.4) {
@@ -105,12 +108,16 @@
                 icons.forEach(icon => {
                     icon.style.fill = '#000';
                 });
+                logo.src = '/img/logo.png'; // Change to the dark logo
+                mobileLogo.src = '/img/logo.png'; // Change to the dark logo
             } else {
                 header.classList.remove('scrolled');
                 mobileHeader.classList.remove('scrolled');
                 icons.forEach(icon => {
                     icon.style.fill = '#fff';
                 });
+                logo.src = '/img/logo-white.png'; // Change to the light logo
+                mobileLogo.src = '/img/logo-white.png'; // Change to the light logo
             }
         });
     });
