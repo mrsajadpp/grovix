@@ -37,7 +37,7 @@
     margin-top: 20px;
     border-radius: 5px !important;
     overflow: hidden;
-    background: #f0f0f0;
+    /* background: #f0f0f0; */
 }
 
 #togglePassword {
