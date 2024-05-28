@@ -427,27 +427,25 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       zip_code
     } = req.body;
 
-    console.log(req.body);
-
-    if (first_name && last_name && phone && sex && bio && address_line_one && address_line_two && country && state && city && zip_code) {
-      let userData = await {
-        first_name: first_name,
-        last_name: last_name,
-        contact_no: phone,
-        sex: sex,
-        bio: bio,
+    if (!first_name || !last_name || !phone || !sex || !bio || !address_line_one || !address_line_two || !country || !state || !city || !zip_code) {
+      let userData = {
+        first_name: first_name ? first_name : '',
+        last_name: last_name ? last_name : '',
+        contact_no: phone ? phone : '',
+        sex: sex ? sex : '',
+        bio: bio ? bio : '',
         address: {
-          address_line_one: address_line_one,
-          addressline_two: address_line_two,
-          country: country,
-          state: state,
-          city: city,
-          zip_code: zip_code
+          address_line_one: address_line_one ? address_line_one : '',
+          addressline_two: address_line_two ? address_line_two : '',
+          country: country ? country : '',
+          state: state ? state : '',
+          city: city ? city : '',
+          zip_code: zip_code ? zip_code : ''
         }
       };
 
-      let user = await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
-      user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+      await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
+      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
       req.session.user = user;
 
       if (req.files && req.files.profile) {
@@ -457,7 +455,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 
         profileFile.mv(imagePath, async function (err) {
           if (err) {
-            return res.status(500).send("Error uploading profile image: " + err);
+            return res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Error uploading profile image: " + err } });
           }
 
           // Resize the image
