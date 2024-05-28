@@ -427,7 +427,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       zip_code
     } = req.body;
 
-    if (!first_name || !last_name || !phone || !sex || !bio || !address_line_one || !address_line_two || !country || !state || !city || !zip_code) {
+    if (first_name || last_name || phone || sex || bio || address_line_one || address_line_two || country || state || city || zip_code) {
       let userData = {
         first_name: first_name ? first_name : '',
         last_name: last_name ? last_name : '',
