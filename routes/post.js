@@ -114,9 +114,9 @@ const isNotAuthorised = (req, res, next) => {
 // Signup Route
 router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
   try {
-    const { first_name, last_name, email, phone, password, terms_accept } = req.body;
+    const { first_name, last_name, email, phone, password, terms_accept, country_code } = req.body;
 
-    if (first_name && last_name && email && phone && password && terms_accept) {
+    if (first_name && last_name && email && phone && password && terms_accept && country_code) {
       let userExist = await User.findOne({ email: email.toLowerCase() }).lean();
       if (!userExist) {
         const hashedPass = await crypash.hash('sha256', password);
@@ -124,7 +124,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
           first_name,
           last_name,
           email: email.toLowerCase(),
-          contact_no: phone,
+          contact_no: country_code + ' ' + phone,
           password: hashedPass,
           date: new Date(),
           admin: false,
@@ -188,7 +188,7 @@ The Grovix Team`,
             first_name,
             last_name,
             email: email.toLowerCase(),
-            contact_no: phone,
+            contact_no: country_code + ' ' + phone,
             password: hashedPass,
             date: new Date(),
             admin: false,
