@@ -192,6 +192,18 @@
         const customCatBox = document.querySelector('.customCategory');
         const editor = document.getElementById('editor');
         const htmlEditor = document.getElementById('htmlEditor');
+        const categorySelect = document.getElementById('category');
+        const customCatBox = document.querySelector('.customCategory');
+
+        categorySelect.addEventListener('change', function () {
+            if (this.value === 'others') {
+                customCatBox.classList.remove('hide');
+                customCatBox.querySelector('input').setAttribute('required', 'required');
+            } else {
+                customCatBox.classList.add('hide');
+                customCatBox.querySelector('input').removeAttribute('required');
+            }
+        });
 
         fileInput.addEventListener('change', function (event) {
             const file = event.target.files[0];
