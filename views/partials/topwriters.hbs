@@ -205,6 +205,15 @@
         justify-content: center;
     }
 
+    /*.topWriters .cardContainer .card .topCard .topperText {
+        width: 100%;
+        height: 20px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }*/
+
     .topWriters .cardContainer .card .topCard .topperText {
         width: 100%;
         height: 20px;
@@ -212,6 +221,16 @@
         display: flex;
         align-items: center;
         justify-content: start;
+        transform: rotate(-5deg);
+        /* Adjust the angle as needed */
+        transform-origin: left center;
+        margin-top: 8px !important;
+        /* Ensures the rotation starts from the left */
+
+        /* also subtract section padding (1.5rem) */
+        margin: 0 -601.5rem;
+        /* add back section padding (1.5rem) */
+        padding: 0.25rem 1.5rem;
     }
 
     .topWriters .cardContainer .card .topCard .topperText marquee {
