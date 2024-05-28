@@ -217,7 +217,7 @@ router.get('/top-writers', async (req, res, next) => {
         }
       },
       { $sort: { totalViews: -1 } },
-      { $limit: 10 } // Limit to top 10 authors, adjust as needed
+      { $limit: 10 } // Limit to top 10 authors
     ]);
 
     // Fetch the user details for the top authors
