@@ -913,8 +913,17 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
           status: 'pending',
         };
 
-        const updation = new Updation(updateData);
-        await updation.save();
+        // Check if an updation already exists for this article
+        const existingUpdation = await Updation.findOne({ article_id: article._id, status: 'pending' });
+
+        if (existingUpdation) {
+          // Update existing updation record
+          await Updation.updateOne({ _id: existingUpdation._id }, updateData);
+        } else {
+          // Create a new updation record
+          const updation = new Updation(updateData);
+          await updation.save();
+        }
 
         if (req.files && req.files.thumbnail) {
           const thumbnailFile = req.files.thumbnail;
@@ -922,7 +931,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 
           thumbnailFile.mv(imagePath, async (err) => {
             if (err) {
-              return res.status(500).send("Error uploading thumbnail image: " + err);
+              return res.render('dashboard/edit', { title: "Edit Article", style: ['dashboard', 'regform'], article, error: { message: "Error uploading thumbnail image: " + err }, user });
             }
           });
         }
@@ -961,6 +970,7 @@ The Grovix Team`,
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
 });
+
 
 // Approve article update
 router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
