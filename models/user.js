@@ -17,7 +17,7 @@ const userSchema = new Schema({
         unique: true,
     },
     contact_no: {
-        type: Number,
+        type: String,
         required: true,
     },
     password: {
