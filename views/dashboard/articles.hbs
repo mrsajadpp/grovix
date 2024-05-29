@@ -11,8 +11,7 @@
                 </div>
                 <div class="articleContent">
                     <h4>{{this.title}}</h4>
-                    <p>{{this.description}}
-                    </p>
+                    <p>{{this.description}}</p>
                 </div>
                 <div class="articleControl">
                     <div class="editIcon">
@@ -29,7 +28,8 @@
                         </button>
                     </div>
                     <div class="deleteIcon">
-                        <button onclick="share({{this._id}}, {{this}});">
+                        <!-- Share button -->
+                        <button onclick="share('{{this._id}}', '{{this.title}}', '{{this.description}}', '{{this.endpoint}}');">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"
                                 focusable="false"
                                 style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
@@ -54,47 +54,22 @@
 </div>
 
 <script>
-    function confirmDelete(articleId) {
-        var userInput = prompt("To delete this article, please type 'DELETE MY ARTICLE' in capital letters:");
-        if (userInput === "DELETE MY ARTICLE") {
-            // If the user input matches the required text, proceed with the deletion
-            window.location.href = '/article/delete/' + articleId;
+    function share(articleId, title, description, endpoint) {
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                text: description,
+                url: `https://www.grovixlab.com/page/${endpoint}`,
+            }).then(() => {
+                console.log('Content shared successfully');
+            }).catch(error => {
+                console.error('Error sharing content:', error);
+            });
         } else {
-            // If the user input doesn't match, show an alert
-            alert("Invalid input. Please type 'DELETE MY ARTICLE' in capital letters to delete the article.");
+            alert('Web Share API is not supported in your browser.');
         }
     }
-    function share(articleId, article) {
-        const shareButton = document.getElementById('nativeShareButton');
-
-        shareButton.addEventListener('click', async () => {
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: article.title,
-                        text: article.description,
-                        url: `https://www.grovixlab.com/page/${article.endpoint}`,
-                    });
-                    console.log('Content shared successfully');
-                } catch (error) {
-                    console.error(error);
-                    console.error('Error sharing content:', error);
-                }
-            } else {
-                alert('Web Share API is not supported in your browser.');
-            }
-        });
-
-    }
 </script>
-
-<!-- Dashboard Graph Metrix Coming Soon -->
-<!-- <div class="comingSoon">
-        <div class="comgText">
-            <span>Dashboard Graph Metrics Under Construction. Please wait, they will be coming soon! Our team is working
-                on it <span class="higlight">:)</span></span>
-        </div>
-    </div> -->
 
 <!-- New Article Button -->
 <div class="newArticle">
