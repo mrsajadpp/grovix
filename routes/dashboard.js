@@ -99,7 +99,8 @@ router.get('/new', isAuthorised, (req, res, next) => {
 // Edit Article
 router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {
   try {
-    let article = await Article.findOne({ article_id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
+    let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
+    console.log(article);
     res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
