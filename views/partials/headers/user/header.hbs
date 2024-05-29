@@ -11,14 +11,7 @@
             <ul>
                 <li>
                     <a href="/">
-                        <button>
-                            <!-- <svg xmlns="http://www.w3.org/2000/svg" class="active" enable-background="new 0 0 24 24" height="24"
-                                    viewBox="0 0 24 24" width="24" focusable="false"
-                                    style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
-                                    <path
-                                        d="m12 4.44 7 6.09V20h-4v-6H9v6H5v-9.47l7-6.09m0-1.32-8 6.96V21h6v-6h4v6h6V10.08l-8-6.96z">
-                                    </path>
-                                </svg> -->
+                        <button title="Home">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                                 viewBox="0 0 24 24" class="active" width="24" focusable="false"
                                 style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
@@ -31,7 +24,7 @@
                 </li>
                 <li>
                     <a href="/trending">
-                        <button>
+                        <button title="Trending">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                                 viewBox="0 0 24 24" width="24" focusable="false"
                                 style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
@@ -44,7 +37,7 @@
                 </li>
                 <li>
                     <a href="/categories">
-                        <button>
+                        <button title="Categories">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                                 viewBox="0 0 24 24" width="24" focusable="false"
                                 style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
@@ -58,7 +51,7 @@
                 {{#if user}}
                 <li>
                     <a href="/dashboard/">
-                        <button>
+                        <button title="Dashboard">
                             <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
                                 class="style-scope tp-yt-iron-icon"
                                 style="pointer-events: none; display: block; width: 28px; height: 28px;">
@@ -73,10 +66,10 @@
                 </li>
                 <li>
                     <a href="/logout">
-                        <button>
+                        <button title="Logout">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                                 viewBox="0 0 24 24" width="24" focusable="false"
-                                style="pointer-events: none; display: inherit; width: 28px; height: 28px; ">
+                                style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
                                 <path
                                     d="M20 3v18H8v-1h11V4H8V3h12zm-8.9 12.1.7.7 4.4-4.4L11.8 7l-.7.7 3.1 3.1H3v1h11.3l-3.2 3.3z">
                                 </path>
@@ -85,8 +78,8 @@
                     </a>
                 </li>
                 <li style="width: 55px;">
-                    <a href="/dashboard/">
-                        <button class="profile-menu">
+                    <a href="/dashboard/settings/">
+                        <button class="profile-menu" title="Profile">
                             <img src="/img/user/{{user._id}}.jpg" alt="{{user.first_name}}"
                                 onerror="this.onerror=null;this.src='/img/default-user.jpg';">
                         </button>
@@ -95,8 +88,8 @@
                 {{else}}
                 <li style="width: 55px;">
                     <a href="/auth/signup">
-                        <button class="profile-menu">
-                            <img src="/img/plus.jpg" alt="Login">
+                        <button class="profile-menu" title="Signup">
+                            <img src="/img/plus.jpg" alt="Signup">
                         </button>
                     </a>
                 </li>
@@ -104,14 +97,13 @@
                 &nbsp;&nbsp;
             </ul>
         </nav>
-
     </div>
 </div>
 
 <!-- Mobile Header -->
 <div class="headerMobile headerNo">
     <div class="hLeft">
-        <button onclick="menu();">
+        <button onclick="menu();" title="Menu">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
                 style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
                 <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
@@ -128,8 +120,8 @@
             <ul>
                 {{#if user}}
                 <li style="width: 55px;">
-                    <a href="/dashboard/">
-                        <button class="profile-menu">
+                    <a href="/dashboard/settings/">
+                        <button class="profile-menu" title="Profile">
                             <img src="/img/user/{{user._id}}.jpg" alt="{{user.first_name}}"
                                 onerror="this.onerror=null;this.src='/img/default-user.jpg';">
                         </button>
@@ -138,8 +130,8 @@
                 {{else}}
                 <li style="width: 55px;">
                     <a href="/auth/signup">
-                        <button class="profile-menu">
-                            <img src="/img/plus.jpg" alt="Login">
+                        <button class="profile-menu" title="Signup">
+                            <img src="/img/plus.jpg" alt="Signup">
                         </button>
                     </a>
                 </li>
@@ -153,7 +145,7 @@
 <!-- Mobile Menu -->
 <div class="mobileMenu hide" id="mobileMenu">
     <div class="menuTop">
-        <button onclick="menu();">
+        <button onclick="menu();" title="Menu Close">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
                 style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
                 <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
@@ -163,7 +155,7 @@
     <div class="menuItems">
         <div class="menuItem">
             <a href="/">
-                <button>
+                <button title="Home">
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                         viewBox="0 0 24 24" class="active" width="24" focusable="false"
                         style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
@@ -177,7 +169,7 @@
         </div>
         <div class="menuItem">
             <a href="/trending">
-                <button>
+                <button title="Trending">
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                         viewBox="0 0 24 24" width="24" focusable="false"
                         style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
@@ -191,7 +183,7 @@
         </div>
         <div class="menuItem">
             <a href="/categories">
-                <button>
+                <button title="Categories">
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                         viewBox="0 0 24 24" width="24" focusable="false"
                         style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
@@ -206,7 +198,7 @@
         {{#if user}}
         <div class="menuItem">
             <a href="/dashboard/">
-                <button>
+                <button title="Dashboard">
                     <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
                         class="style-scope tp-yt-iron-icon"
                         style="pointer-events: none; display: block; width: 28px; height: 28px;">
@@ -222,7 +214,7 @@
         </div>
         <div class="menuItem">
             <a href="/logout">
-                <button>
+                <button title="Logout">
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                         viewBox="0 0 24 24" width="24" focusable="false"
                         style="pointer-events: none; display: inherit; width: 28px; height: 28px; fill:red;">
@@ -237,16 +229,16 @@
         {{else}}
         <div class="menuItem">
             <a href="/auth/signup">
-                <button>
+                <button title="Signup">
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                         viewBox="0 0 24 24" width="24" focusable="false"
-                        style="pointer-events: none; display: inherit; width: 28px; height: 28px; ">
+                        style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
                         <path
                             d="M20 3v18H8v-1h11V4H8V3h12zm-8.9 12.1.7.7 4.4-4.4L11.8 7l-.7.7 3.1 3.1H3v1h11.3l-3.2 3.3z">
                         </path>
                     </svg>
                 </button>
-                <span style="">Signup</span>
+                <span>Signup</span>
             </a>
         </div>
         {{/if}}
@@ -254,7 +246,7 @@
     <div class="menuItems">
         <div class="menuItem">
             <a href="mailto:support@grovixlab.com?subject=Feedback">
-                <button>
+                <button title="Feedback">
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                         viewBox="0 0 24 24" width="24" focusable="false"
                         style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
@@ -269,11 +261,10 @@
 </div>
 
 <!-- Mobile Search -->
-
 <div class="mobileSearch hide" id="searchBar">
     <div class="searchBar">
         <input type="text" placeholder="Search" name="query" id="search">
-        <button>
+        <button title="Search">
             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24"
                 width="24" focusable="false" style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
                 <path
@@ -285,7 +276,7 @@
     <div class="searchSuggestions">
         <div class="searchSuggestion">
             <a href="">
-                <button>
+                <button title="NPM Package">
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                         viewBox="0 0 24 24" width="24" focusable="false"
                         style="pointer-events: none; display: inherit; width: 28px; height: 28px; fill: #ccc;">
@@ -321,7 +312,6 @@
 
 <!-- Search Bar Script -->
 <script>
-
     const search = () => {
         searhBar.classList.toggle('hide');
         mobileMenu.classList.add('hide');
