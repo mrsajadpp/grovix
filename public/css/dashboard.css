@@ -230,7 +230,7 @@ body {
     padding: 0px;
     font-size: 13px;
     color: #000;
-    line-height: 12px;
+    line-height: 5px;
     padding-left: 10px;
 }
 
@@ -245,10 +245,12 @@ body {
 }
 
 .articleContainer .articles .article .articleCont .cont {
+    width: calc(100% - 100px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: start;
+    overflow: hidden;
 }
 
 .container {
