@@ -213,7 +213,6 @@ body {
     height: 100%;
     object-fit: cover;
     /* This will cover the entire container while maintaining the aspect ratio */
-    display: block;
 }
 
 .articleContainer .articles .article .articleCont .articleContent {
