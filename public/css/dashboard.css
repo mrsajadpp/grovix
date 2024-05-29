@@ -1,5 +1,5 @@
 body {
-background: #f6f6f6;
+    background: #f6f6f6;
 }
 
 .newArticle {
@@ -167,7 +167,7 @@ background: #f6f6f6;
     height: 50%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
 }
 
 .articleContainer .articles .article .articleControl div {
@@ -183,18 +183,7 @@ background: #f6f6f6;
     justify-content: center;
     border: none;
     background-color: transparent;
-}
-
-.articleContainer .articles .article .articleControl .editIcon button {
     background: #f6f6f6;
-    width: 40px;
-    border-radius: 85px;
-}
-
-.articleContainer .articles .article .articleControl .deleteIcon button {
-    border: none;
-    background: #f6f6f6;
-    width: 40px;
     border-radius: 85px;
 }
 
