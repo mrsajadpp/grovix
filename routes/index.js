@@ -193,7 +193,60 @@ ${article_list.map(article => {
   </url>`;
     }).join('')}
 </urlset>`;
-    console.log(xmlContent);
+
+    res.send(xmlContent);
+  } catch (error) {
+    console.error(error);
+
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
+  }
+});
+
+// Sitemap.xml
+router.get('/sitemap.xml', async (req, res, next) => {
+  try {
+    res.type('text/xml');
+    const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+    <urlset
+          xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    
+    
+    <url>
+      <loc>https://www.grovixlab.com/</loc>
+      <lastmod>2024-05-29T13:48:27+00:00</lastmod>
+      <priority>1.00</priority>
+    </url>
+    <url>
+      <loc>https://www.grovixlab.com/trending</loc>
+      <lastmod>2024-05-29T13:48:27+00:00</lastmod>
+      <priority>0.80</priority>
+    </url>
+    <url>
+      <loc>https://www.grovixlab.com/categories</loc>
+      <lastmod>2024-05-29T13:48:27+00:00</lastmod>
+      <priority>0.80</priority>
+    </url>
+    <url>
+      <loc>https://www.grovixlab.com/auth/signup</loc>
+      <lastmod>2024-05-29T13:48:27+00:00</lastmod>
+      <priority>0.80</priority>
+    </url>
+    <url>
+      <loc>https://www.grovixlab.com/auth/login</loc>
+      <lastmod>2024-05-29T13:48:27+00:00</lastmod>
+      <priority>0.80</priority>
+    </url>
+    <url>
+      <loc>https://www.grovixlab.com/auth/recover</loc>
+      <lastmod>2024-05-29T13:48:27+00:00</lastmod>
+      <priority>0.64</priority>
+    </url>
+    
+    
+    </urlset>`;
 
     res.send(xmlContent);
   } catch (error) {
