@@ -1,0 +1,124 @@
+<div class="searchContainer">
+    <div class="searchArea">
+        <div class="inputBox">
+            <input type="text" placeholder="Search" name="query" id="query">
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
+                    viewBox="0 0 24 24" width="24" focusable="false"
+                    style="pointer-events: none; display: inherit; width: 24px; height: 24px; fill: #000;">
+                    <path
+                        d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .searchContainer {
+        width: 100%;
+        height: 40vh;
+        display: flex;
+        background: url('https://i.postimg.cc/BbBMy8zS/bg.png') no-repeat center center;
+        background-size: cover;
+    }
+
+    .searchContainer .searchArea {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.61);
+        backdrop-filter: blur(3px);
+    }
+
+    .searchContainer .searchArea .inputBox {
+        display: flex;
+        width: 75%;
+        max-width: 600px;
+        height: 45px;
+        overflow: hidden;
+        border-radius: 85px;
+        border: #ccc 1px solid;
+    }
+
+    .header {
+        background: transparent !important;
+        border: none !important;
+        transition: background-color 0.3s, border-bottom 0.3s;
+    }
+
+    .headerMobile {
+        background: transparent !important;
+        border: none !important;
+        transition: background-color 0.3s, border-bottom 0.3s;
+    }
+
+    .header.scrolled {
+        background: #fff !important;
+        border-bottom: 1px solid #ccc !important;
+    }
+
+    .headerMobile.scrolled {
+        background: #fff !important;
+        border-bottom: 1px solid #ccc !important;
+    }
+
+    .searchContainer .searchArea .inputBox input {
+        width: calc(100% - 70px);
+        height: 100%;
+        border: none;
+        padding-left: 20px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+    }
+
+    .searchContainer .searchArea .inputBox button {
+        width: 70px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background-color: #ccc;
+    }
+
+    .header .hRight svg,
+    .headerMobile .hRight svg,
+    .headerMobile .hLeft svg {
+        fill: #fff;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const header = document.querySelector('.header');
+        const mobileHeader = document.querySelector('.headerMobile');
+        const icons = document.querySelectorAll('.headerMobile .hLeft svg, .header .hRight svg, .headerMobile .hRight svg');
+        const logo = document.querySelector('.header .hLeft img');
+        const mobileLogo = document.querySelector('.headerMobile .logo img');
+
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > window.innerHeight * 0.1) {
+                header.classList.add('scrolled');
+                mobileHeader.classList.add('scrolled');
+                icons.forEach(icon => {
+                    icon.style.fill = '#000';
+                });
+                logo.src = '/img/logo.png'; // Change to the dark logo
+                mobileLogo.src = '/img/logo.png'; // Change to the dark logo
+            } else {
+                header.classList.remove('scrolled');
+                mobileHeader.classList.remove('scrolled');
+                icons.forEach(icon => {
+                    icon.style.fill = '#fff';
+                });
+                logo.src = '/img/logo-white.png'; // Change to the light logo
+                mobileLogo.src = '/img/logo-white.png'; // Change to the light logo
+            }
+        });
+    });
+</script>

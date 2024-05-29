@@ -38,6 +38,10 @@
   <meta property="og:type" content="website" />
   {{/if}}
 
+  {{#if url}}
+  <link rel="canonical" href="{{url}}" />
+  {{/if}}
+
   <meta property="image:width" content="1200" />
   <meta property="image:height" content="630" />
   <meta property="og:image:width" content="1200" />
@@ -72,6 +76,16 @@
   <link rel="stylesheet" href="/css/{{this}}.css">
   {{/each}}
   {{/if}}
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H64E20TLLZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-H64E20TLLZ');
+  </script>
 
 </head>
 

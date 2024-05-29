@@ -1,24 +1,11 @@
 <!-- Desktop Header -->
-<div class="header">
+<div class="header headerNo">
     <div class="hLeft">
         <a href="/">
-            <img src="/img/logo.png" alt="Grovix Lab">
+            <img src="/img/logo-white.png" alt="Grovix Lab">
         </a>
     </div>
-    <div class="hCenter">
-        <div class="searchBar">
-            <input type="text" placeholder="Search" name="query" id="query">
-            <button>
-                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
-                    viewBox="0 0 24 24" width="24" focusable="false"
-                    style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
-                    <path
-                        d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z">
-                    </path>
-                </svg>
-            </button>
-        </div>
-    </div>
+    <div class="hCenter"></div>
     <div class="hRight">
         <nav>
             <ul>
@@ -122,7 +109,7 @@
 </div>
 
 <!-- Mobile Header -->
-<div class="headerMobile">
+<div class="headerMobile headerNo">
     <div class="hLeft">
         <button onclick="menu();">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
@@ -132,33 +119,13 @@
         </button>
         <div class="logo">
             <a href="/">
-                <img src="/img/logo.png" alt="Grovix Lab">
+                <img src="/img/logo-white.png" alt="Grovix Lab">
             </a>
         </div>
     </div>
     <div class="hRight">
         <nav>
             <ul>
-                <li>
-                    <a>
-                        <button onclick="search();" id="searchIcon">
-                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
-                                viewBox="0 0 24 24" width="24" focusable="false"
-                                style="pointer-events: none; display: inherit; width: 28px; height: 28px;">
-                                <path
-                                    d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z">
-                                </path>
-                            </svg>
-
-                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
-                                    <path
-                                        d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z">
-                                    </path>
-                                </svg> -->
-                        </button>
-                    </a>
-                </li>
                 {{#if user}}
                 <li style="width: 55px;">
                     <a href="/dashboard/">
@@ -286,7 +253,7 @@
     </div>
     <div class="menuItems">
         <div class="menuItem">
-            <a href="mailto:lab@grovixlab.com?subject=Feedback">
+            <a href="mailto:support@grovixlab.com?subject=Feedback">
                 <button>
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                         viewBox="0 0 24 24" width="24" focusable="false"

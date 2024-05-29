@@ -26,17 +26,23 @@
         <td>{{this.email}}</td>
         <td>{{this.contact_no}}</td>
         <td>{{#if this.admin}}Yes{{else}}No{{/if}}</td>
-        <td>{{#if this.verified}}<span style="color: green;">Yes</span>{{else}}<span style="color: orange;">No</span>{{/if}}</td>
-        <td>{{#if this.status}}<span style="color: green;">Active</span>{{else}}<span style="color: red;">Blocked</span>{{/if}}</td>
+        <td>{{#if this.verified}}<span style="color: green;">Yes</span>{{else}}<span
+            style="color: orange;">No</span>{{/if}}</td>
+        <td>{{#if this.status}}<span style="color: green;">Active</span>{{else}}<span
+            style="color: red;">Blocked</span>{{/if}}</td>
         <td>
           <form action="/admin/users/block/{{this._id}}" method="POST" class="block-form" style="display:inline;">
-            <button type="button" onclick="confirmBlock(this.form, '{{this.first_name}}')">{{#if this.status}}Block{{else}}Unblock{{/if}}</button>
+            <input type="hidden" name="block_reason" id="block_reason_{{this._id}}">
+            <button type="button" onclick="confirmBlock(this.form, '{{this.first_name}}', '{{this._id}}')">{{#if
+              this.status}}Block{{else}}Unblock{{/if}}</button>
           </form>
           <form action="/admin/users/admin/{{this._id}}" method="POST" class="block-form" style="display:inline;">
-            <button type="button" onclick="confirmAdmin(this.form, '{{this.first_name}}')">{{#if this.admin}}Dismiss{{else}}Admin{{/if}}</button>
+            <button type="button" onclick="confirmAdmin(this.form, '{{this.first_name}}')">{{#if
+              this.admin}}Dismiss{{else}}Admin{{/if}}</button>
           </form>
           <form action="/admin/users/ban/{{this._id}}" method="POST" class="ban-form" style="display:inline;">
-            <button type="button" onclick="confirmBan(this.form, '{{this.first_name}}')">Ban</button>
+            <input type="hidden" name="ban_reason" id="ban_reason_{{this._id}}">
+            <button type="button" onclick="confirmBan(this.form, '{{this.first_name}}', '{{this._id}}')">Ban</button>
           </form>
         </td>
       </tr>
@@ -46,12 +52,16 @@
 </div>
 
 <script>
-  function confirmBlock(form, userName) {
-    const confirmation = prompt(`Type 'BLOCK THIS USER' to block ${userName}`);
-    if (confirmation === 'BLOCK THIS USER') {
-      form.submit();
-    } else {
-      alert('User blocking cancelled.');
+  function confirmBlock(form, userName, userId) {
+    const blockReason = prompt("Reason to block.");
+    if (blockReason) {
+      document.getElementById(`block_reason_${userId}`).value = blockReason;
+      const confirmation = prompt(`Type 'BLOCK THIS USER' to block ${userName}`);
+      if (confirmation === 'BLOCK THIS USER') {
+        form.submit();
+      } else {
+        alert('User blocking cancelled.');
+      }
     }
   }
 
@@ -60,16 +70,20 @@
     if (confirmation === 'MAKE ADMIN') {
       form.submit();
     } else {
-      alert('User blocking cancelled.');
+      alert('User admin promotion cancelled.'); 
     }
   }
 
-  function confirmBan(form, userName) {
-    const confirmation = prompt(`Type 'BAN THIS USER' to ban ${userName}`);
-    if (confirmation === 'BAN THIS USER') {
-      form.submit();
-    } else {
-      alert('User banning cancelled.');
+  function confirmBan(form, userName, userId) {
+    const banReason = prompt("Reason for banning.");
+    if (banReason) {
+      document.getElementById(`ban_reason_${userId}`).value = banReason;
+      const confirmation = prompt(`Type 'BAN THIS USER' to ban ${userName}`);
+      if (confirmation === 'BAN THIS USER') {
+        form.submit();
+      } else {
+        alert('User banning cancelled.');
+      }
     }
   }
 </script>
@@ -82,14 +96,18 @@
     background-color: #f9f9f9;
     border-radius: 10px;
   }
+
   .user-table {
     width: 100%;
     border-collapse: collapse;
   }
-  .user-table th, .user-table td {
+
+  .user-table th,
+  .user-table td {
     border: 1px solid #ddd;
     padding: 8px;
   }
+
   .user-table th {
     background-color: #f2f2f2;
   }

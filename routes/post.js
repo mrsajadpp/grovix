@@ -4,7 +4,7 @@ var router = express.Router();
 const User = require('../models/user');
 const Code = require('../models/code');
 const Article = require('../models/article');
-const ArticleBin = require('../models/bin');
+const ArticleBin = require('../models/artBin');
 const userBin = require('../models/userBin');
 const Page = require('../models/page');
 const Updation = require('../models/updation');
@@ -114,9 +114,9 @@ const isNotAuthorised = (req, res, next) => {
 // Signup Route
 router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
   try {
-    const { first_name, last_name, email, phone, password, terms_accept } = req.body;
+    const { first_name, last_name, email, phone, password, terms_accept, country_code } = req.body;
 
-    if (first_name && last_name && email && phone && password && terms_accept) {
+    if (first_name && last_name && email && phone && password && terms_accept && country_code) {
       let userExist = await User.findOne({ email: email.toLowerCase() }).lean();
       if (!userExist) {
         const hashedPass = await crypash.hash('sha256', password);
@@ -124,7 +124,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
           first_name,
           last_name,
           email: email.toLowerCase(),
-          contact_no: phone,
+          contact_no: country_code + ' ' + phone,
           password: hashedPass,
           date: new Date(),
           admin: false,
@@ -188,7 +188,7 @@ The Grovix Team`,
             first_name,
             last_name,
             email: email.toLowerCase(),
-            contact_no: phone,
+            contact_no: country_code + ' ' + phone,
             password: hashedPass,
             date: new Date(),
             admin: false,
@@ -427,27 +427,25 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       zip_code
     } = req.body;
 
-    console.log(req.body);
-
-    if (first_name && last_name && phone && sex && bio && address_line_one && address_line_two && country && state && city && zip_code) {
-      let userData = await {
-        first_name: first_name,
-        last_name: last_name,
-        contact_no: phone,
-        sex: sex,
-        bio: bio,
+    if (first_name || last_name || phone || sex || bio || address_line_one || address_line_two || country || state || city || zip_code) {
+      let userData = {
+        first_name: first_name ? first_name : '',
+        last_name: last_name ? last_name : '',
+        contact_no: phone ? phone : '',
+        sex: sex ? sex : '',
+        bio: bio ? bio : '',
         address: {
-          address_line_one: address_line_one,
-          addressline_two: address_line_two,
-          country: country,
-          state: state,
-          city: city,
-          zip_code: zip_code
+          address_line_one: address_line_one ? address_line_one : '',
+          addressline_two: address_line_two ? address_line_two : '',
+          country: country ? country : '',
+          state: state ? state : '',
+          city: city ? city : '',
+          zip_code: zip_code ? zip_code : ''
         }
       };
 
-      let user = await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
-      user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+      await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
+      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
       req.session.user = user;
 
       if (req.files && req.files.profile) {
@@ -457,7 +455,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 
         profileFile.mv(imagePath, async function (err) {
           if (err) {
-            return res.status(500).send("Error uploading profile image: " + err);
+            return res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Error uploading profile image: " + err } });
           }
 
           // Resize the image
@@ -644,12 +642,13 @@ The Grovix Team`,
 });
 
 // Admin delete article
-router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, next) => {
+router.get('/article/admin/delete/:article_id/:delete_reason', isAuthorised, async (req, res, next) => {
   try {
     const articleId = req.params.article_id;
     const adminUserId = req.session.user._id;
+    const deleteReson = req.params.delete_reason;
 
-    if (articleId) {
+    if (articleId && deleteReson) {
       // Check if the user is an admin
       const user = await User.findOne({ _id: new mongoose.Types.ObjectId(adminUserId) }).lean();
       if (user && user.admin) {
@@ -658,7 +657,20 @@ router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, n
 
         if (article) {
           // Move the article to the ArticleBin
-          const deletedArticle = new ArticleBin(article.toObject());
+          let delArticle = {
+            article_id: article._id,
+            author_id: article.author_id,
+            title: article.title,
+            description: article.description,
+            category: article.category,
+            status: article.status,
+            body: article.body,
+            created_time: article.created_time,
+            views: article.views,
+            endpoint: article.endpoint,
+            updated_at: article.updated_at
+          };
+          const deletedArticle = new ArticleBin(delArticle);
           await deletedArticle.save();
 
           // Find the article's author to send the notification email
@@ -672,7 +684,7 @@ router.get('/article/admin/delete/:article_id', isAuthorised, async (req, res, n
               subject: "Your Article Has Been Deleted by Admin",
               text: `Hello ${author.first_name},
 
-This is to inform you that your article titled "${article.title}" has been deleted by an admin.
+This is to inform you that your article titled "${article.title}" has been deleted by an admin, Reson: ${deleteReson}.
 
 If you have any questions, please contact our support team for assistance.
 
@@ -682,7 +694,7 @@ Best regards,
 The Grovix Team`,
 
               html: `<p>Hello ${author.first_name},</p>
-                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been deleted by an admin.</p>
+                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been deleted by an admin,  <span style="colour: red;">Reson: ${deleteReson}</span>.</p>
                      <p>If you have any questions, please contact our support team for assistance.</p>
                      <p>Thank you for your understanding.</p>
                      <p>Best regards,<br>The Grovix Team</p>`,
@@ -752,12 +764,13 @@ router.get('/article/admin/approve/:article_id', isAuthorised, async (req, res, 
 });
 
 // Lock article
-router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, next) => {
+router.get('/article/admin/block/:article_id/:lock_reason', isAuthorised, async (req, res, next) => {
   try {
     const articleId = req.params.article_id;
     const adminUserId = req.session.user._id;
+    const lockReason = req.params.lock_reason;
 
-    if (articleId) {
+    if (articleId && lockReason) {
       // Check if the user is an admin
       const user = await User.findOne({ _id: new mongoose.Types.ObjectId(adminUserId) });
       if (user && user.admin) {
@@ -777,10 +790,10 @@ router.get('/article/admin/block/:article_id', isAuthorised, async (req, res, ne
             sendMail({
               from: '"Grovix Lab" <noreply.grovix@gmail.com>',
               to: author.email,
-              subject: "Your Article Has Been Locked",
+              subject: "Your Article Has Been Bin",
               text: `Hello ${author.first_name},
 
-This is to inform you that your article titled "${article.title}" has been locked by an admin.
+This is to inform you that your article titled "${article.title}" has been locked by an admin, Reson: ${lockReason}.
 
 If you have any questions or believe this to be a mistake, please contact our support team for assistance.
 
@@ -790,7 +803,7 @@ Best regards,
 The Grovix Team`,
 
               html: `<p>Hello ${author.first_name},</p>
-                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been locked by an admin.</p>
+                     <p>This is to inform you that your article titled "<strong>${article.title}</strong>" has been locked by an admin,  <span style="colour: red;">Reson: ${lockReason}</span>.</p>
                      <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
                      <p>Thank you for your understanding.</p>
                      <p>Best regards,<br>The Grovix Team</p>`,
@@ -900,8 +913,17 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
           status: 'pending',
         };
 
-        const updation = new Updation(updateData);
-        await updation.save();
+        // Check if an updation already exists for this article
+        const existingUpdation = await Updation.findOne({ article_id: article._id, status: 'pending' });
+
+        if (existingUpdation) {
+          // Update existing updation record
+          await Updation.updateOne({ _id: existingUpdation._id }, updateData);
+        } else {
+          // Create a new updation record
+          const updation = new Updation(updateData);
+          await updation.save();
+        }
 
         if (req.files && req.files.thumbnail) {
           const thumbnailFile = req.files.thumbnail;
@@ -909,7 +931,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 
           thumbnailFile.mv(imagePath, async (err) => {
             if (err) {
-              return res.status(500).send("Error uploading thumbnail image: " + err);
+              return res.render('dashboard/edit', { title: "Edit Article", style: ['dashboard', 'regform'], article, error: { message: "Error uploading thumbnail image: " + err }, user });
             }
           });
         }
@@ -948,6 +970,7 @@ The Grovix Team`,
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
   }
 });
+
 
 // Approve article update
 router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
@@ -1052,6 +1075,7 @@ The Grovix Team`,
 router.post('/admin/users/block/:user_id', isAdmin, async (req, res, next) => {
   try {
     const userId = req.params.user_id;
+    const { block_reason } = req.body;
 
     // Find the user by ID
     const user = await User.findById(userId);
@@ -1067,7 +1091,7 @@ router.post('/admin/users/block/:user_id', isAdmin, async (req, res, next) => {
         subject: user.status ? "Your Account Has Been Unblocked" : "Your Account Has Been Blocked",
         text: `Hello ${user.first_name},
 
-This is to inform you that your account has been ${user.status ? "unblocked" : "blocked"} by an admin.
+This is to inform you that your account has been ${user.status ? "unblocked" : "blocked"} by an admin. Reason: ${block_reason}
 
 If you have any questions or believe this to be a mistake, please contact our support team for assistance.
 
@@ -1077,7 +1101,7 @@ Best regards,
 The Grovix Team`,
 
         html: `<p>Hello ${user.first_name},</p>
-               <p>This is to inform you that your account has been <strong>${user.status ? "unblocked" : "blocked"}</strong> by an admin.</p>
+               <p>This is to inform you that your account has been <strong>${user.status ? "unblocked" : "blocked"}</strong> by an admin. Reason: ${block_reason}</p>
                <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
                <p>Thank you for your understanding.</p>
                <p>Best regards,<br>The Grovix Team</p>`,
@@ -1094,10 +1118,12 @@ The Grovix Team`,
   }
 });
 
+
 // Ban User
 router.post('/admin/users/ban/:user_id', isAdmin, async (req, res, next) => {
   try {
     const userId = req.params.user_id;
+    const { ban_reason } = req.body;
 
     // Find the user by ID
     const user = await User.findById(userId);
@@ -1114,7 +1140,7 @@ router.post('/admin/users/ban/:user_id', isAdmin, async (req, res, next) => {
         subject: "Your Account Has Been Banned",
         text: `Hello ${user.first_name},
 
-This is to inform you that your account has been banned by an admin.
+This is to inform you that your account has been banned by an admin. Reason: ${ban_reason}
 
 If you have any questions or believe this to be a mistake, please contact our support team for assistance.
 
@@ -1124,7 +1150,7 @@ Best regards,
 The Grovix Team`,
 
         html: `<p>Hello ${user.first_name},</p>
-               <p>This is to inform you that your account has been <strong>banned</strong> by an admin.</p>
+               <p>This is to inform you that your account has been <strong>banned</strong> by an admin. Reason: ${ban_reason}</p>
                <p>If you have any questions or believe this to be a mistake, please contact our support team for assistance.</p>
                <p>Thank you for your understanding.</p>
                <p>Best regards,<br>The Grovix Team</p>`,
@@ -1140,6 +1166,7 @@ The Grovix Team`,
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
+
 
 // Promote or Demote User to Admin
 router.post('/admin/users/admin/:user_id', isAdmin, async (req, res, next) => {
