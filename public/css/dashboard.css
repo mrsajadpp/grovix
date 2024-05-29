@@ -170,10 +170,10 @@ body {
     justify-content: start;
 }
 
-.articleContainer .articles .article .articleControl div {
+/* .articleContainer .articles .article .articleControl div {
     height: 100%;
     width: 100%;
-}
+} */
 
 .articleContainer .articles .article .articleControl button {
     width: 40px;
