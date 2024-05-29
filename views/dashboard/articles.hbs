@@ -9,35 +9,45 @@
                 <div class="articleImg">
                     <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
                 </div>
-                <div class="articleContent">
-                    <h4>{{this.title}}</h4>
-                    <p>{{this.description}}</p>
-                </div>
-                <div class="articleControl">
-                    <div class="editIcon">
-                        <button onclick="location.href = '/dashboard/edit/{{this._id}}'">
-                            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
-                                class="style-scope tp-yt-iron-icon"
-                                style="pointer-events: none; display: block; width: 24px; height: 24px;">
-                                <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
-                                    <path
-                                        d="M14.06 7.6L16.4 9.94L6.34 20H4V17.66L14.06 7.6ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19ZM17.61 4.05L19.98 6.42L18.84 7.56L16.47 5.19L17.61 4.05ZM17.61 2.63L15.06 5.18L18.85 8.97001L21.4 6.42L17.61 2.63Z"
-                                        class="style-scope tp-yt-iron-icon"></path>
-                                </g>
-                            </svg>
-                        </button>
+                <div class="cont">
+                    <div class="articleContent">
+                        <h4>{{this.title}}</h4>
                     </div>
-                    <div class="deleteIcon">
-                        <!-- Share button -->
-                        <button onclick="share('{{this._id}}', '{{this.title}}', '{{this.description}}', '{{this.endpoint}}');">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"
-                                focusable="false"
-                                style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
-                                <path
-                                    d="M15 5.63 20.66 12 15 18.37V14h-1c-3.96 0-7.14 1-9.75 3.09 1.84-4.07 5.11-6.4 9.89-7.1l.86-.13V5.63M14 3v6C6.22 10.13 3.11 15.33 2 21c2.78-3.97 6.44-6 12-6v6l8-9-8-9z">
-                                </path>
-                            </svg>
-                        </button>
+                    <div class="articleControl">
+                        <div class="editIcon">
+                            <button onclick="location.href = '/dashboard/edit/{{this._id}}'">
+                                <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
+                                    class="style-scope tp-yt-iron-icon"
+                                    style="pointer-events: none; display: block; width: 24px; height: 24px;">
+                                    <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
+                                        <path
+                                            d="M14.06 7.6L16.4 9.94L6.34 20H4V17.66L14.06 7.6ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19ZM17.61 4.05L19.98 6.42L18.84 7.56L16.47 5.19L17.61 4.05ZM17.61 2.63L15.06 5.18L18.85 8.97001L21.4 6.42L17.61 2.63Z"
+                                            class="style-scope tp-yt-iron-icon"></path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+                        &nbsp;
+                        <div class="deleteIcon">
+                            <!-- Share button -->
+                            <button
+                                onclick="share('{{this._id}}', '{{this.title}}', '{{this.description}}', '{{this.endpoint}}');">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"
+                                    focusable="false"
+                                    style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                                    <path
+                                        d="M15 5.63 20.66 12 15 18.37V14h-1c-3.96 0-7.14 1-9.75 3.09 1.84-4.07 5.11-6.4 9.89-7.1l.86-.13V5.63M14 3v6C6.22 10.13 3.11 15.33 2 21c2.78-3.97 6.44-6 12-6v6l8-9-8-9z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        &nbsp;
+                        <div class="deleteIcon viewsIco">
+                            <!-- Share button -->
+                            <button>
+                                <span>Views: {{formatNumber this.views}}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
