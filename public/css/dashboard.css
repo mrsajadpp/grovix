@@ -157,7 +157,7 @@ body {
 }
 
 .articleContainer .articles .article .articleCont {
-    width: 100%;
+    flex-grow: 1;
     height: 100%;
     display: flex;
 }
@@ -229,7 +229,7 @@ body {
 .articleContainer .articles .article .articleCont .articleContent h4 {
     margin: 0px;
     padding: 0px;
-    font-size: 15px;
+    font-size: 13px;
     color: #000;
     line-height: 12px;
     padding-left: 10px;
