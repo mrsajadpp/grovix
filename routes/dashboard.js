@@ -2,6 +2,7 @@ var express = require('express');
 const { default: mongoose } = require('mongoose');
 const User = require('../models/user');
 const Article = require('../models/article');
+const Updation = require('../models/updation');  
 
 var router = express.Router();
 
@@ -98,7 +99,7 @@ router.get('/new', isAuthorised, (req, res, next) => {
 // Edit Article
 router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {
   try {
-    let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
+    let article = await Article.findOne({ article_id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
     res.render('dashboard/edit', { title: article.title, style: ['dashboard', 'regform'], article, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
