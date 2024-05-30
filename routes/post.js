@@ -1375,4 +1375,29 @@ router.post('/admin/send', isAdmin, async (req, res, next) => {
   }
 });
 
+const convertAllJpgToWebp = async (dir) => {
+  try {
+    const files = fs.readdirSync(dir);
+    const jpgFiles = files.filter(file => path.extname(file).toLowerCase() === '.jpg');
+
+    for (const file of jpgFiles) {
+      const inputPath = path.join(dir, file);
+      const outputPath = path.join(dir, path.basename(file, '.jpg') + '.webp');
+
+      try {
+        await convertToWebp(inputPath, outputPath);
+        console.log(`Converted ${inputPath} to ${outputPath}`);
+      } catch (error) {
+        console.error(`Error converting ${inputPath}:`, error);
+      }
+    }
+  } catch (error) {
+    console.error('Error reading directory:', error);
+  }
+};
+
+// Example usage
+const directoryPath = path.resolve(__dirname, '/../grovix/public/img/user/'); // Replace with your directory path
+convertAllJpgToWebp(directoryPath);
+
 module.exports = router;
