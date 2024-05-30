@@ -70,6 +70,18 @@
     </script>
   {{/if}}
 
+  {{#if home}}
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Grovix Lab",
+      "url": "https://www.grovixlab.com/"
+    }
+    </script>
+  {{/if}}
+
   <link rel="stylesheet" href="/css/style.css">
   {{#if style}}
   {{#each style}}

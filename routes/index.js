@@ -62,7 +62,7 @@ function getCurrentDate() {
 
 // Home
 router.get('/', (req, res, next) => {
-  res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', style: [], user: req.session && req.session.user ? req.session.user : false });
+  res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Trending
