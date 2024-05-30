@@ -447,24 +447,25 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
     } = req.body;
 
     if (first_name || last_name || phone || sex || bio || address_line_one || address_line_two || country || state || city || zip_code) {
+      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+
       let userData = {
-        first_name: first_name ? first_name : '',
-        last_name: last_name ? last_name : '',
-        contact_no: phone ? phone : '',
-        sex: sex ? sex : '',
-        bio: bio ? bio : '',
+        first_name: first_name ? first_name : user.first_name,
+        last_name: last_name ? last_name : user.last_name,
+        contact_no: phone ? phone : user.contact_no,
+        sex: sex ? sex : user.sex,
+        bio: bio ? bio : user.bio,
         address: {
-          address_line_one: address_line_one ? address_line_one : '',
-          address_line_two: address_line_two ? address_line_two : '',
-          country: country ? country : '',
-          state: state ? state : '',
-          city: city ? city : '',
-          zip_code: zip_code ? zip_code : ''
+          address_line_one: address_line_one ? address_line_one : user.address.address_line_one,
+          addressline_two: address_line_two ? address_line_two : user.address.addressline_two,
+          country: country ? country : user.address.country,
+          state: state ? state : user.address.state,
+          city: city ? city : user.address.city,
+          zip_code: zip_code ? zip_code : user.address.zip_code
         }
       };
 
       await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
-      let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
       req.session.user = user;
 
       if (req.files && req.files.profile) {
