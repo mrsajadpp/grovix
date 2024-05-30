@@ -1377,6 +1377,12 @@ router.post('/admin/send', isAdmin, async (req, res, next) => {
 
 const convertAllJpgToWebp = async (dir) => {
   try {
+    // Check if the directory exists
+    if (!fs.existsSync(dir)) {
+      console.error(`Directory does not exist: ${dir}`);
+      return;
+    }
+
     const files = fs.readdirSync(dir);
     const jpgFiles = files.filter(file => path.extname(file).toLowerCase() === '.jpg');
 
@@ -1397,7 +1403,8 @@ const convertAllJpgToWebp = async (dir) => {
 };
 
 // Example usage
-const directoryPath = path.resolve(__dirname, '/../grovix/public/img/user/'); // Replace with your directory path
+const directoryPath = path.resolve(__dirname, '../public/img/user/'); // Adjust the path as needed
+console.log(directoryPath);
 convertAllJpgToWebp(directoryPath);
 
 module.exports = router;
