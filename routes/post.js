@@ -17,6 +17,8 @@ let path = require('path');
 let { sendMail } = require('../email/config')
 const speakeasy = require('speakeasy');
 // const sharp = require('sharp');
+const webp = require('webp-converter');
+const { exec } = require('child_process');
 
 
 const { default: mongoose } = require('mongoose');
@@ -410,6 +412,23 @@ The Grovix Team`,
 });
 
 
+// Determine the correct path to cwebp based on the OS
+const cwebpPath = process.platform === 'win32'
+  ? path.resolve(__dirname, '../node_modules/webp-converter/bin/libwebp_win64/bin/cwebp.exe')
+  : path.resolve(__dirname, '../node_modules/webp-converter/bin/cwebp');
+
+const convertToWebp = (inputPath, outputPath) => {
+  return new Promise((resolve, reject) => {
+    exec(`"${cwebpPath}" -q 80 "${inputPath}" -o "${outputPath}"`, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
+};
+
 // Edit Profile
 router.post('/profile/edit', isAuthorised, async (req, res, next) => {
   try {
@@ -436,7 +455,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
         bio: bio ? bio : '',
         address: {
           address_line_one: address_line_one ? address_line_one : '',
-          addressline_two: address_line_two ? address_line_two : '',
+          address_line_two: address_line_two ? address_line_two : '',
           country: country ? country : '',
           state: state ? state : '',
           city: city ? city : '',
@@ -450,31 +469,27 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 
       if (req.files && req.files.profile) {
         let profileFile = req.files.profile;
-        let imagePath = await __dirname + '/../public/img/user/' + user._id + '.jpg';
-        let profilePath = await __dirname + '/../public/img/user/' + user._id + '.jpg';
+        let imagePath = path.join(__dirname, '/../public/img/user/', user._id + '.jpg');
+        let webpPath = path.join(__dirname, '/../public/img/user/', user._id + '.webp');
 
         profileFile.mv(imagePath, async function (err) {
           if (err) {
             return res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Error uploading profile image: " + err } });
           }
 
-          // Resize the image
-          // sharp(imagePath)
-          //   .resize(75, 75) // Set the width and height
-          //   .toFile(profilePath, (err, info) => {
-          //     if (err) {
-          //       console.error(err);
-          //     } else {
-          //       res.redirect('/dashboard/settings');
-          //     }
-          //   });
-          res.redirect('/dashboard/settings');
-
+          // Convert JPG to WebP
+          try {
+            await convertToWebp(imagePath, webpPath);
+            console.log(`Converted ${imagePath} to ${webpPath}`);
+            res.redirect('/dashboard/settings');
+          } catch (error) {
+            console.error('Error converting image:', error);
+            res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Error converting profile image: " + error.message } });
+          }
         });
       } else {
         res.redirect('/dashboard/settings');
       }
-
     } else {
       res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Please fill blank input box." } });
     }
