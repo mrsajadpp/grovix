@@ -419,7 +419,7 @@ const cwebpPath = process.platform === 'win32'
 
 const convertToWebp = (inputPath, outputPath) => {
   return new Promise((resolve, reject) => {
-    exec(`"${cwebpPath}" -q 80 "${inputPath}" -o "${outputPath}"`, (error, stdout, stderr) => {
+    exec(`cwebp -q 80 "${inputPath}" -o "${outputPath}"`, (error, stdout, stderr) => {
       if (error) {
         reject(error);
       } else {
