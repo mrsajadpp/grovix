@@ -189,7 +189,6 @@
         const category = document.getElementById('category');
         const content = document.getElementById('content');
         const customCategory = document.getElementById('customCategory');
-        const customCatBox = document.querySelector('.customCategory');
         const editor = document.getElementById('editor');
         const htmlEditor = document.getElementById('htmlEditor');
         const categorySelect = document.getElementById('category');
@@ -219,8 +218,8 @@
                     const height = img.naturalHeight;
 
                     if (width !== 1920 || height !== 1080) {
-                        errorMsg.style.color = 'red';
-                        errorMsg.textContent = 'Image dimensions must be 1920x1080';
+                        errorMsg.style.color = 'orange';
+                        errorMsg.textContent = 'We prefer the image dimensions to be 1920x1080';
                     } else {
                         errorMsg.style.color = 'green';
                         errorMsg.textContent = 'Image dimensions are correct';
