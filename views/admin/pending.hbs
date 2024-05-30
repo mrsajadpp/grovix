@@ -63,7 +63,7 @@
     <div class="articles">
         {{#if article_list}}
         {{#each article_list}}
-        <div class="article">
+        <!--<div class="article">
             <div class="articleCont">
                 <div onclick="location.href = '/admin/article/prev/{{this._id}}'" class="articleImg">
                     <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
@@ -91,6 +91,42 @@
                                 </path>
                             </svg>
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="article">
+            <div class="articleCont">
+                <div class="articleImg">
+                    <div class="img">
+                        <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
+                    </div>
+                </div>
+                <div class="cont">
+                    <div class="articleContent">
+                        <h4>{{this.title}}</h4>
+                    </div>
+                    <div class="articleControl">
+                        <div class="editIcon">
+                            <button onclick="confirmApprove('{{this._id}}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    style="fill: rgba(0, 0, 0, 1);">
+                                    <path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        &nbsp;
+                        <div class="deleteIcon">
+                            <button onclick="confirmDelete('{{this._id}}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    style="fill: rgba(0, 0, 0, 1);">
+                                    <path
+                                        d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

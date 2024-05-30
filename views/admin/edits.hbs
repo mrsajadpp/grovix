@@ -6,8 +6,8 @@
         <div class="seLeft">
             <a href="/admin/articles">
                 <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"
-                        focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false"
+                        style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
                         <path
                             d="M14.97 16.95 10 13.87V7h2v5.76l4.03 2.49-1.06 1.7zM12 2C8.73 2 5.8 3.44 4 5.83V3.02H2V9h6V7H5.62C7.08 5.09 9.36 4 12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8H2c0 5.51 4.49 10 10 10s10-4.49 10-10S17.51 2 12 2z">
                         </path>
@@ -45,8 +45,8 @@
         <div class="seRight  selected">
             <a href="/admin/articles/edits">
                 <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="active" height="24" viewBox="0 0 24 24" width="24" focusable="false"
-                        style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="active" height="24" viewBox="0 0 24 24" width="24"
+                        focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
                         <path
                             d="M14.97 16.95 10 13.87V7h2v5.76l4.03 2.49-1.06 1.7zM12 3c-4.96 0-9 4.04-9 9s4.04 9 9 9 9-4.04 9-9-4.04-9-9-9m0-1c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z">
                         </path>
@@ -63,7 +63,7 @@
     <div class="articles">
         {{#if article_list}}
         {{#each article_list}}
-        <div class="article" >
+        <!--<div class="article" >
             <div class="articleCont"> 
                 <div onclick="location.href = '/admin/article/edits/prev/{{this._id}}'" class="articleImg">
                     <img src="/img/article/{{this.article_id}}.jpg" alt="{{this.title}}">
@@ -91,6 +91,42 @@
                                 </path>
                             </svg>
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="article">
+            <div class="articleCont">
+                <div class="articleImg">
+                    <div class="img">
+                        <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
+                    </div>
+                </div>
+                <div class="cont">
+                    <div class="articleContent">
+                        <h4>{{this.title}}</h4>
+                    </div>
+                    <div class="articleControl">
+                        <div class="editIcon">
+                            <button onclick="confirmApprove('{{this._id}}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    style="fill: rgba(0, 0, 0, 1);">
+                                    <path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        &nbsp;
+                        <div class="deleteIcon">
+                            <button onclick="confirmCancel('{{this._id}}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    style="fill: rgba(0, 0, 0, 1);">
+                                    <path
+                                        d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
