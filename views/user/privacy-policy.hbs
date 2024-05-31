@@ -1,0 +1,183 @@
+{{> headers/user/article_header}}
+<!-- Spacing -->
+<style>
+    @media only screen and (max-width: 899px) {
+        .mobile-view {
+            height: 20px;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .mobile-view {
+            height: 75px;
+        }
+    }
+</style>
+
+<div class="mobile-view"></div>
+
+<!-- Content -->
+<div class="container">
+    <div class="content">
+        <div class="cont-cont">
+            <div class="terms">
+                <h1>Grovix Lab Privacy Policy</h1>
+
+                <p>
+                    When you use our product and our service that means you are trusting us and our product with your
+                    information, We are engaged in protecting your information. This privacy policy explains how we
+                    collect your information and protect your information when you visit our websites. If you have any
+                    questions about our Privacy Policy you can reach to us via <a
+                        href="mailto:support@grovixlab.com">support@grovixlab.com</a>.
+                </p>
+
+                <h2>The types of information We collect from you</h2>
+
+                <p>
+                    We collect your information to provide better service to you, and also we may collect and process
+                    the following data about you.
+                </p>
+
+                <ol>
+                    <li>Personal Identification information</li>
+                    <ul>
+                        <li>Name</li>
+                        <li>Email address</li>
+                        <li>Phone number</li>
+                        <li>Address</li>
+                        <li>Payment information</li>
+                        <li>Your interests</li>
+                    </ul>
+                    <br>
+                    <li>No personal Identifications:</li>
+                    <ul>
+                        <li>Browser type</li>
+                        <li>Language preference</li>
+                        <li>Referring site</li>
+                        <li>Date and time of each visiting request</li>
+                    </ul>
+                    <br>
+                    <li>Usage Data</li>
+                    <ul>
+                        <li>IP address</li>
+                        <li>Pages you visit on our site</li>
+                        <li>Time and date of your visit</li>
+                        <li>Time spent on pages</li>
+                        <li>Other diagnostic data</li>
+                    </ul>
+                </ol>
+
+                <h2>How we process your data</h2>
+                <p>We process your information in the following ways:</p>
+
+                <ol>
+                    <li>To provide a better experience</li>
+                    <ul>
+                        <li>We analyze how you are using our website and how we can improve our website.</li>
+                        <li>We use your interest to display your interest-based content on our website.</li>
+                    </ul>
+                    <br>
+                    <li>For advertising and Marketing Purposes</li>
+                    <ul>
+                        <li>We use your information to customize advertising and content based on your interests.</li>
+                    </ul>
+                    <br>
+                    <li>For identity verification</li>
+                    <ul>
+                        <li>We use your personal information to verify you are under our terms and conditions.</li>
+                        <li>We use your information to prevent fraudulent transactions and secure payment.</li>
+                    </ul>
+                </ol>
+
+                <h2>Selling your information</h2>
+
+                <p>We never sell your personal information to third-party services, and we work hard to protect your
+                    information and put you in control.</p>
+
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .banner {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 350px;
+            height: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px;
+            z-index: 1000;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #000;
+        }
+
+        @media (max-width: 400px) {
+            .banner {
+                width: 90%;
+                height: auto;
+            }
+        }
+    </style>
+    <div class="banner" id="banner">
+        <img alt="Advertisement" id="adImage" src="https://i.postimg.cc/SRfGym3Q/Time-to-make-money.gif" />
+        <span class="close-btn" id="closeBtn">×</span>
+    </div>
+    <script>
+        document.getElementById('closeBtn').addEventListener('click', function () {
+            document.getElementById('banner').style.display = 'none';
+        });
+
+        document.getElementById('adImage').addEventListener('click', function () {
+            window.location.href = 'https://www.grovixlab.com/auth/signup';
+        });
+
+    </script>
+
+    <br /><br />
+
+    <!-- Share button script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const shareButton = document.getElementById('nativeShareButton');
+
+            shareButton.addEventListener('click', async () => {
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: '{{article.title}}',
+                            text: '{{article.description}}',
+                            url: 'https://www.grovixlab.com/page/{{article.endpoint}}',
+                        });
+                        console.log('Content shared successfully');
+                    } catch (error) {
+                        console.error(error);
+                        console.error('Error sharing content:', error);
+                    }
+                } else {
+                    alert('Web Share API is not supported in your browser.');
+                }
+            });
+        });
+
+    </script>
+    <br>

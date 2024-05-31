@@ -149,6 +149,11 @@ router.get('/auth/recover', isNotAuthorised, (req, res, next) => {
   res.render('user/forgot', { title: "Recover Account", url: 'https://www.grovixlab.com/auth/recover', style: ['regform'], user: req.session && req.session.user ? req.session.user : false });
 });
 
+// Privacy policy
+router.get('/privacy-policy', (req, res, next) => {
+  res.render('user/privacy-policy', { title: "Grovix Lab Privacy Policy", description: "Understand our privacy policy and how we collect and manage your information to provide a better experience", url: 'https://www.grovixlab.com/privacy-policy', style: ['article'], user: req.session && req.session.user ? req.session.user : false });
+});
+
 // Article
 router.get('/page/:endpoint', async (req, res, next) => {
   try {
