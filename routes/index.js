@@ -60,25 +60,38 @@ function getCurrentDate() {
   return `${year}-${month}-${day}`;
 }
 
+// Function to calculate keyword relevance
+function calculateKeywordRelevance(article, keywords) {
+  let relevance = 0;
+  const content = `${article.title} ${article.description} ${article.body}`.toLowerCase();
+
+  keywords.forEach(keyword => {
+    const regex = new RegExp(`\\b${keyword.toLowerCase()}\\b`, 'g');
+    const matches = content.match(regex);
+    relevance += matches ? matches.length : 0;
+  });
+
+  return relevance;
+}
+
 // Fetching articles and calculating trending score
-async function getTrendingArticles() {
+async function getTrendingArticles(keywords) {
   let articles = await Article.find({ status: true }).lean();
 
   // Normalization functions
   const normalizeViews = (views, maxViews) => views / maxViews;
-  const normalizeTime = (createdTime, currentTime) => (currentTime - new Date(createdTime).getTime()) / (1000 * 60 * 60 * 24); // In days
+  const normalizeRelevance = (relevance, maxRelevance) => relevance / maxRelevance;
 
-  // Current time
-  const currentTime = Date.now();
-
-  // Find maximum views for normalization
+  // Find maximum views and relevance for normalization
   const maxViews = Math.max(...articles.map(article => article.views));
+  const maxRelevance = Math.max(...articles.map(article => calculateKeywordRelevance(article, keywords)));
 
   // Calculate trending score for each article
   articles = articles.map(article => {
     const normalizedViews = normalizeViews(article.views, maxViews);
-    const normalizedTime = normalizeTime(article.created_time, currentTime);
-    const trendingScore = (0.7 * normalizedViews) - (0.3 * normalizedTime); // Example weights
+    const keywordRelevance = calculateKeywordRelevance(article, keywords);
+    const normalizedRelevance = normalizeRelevance(keywordRelevance, maxRelevance);
+    const trendingScore = (0.7 * normalizedViews) + (0.3 * normalizedRelevance); // Example weights
 
     return {
       ...article,
@@ -95,7 +108,7 @@ async function getTrendingArticles() {
 // Home
 router.get('/', async (req, res, next) => {
   try {
-    let trendings = await getTrendingArticles();
+    let trendings = await getTrendingArticles(["nodejs", "coin", "ai"]);
     console.log(trendings);
     res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
