@@ -16,11 +16,11 @@
         <div class="inputBox">
             <input type="text" name="subject" id="subject" placeholder="Subject*" required>
         </div>
-        <div class="textBox">
+        <div class="textBox" style="height: 400px;">
             <textarea name="body" id="body" placeholder="Message*" required></textarea>
         </div>
         {{#if error}}
-        <div class="inputText" style="height: 400px;">
+        <div class="inputText" >
             <span class="textMsg" style="color: red;">{{error.message}}</span>
         </div>
         {{/if}}
