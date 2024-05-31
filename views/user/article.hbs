@@ -33,14 +33,14 @@
                 <!-- Author -->
                 <div class="author">
                     <div class="authorProfile">
-                        <img src="/img/user/{{author._id}}.jpg"
-                            alt="{{author.first_name}} {{author.last_name}}" onerror="this.onerror=null;this.src='/img/default-user.jpg';">
+                        <img src="/img/user/{{author._id}}.jpg" alt="{{author.first_name}} {{author.last_name}}"
+                            onerror="this.onerror=null;this.src='/img/default-user.jpg';">
                     </div>
                     <div class="authorDetials">
                         <h4><b>{{author.first_name}} {{author.last_name}}</b>&nbsp;
                             {{#if author.admin}}
-                            <svg xmlns="http://www.w3.org/2000/svg" title="Officials" width="24" height="24" viewBox="0 0 24 24"
-                                style="fill: #0078e8;">
+                            <svg xmlns="http://www.w3.org/2000/svg" title="Officials" width="24" height="24"
+                                viewBox="0 0 24 24" style="fill: #0078e8;">
                                 <path
                                     d="M19.965 8.521C19.988 8.347 20 8.173 20 8c0-2.379-2.143-4.288-4.521-3.965C14.786 2.802 13.466 2 12 2s-2.786.802-3.479 2.035C6.138 3.712 4 5.621 4 8c0 .173.012.347.035.521C2.802 9.215 2 10.535 2 12s.802 2.785 2.035 3.479A3.976 3.976 0 0 0 4 16c0 2.379 2.138 4.283 4.521 3.965C9.214 21.198 10.534 22 12 22s2.786-.802 3.479-2.035C17.857 20.283 20 18.379 20 16c0-.173-.012-.347-.035-.521C21.198 14.785 22 13.465 22 12s-.802-2.785-2.035-3.479zm-9.01 7.895-3.667-3.714 1.424-1.404 2.257 2.286 4.327-4.294 1.408 1.42-5.749 5.706z">
                                 </path>
@@ -52,13 +52,13 @@
                 </div>
 
                 <!-- Thumbnail -->
-                <img src="/img/article/{{article._id}}.jpg"
-                    alt="{{article.title}}">
+                <img src="/img/article/{{article._id}}.jpg" alt="{{article.title}}">
 
                 <!-- Share Button -->
                 <div class="shareBtn">
                     <div class="share">
-                        <a href="https://www.facebook.com/sharer.php?u=https://www.grovixlab.com/page/{{article.endpoint}}">
+                        <a
+                            href="https://www.facebook.com/sharer.php?u=https://www.grovixlab.com/page/{{article.endpoint}}">
                             <button class="darkBlue">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     style="fill: #fff;">
@@ -79,7 +79,8 @@
                                 </svg>
                             </button>
                         </a>
-                        <a href="https://api.whatsapp.com/send?text={{article.title}} | https://www.grovixlab.com/page/{{article.endpoint}}">
+                        <a
+                            href="https://api.whatsapp.com/send?text={{article.title}} | https://www.grovixlab.com/page/{{article.endpoint}}">
                             <button class="red">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     style="fill: #fff;">
@@ -107,6 +108,64 @@
         </div>
     </div>
 
+
+    <style>
+        .banner {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 350px;
+            height: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px;
+            z-index: 1000;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #000;
+        }
+
+        @media (max-width: 400px) {
+            .banner {
+                width: 90%;
+                height: auto;
+            }
+        }
+    </style>
+    <div class="banner" id="banner">
+        <img alt="Advertisement" id="adImage"
+            src="https://i.postimg.cc/SRfGym3Q/Time-to-make-money.gif" />
+        <span class="close-btn" id="closeBtn">×</span>
+    </div>
+    <script>
+        document.getElementById('closeBtn').addEventListener('click', function () {
+            document.getElementById('banner').style.display = 'none';
+        });
+
+        document.getElementById('adImage').addEventListener('click', function () {
+            window.location.href = 'https://www.grovixlab.com/auth/signup';
+        });
+
+    </script>
+
+    <br /><br />
+
     <!-- Share button script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -122,7 +181,7 @@
                         });
                         console.log('Content shared successfully');
                     } catch (error) {
-console.error(error);
+                        console.error(error);
                         console.error('Error sharing content:', error);
                     }
                 } else {
