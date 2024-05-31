@@ -24,10 +24,10 @@
   <meta name="description" content="{{article.description}}" />
   <meta name="type" content="article" />
   <meta name="url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
-  <meta name="image" content="http://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   <meta name="og:description" content="{{article.description}}" />
   <meta name="og:type" content="article" />
   <meta name="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
+  <meta name="image" content="http://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   <meta name="og:image" content="http://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   <meta name="image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
   <meta name="og:image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
@@ -41,6 +41,13 @@
 
   {{#if url}}
   <link rel="canonical" href="{{url}}" />
+  {{/if}}
+
+  {{#if ogimage}}
+  <meta name="image" content="{{ogimage}}" />
+  <meta name="og:image" content="{{ogimage}}" />
+  <meta name="image:secure_url" content="{{ogimage}}" />
+  <meta name="og:image:secure_url" content="{{ogimage}}" />
   {{/if}}
 
   <meta name="image:width" content="1200" />

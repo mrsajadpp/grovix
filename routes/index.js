@@ -126,7 +126,7 @@ router.get('/', async (req, res, next) => {
 // Trending
 router.get('/trending', async (req, res, next) => {
   let trend = await getTrendingArticles(["nodejs", "coin", "ai"]);
-  res.render('user/trending', { title: "Trending Articles Insights", description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.", url: 'https://www.grovixlab.com/trending', trend, style: [], user: req.session && req.session.user ? req.session.user : false });
+  res.render('user/trending', { title: "Trending Articles Insights", description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.", url: 'https://www.grovixlab.com/trending', ogimage: 'http://www.grovixlab.com/img/opengraph/trending/trending-min.jpg', trend, style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Categories
