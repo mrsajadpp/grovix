@@ -61,9 +61,25 @@ function getCurrentDate() {
 }
 
 // Home
-router.get('/', (req, res, next) => {
-  res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
-});
+router.get('/', async (req, res, next) => {
+  try {
+    let trendings = await Article.aggregate(
+      [ { $match : { status : "true" } } ],
+      [ { $sample: { size: 10 } } ]
+   );
+    console.log(trendings);
+    res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.error(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false
+    });
+  }
+});  
 
 // Trending
 router.get('/trending', (req, res, next) => {
