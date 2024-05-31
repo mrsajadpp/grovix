@@ -147,8 +147,8 @@ body {
     height: 100px;
     overflow: hidden;
     border-radius: 15px;
-    /* border: 1px solid #ccc; */
-    box-shadow: #ccc 0px 0px 3px;
+    border: 1px solid #ccc;
+    /* box-shadow: #ccc 0px 0px 3px; */
     display: flex;
     align-items: center;
     justify-content: start;
@@ -176,8 +176,8 @@ body {
 } */
 
 .articleContainer .articles .article .articleControl button {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
