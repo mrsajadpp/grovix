@@ -109,7 +109,7 @@ async function getTrendingArticles(keywords) {
 router.get('/', async (req, res, next) => {
   try {
     let trendings = await getTrendingArticles(["nodejs", "coin", "ai"]);
-    console.log(trendings);
+
     res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
@@ -124,8 +124,9 @@ router.get('/', async (req, res, next) => {
 });
 
 // Trending
-router.get('/trending', (req, res, next) => {
-  res.render('user/trending', { title: "Trending Articles Insights", description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.", url: 'https://www.grovixlab.com/trending', style: [], user: req.session && req.session.user ? req.session.user : false });
+router.get('/trending', async (req, res, next) => {
+  let trend = await getTrendingArticles(["nodejs", "coin", "ai"]);
+  res.render('user/trending', { title: "Trending Articles Insights", description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.", url: 'https://www.grovixlab.com/trending', trend, style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Categories
