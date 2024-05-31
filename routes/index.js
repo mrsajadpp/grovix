@@ -60,13 +60,42 @@ function getCurrentDate() {
   return `${year}-${month}-${day}`;
 }
 
+// Fetching articles and calculating trending score
+async function getTrendingArticles() {
+  let articles = await Article.find({ status: true }).lean();
+
+  // Normalization functions
+  const normalizeViews = (views, maxViews) => views / maxViews;
+  const normalizeTime = (createdTime, currentTime) => (currentTime - new Date(createdTime).getTime()) / (1000 * 60 * 60 * 24); // In days
+
+  // Current time
+  const currentTime = Date.now();
+
+  // Find maximum views for normalization
+  const maxViews = Math.max(...articles.map(article => article.views));
+
+  // Calculate trending score for each article
+  articles = articles.map(article => {
+    const normalizedViews = normalizeViews(article.views, maxViews);
+    const normalizedTime = normalizeTime(article.created_time, currentTime);
+    const trendingScore = (0.7 * normalizedViews) - (0.3 * normalizedTime); // Example weights
+
+    return {
+      ...article,
+      trendingScore,
+    };
+  });
+
+  // Sort articles based on the trending score
+  articles.sort((a, b) => b.trendingScore - a.trendingScore);
+
+  return articles;
+}
+
 // Home
 router.get('/', async (req, res, next) => {
   try {
-    let trendings = await Article.aggregate(
-      [ { $match : { status : "true" } } ],
-      [ { $sample: { size: 10 } } ]
-   );
+    let trendings = await getTrendingArticles();
     console.log(trendings);
     res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
@@ -79,7 +108,7 @@ router.get('/', async (req, res, next) => {
       user: req.session && req.session.user ? req.session.user : false
     });
   }
-});  
+});
 
 // Trending
 router.get('/trending', (req, res, next) => {
