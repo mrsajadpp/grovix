@@ -131,6 +131,30 @@ router.get('/article/edits/prev/:updation_id', isAdmin, async (req, res, next) =
   }
 });
 
+// Route to preview article bin
+router.get('/article/bin/prev/:updation_id', isAdmin, async (req, res, next) => {
+  try {
+    const updationId = req.params.updation_id;
+    const updation = await ArticleBin.findById(updationId).lean();
+    const author = await User.findById(updation.author_id).lean();
+
+    if (updation) {
+      res.render('admin/preview', {
+        title: "Preview Article Bin",
+        style: ['dashboard', 'article'],
+        article: updation, // Pass the updation details to the template
+        author,
+        user: req.session && req.session.user ? req.session.user : false
+      });
+    } else {
+      res.render('error', { title: "404", status: 404, message: "Article edit not found", style: ['error'], user: req.session.user ? req.session.user : false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+  }
+});
+
 // Route to preview article pending
 router.get('/article/prev/:updation_id', isAdmin, async (req, res, next) => {
   try {
