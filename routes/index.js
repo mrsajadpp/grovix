@@ -61,48 +61,73 @@ function getCurrentDate() {
 }
 
 // Function to calculate keyword relevance
-function calculateKeywordRelevance(article, keywords) {
-  let relevance = 0;
-  const content = `${article.title} ${article.description} ${article.body}`.toLowerCase();
+// function calculateKeywordRelevance(article, keywords) {
+//   let relevance = 0;
+//   const content = `${article.title} ${article.description} ${article.body}`.toLowerCase();
 
-  keywords.forEach(keyword => {
-    const regex = new RegExp(`\\b${keyword.toLowerCase()}\\b`, 'g');
-    const matches = content.match(regex);
-    relevance += matches ? matches.length : 0;
-  });
+//   keywords.forEach(keyword => {
+//     const regex = new RegExp(`\\b${keyword.toLowerCase()}\\b`, 'g');
+//     const matches = content.match(regex);
+//     relevance += matches ? matches.length : 0;
+//   });
 
-  return relevance;
-}
+//   return relevance;
+// }
 
 // Fetching articles and calculating trending score
-async function getTrendingArticles(keywords) {
+// async function getTrendingArticles(keywords) {
+//   let articles = await Article.find({ status: true }).lean();
+
+//   // Normalization functions
+//   const normalizeViews = (views, maxViews) => views / maxViews;
+//   const normalizeRelevance = (relevance, maxRelevance) => relevance / maxRelevance;
+
+//   // Find maximum views and relevance for normalization
+//   const maxViews = Math.max(...articles.map(article => article.views));
+//   const maxRelevance = Math.max(...articles.map(article => calculateKeywordRelevance(article, keywords)));
+
+//   // Calculate trending score for each article
+//   articles = articles.map(article => {
+//     const normalizedViews = normalizeViews(article.views, maxViews);
+//     const keywordRelevance = calculateKeywordRelevance(article, keywords);
+//     const normalizedRelevance = normalizeRelevance(keywordRelevance, maxRelevance);
+//     const trendingScore = (0.7 * normalizedViews) + (0.3 * normalizedRelevance); // Example weights
+
+//     return {
+//       ...article,
+//       trendingScore,
+//     };
+//   });
+
+//   // Sort articles based on the trending score
+//   articles.sort((a, b) => b.trendingScore - a.trendingScore);
+
+//   return articles;
+// }
+
+
+
+
+
+
+// Function to fetch and sort articles
+async function getMostViewedArticles(keywords) {
+  // Fetch articles with status true
   let articles = await Article.find({ status: true }).lean();
 
-  // Normalization functions
-  const normalizeViews = (views, maxViews) => views / maxViews;
-  const normalizeRelevance = (relevance, maxRelevance) => relevance / maxRelevance;
+  // Function to check if an article contains any of the keywords
+  function containsKeywords(article, keywords) {
+    const text = `${article.title} ${article.description} ${article.body}`.toLowerCase();
+    return keywords.some(keyword => text.includes(keyword.toLowerCase()));
+  }
 
-  // Find maximum views and relevance for normalization
-  const maxViews = Math.max(...articles.map(article => article.views));
-  const maxRelevance = Math.max(...articles.map(article => calculateKeywordRelevance(article, keywords)));
+  // Filter articles that contain any of the keywords
+  let filteredArticles = articles.filter(article => containsKeywords(article, keywords));
 
-  // Calculate trending score for each article
-  articles = articles.map(article => {
-    const normalizedViews = normalizeViews(article.views, maxViews);
-    const keywordRelevance = calculateKeywordRelevance(article, keywords);
-    const normalizedRelevance = normalizeRelevance(keywordRelevance, maxRelevance);
-    const trendingScore = (0.7 * normalizedViews) + (0.3 * normalizedRelevance); // Example weights
+  // Sort filtered articles by views in descending order
+  filteredArticles.sort((a, b) => b.views - a.views);
 
-    return {
-      ...article,
-      trendingScore,
-    };
-  });
-
-  // Sort articles based on the trending score
-  articles.sort((a, b) => b.trendingScore - a.trendingScore);
-
-  return articles;
+  return filteredArticles;
 }
 
 function separateWords(str) {
@@ -134,12 +159,11 @@ function separateWords(str) {
   return filteredWordsArray;
 }
 
-console.log(separateWords("hello iam ok"));
 
 // Home
 router.get('/', async (req, res, next) => {
   try {
-    let trendings = await getTrendingArticles(["coding", "coin", "ai"]);
+    let trendings = await getMostViewedArticles(["coding", "coin", "ai"]);
 
     res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
@@ -156,7 +180,7 @@ router.get('/', async (req, res, next) => {
 
 // Trending
 router.get('/trending', async (req, res, next) => {
-  let trend = await getTrendingArticles(["nodejs", "coin", "ai"]);
+  let trend = await getMostViewedArticles(["nodejs", "coin", "ai"]);
   res.render('user/trending', { title: "Trending Articles Insights", description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.", url: 'https://www.grovixlab.com/trending', ogimage: 'http://www.grovixlab.com/img/opengraph/trending/trending-min.jpg', trend, style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
