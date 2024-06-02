@@ -304,9 +304,9 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
           status,
           bio,
           sex
-        } = userData.toObject();
+        } = await userData.toObject();
 
-        const newData = {
+        const newData = await {
           address,
           _id,
           first_name,
@@ -321,7 +321,7 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
           sex
         };
 
-        req.session.user = newData;
+        req.session.user = await newData;
         res.redirect('/');
       } else {
         res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: req.params.user_id, error: { message: "Incorrect code" } });
