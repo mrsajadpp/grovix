@@ -291,7 +291,37 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
                  <p>Thank you,<br>The Grovix Team</p>`,
         });
 
-        req.session.user = userData;
+        const {
+          address,
+          _id,
+          first_name,
+          last_name,
+          email,
+          contact_no,
+          date,
+          admin,
+          verified,
+          status,
+          bio,
+          sex
+        } = userData.toObject();
+
+        const newData = {
+          address,
+          _id,
+          first_name,
+          last_name,
+          email,
+          contact_no,
+          date,
+          admin,
+          verified,
+          status,
+          bio,
+          sex
+        };
+
+        req.session.user = newData;
         res.redirect('/');
       } else {
         res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: req.params.user_id, error: { message: "Incorrect code" } });
