@@ -105,6 +105,16 @@ async function getTrendingArticles(keywords) {
   return articles;
 }
 
+function separateWords(str) {
+  // Remove punctuation and special characters, convert to lowercase
+  const cleanedString = str.replace(/[^\w\s]/gi, '').toLowerCase();
+
+  // Split the string into an array of words
+  const wordsArray = cleanedString.split(/\s+/);
+
+  return wordsArray;
+}
+
 // Home
 router.get('/', async (req, res, next) => {
   try {
@@ -154,6 +164,11 @@ router.get('/privacy-policy', (req, res, next) => {
   res.render('user/privacy-policy', { title: "Grovix Lab Privacy Policy", description: "Understand our privacy policy and how we collect and manage your information to provide a better experience", url: 'https://www.grovixlab.com/privacy-policy', style: ['article'], user: req.session && req.session.user ? req.session.user : false });
 });
 
+// Terms and codintions
+router.get('/terms-and-conditions', (req, res, next) => {
+  res.render('user/terms-and-conditions', { title: "Grovix Lab Terms and Conditions", description: "Understand our terms and conditions and how we collect and manage your information to provide a better experience", url: 'https://www.grovixlab.com/privacy-policy', style: ['article'], user: req.session && req.session.user ? req.session.user : false });
+});
+
 // Article
 router.get('/page/:endpoint', async (req, res, next) => {
   try {
@@ -164,12 +179,15 @@ router.get('/page/:endpoint', async (req, res, next) => {
     ).lean();
 
     if (article) {
+      let keywords = await separateWords(article.title);
+      let trend = await getTrendingArticles(keywords);
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
       res.render('user/article', {
         title: article.title,
         style: ['article'],
         article: article,
         author,
+        trend,
         url: `https://www.grovixlab.com/page/${article.endpoint}`,
         user: req.session && req.session.user ? req.session.user : false
       });
