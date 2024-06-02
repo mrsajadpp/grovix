@@ -105,7 +105,7 @@ async function getTrendingArticles(keywords) {
   return articles;
 }
 
-function separateAndFilterWords(str) {
+function separateWords(str) {
   // Define a list of stop words
   const stopWords = [
     'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours',
