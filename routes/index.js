@@ -139,7 +139,7 @@ console.log(separateWords("hello iam ok"));
 // Home
 router.get('/', async (req, res, next) => {
   try {
-    let trendings = await getTrendingArticles(["coin", "ai"]);
+    let trendings = await getTrendingArticles(["coding", "coin", "ai"]);
 
     res.render('user/index', { title: "Earn by Writing Articles | Grovix Lab - Your Online Writing Platform", description: "Join Grovix Lab to earn money by writing articles online. Our platform connects talented writers with businesses seeking quality content. Boost your income by crafting engaging, high-quality articles on diverse topics.", url: 'https://www.grovixlab.com/', trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
