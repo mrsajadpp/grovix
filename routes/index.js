@@ -225,7 +225,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
 
     if (article) {
       let keywords = await separateWords(article.title);
-      let trend = await getTrendingArticles(keywords);
+      let trend = await getMostViewedArticles(keywords);
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
       res.render('user/article', {
         title: article.title,
