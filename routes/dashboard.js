@@ -95,6 +95,9 @@ router.get('/settings/payment', isAuthorised, (req, res, next) => {
 router.get('/new', isAuthorised, (req, res, next) => {
   res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session && req.session.user ? req.session.user : false });
 });
+router.get('/article/new', isAuthorised, (req, res, next) => {
+  res.render('dashboard/newArticle', { title: "New >> Article >> Dashboard", style: ['dashboard', 'newArticle'], user: req.session && req.session.user ? req.session.user : false });
+});
 
 // Edit Article
 router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {

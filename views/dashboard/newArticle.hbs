@@ -1,0 +1,61 @@
+{{>headers/dashboard/new}}
+<form action="/article/request" id="form" method="post" enctype="multipart/form-data" class="newContainer">
+    <div class="newTop" style="border-bottom: none !important;">
+        <div class="topLeft">
+            <input type="text" placeholder="Title of Your Article" name="title">
+        </div>
+        <div class="topRight">
+            <div class="saveIcon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px">
+                    <path
+                        d="M818.15-85.23 704.46-200H260q-75.85 0-127.92-52.08Q80-304.15 80-380q0-73.15 49.04-123.92 49.04-50.77 114.81-54.7.69-14.92 8.3-37.03 7.62-22.12 17.54-38.04L114.46-788.92l28.31-28.31 703.69 703.69-28.31 28.31ZM260-240h402.92L299.38-603.54q-8.92 16.39-14.15 38.69Q280-542.54 280-520h-20q-58 0-99 41t-41 99q0 58 41 99t99 41Zm220.38-182.54Zm355.93 184.85L807.54-266q15.46-14.77 23.96-33.03T840-340q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480-720q-27 0-52 6.5T380-693l-28.77-29.54q35-20.92 64.5-29.19T480-760q100.29 0 170.14 69.86Q720-620.29 720-520v40h24.62q57.46 1.85 96.42 42.19Q880-397.46 880-340q0 27.46-10 53.27-10 25.81-33.69 49.04ZM593.77-479Z" />
+                </svg>
+            </div>
+            <a>
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" fill="#fff"
+                        width="32px">
+                        <path
+                            d="M160-220v-520l616.92 260L160-220Zm40-60 474-200-474-200v155.38L393.85-480 200-435.38V-280Zm0 0v-400 400Z" />
+                    </svg>
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="newTop"
+        style="display: flex !important;align-items:center !important; justify-content:center !important;">
+        <div class="top">
+            <div class="textBox">
+                <textarea name="description" id="" placeholder="Description of your Article"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="newBottom">
+        <div class="bottomLeft">
+            <div class="textArea">
+                <link rel="stylesheet" href="/editor/richtexteditor/rte_theme_default.css" />
+                <script type="text/javascript" src="/editor/richtexteditor/rte.js"></script>
+                <script>RTE_DefaultConfig.url_base = 'richtexteditor'</script>
+                <script type="text/javascript" src='/editor/richtexteditor/plugins/all_plugins.js'></script>
+
+                <textarea name="content" id="content" hidden></textarea>
+
+                <div id="div_editor1" style="width: 100%; height: 100%; border-radius: 0px; border: none;">
+                    <p>Hello world!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let form = document.getElementById('form');
+        let editor = new RichTextEditor("#div_editor1");
+        let content = document.getElementById('content');
+
+        form.addEventListener('submit', (event) => {
+            content.value = editor.getHTMLCode();
+        });
+    });
+</script>

@@ -52,7 +52,10 @@
                 </div>
 
                 <!-- Thumbnail -->
+                {{#if article.custom}}
+                {{else}}
                 <img src="/img/article/{{article._id}}.jpg" alt="{{article.title}}">
+                {{/if}}
 
                 <!-- Share Button -->
                 <div class="shareBtn">
@@ -152,8 +155,7 @@
         }
     </style>
     <div class="banner" id="banner">
-        <img alt="Advertisement" id="adImage"
-            src="https://i.postimg.cc/SRfGym3Q/Time-to-make-money.gif" />
+        <img alt="Advertisement" id="adImage" src="https://i.postimg.cc/SRfGym3Q/Time-to-make-money.gif" />
         <span class="close-btn" id="closeBtn">×</span>
     </div>
     <script>
