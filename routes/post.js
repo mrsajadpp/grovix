@@ -1440,9 +1440,9 @@ router.post('/admin/send', isAdmin, async (req, res, next) => {
 });
 
 // Fetch analytics data for charts
-router.get('/articles/analytics', async (req, res) => {
+router.get('/articles/analytics', isAuthorised, async (req, res) => {
   try {
-    const articles = await Article.find({}).sort({ views: -1 }).lean();
+    const articles = await Article.find({ author_id: req.session.user._id }).sort({ views: -1 }).lean();
 
     // Most viewed article
     const mostViewedArticle = articles[0];
