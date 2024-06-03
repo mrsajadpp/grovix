@@ -8,6 +8,7 @@ const ArticleBin = require('../models/artBin');
 const userBin = require('../models/userBin');
 const Page = require('../models/page');
 const Updation = require('../models/updation');
+const ArticleDraft = require('../models/articleDraft');
 const ArticleEditsBin = require('../models/editBin');
 let mail = require('../email/config');
 var geoip = require('geoip-lite');
@@ -545,6 +546,8 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
       let slag = await convertToSlug(title);
       let existSlag = await Article.findOne({ endpoint: slag }).lean();
 
+      await ArticleDraft.deleteOne({ author_id: new mongoose.Types.ObjectId(req.session.user._id) });
+
       if (existSlag) {
         let counter = 1;
         let newSlag = slag;
@@ -641,6 +644,27 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
     });
   }
 });
+
+// Autosave endpoint
+router.post('/article/autosave', isAuthorised, async (req, res) => {
+  try {
+    const { title, description, content } = req.body;
+    const userId = req.session.user._id;
+
+    // Save the draft data
+    await ArticleDraft.updateOne(
+      { author_id: userId },
+      { title, description, content, last_saved: new Date() },
+      { upsert: true }
+    );
+
+    res.json({ success: true, message: 'Draft autosaved successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Autosave failed.' });
+  }
+});
+
 
 // Delete article
 router.get('/article/delete/:article_id', isAuthorised, async (req, res, next) => {

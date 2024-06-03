@@ -2,7 +2,8 @@ var express = require('express');
 const { default: mongoose } = require('mongoose');
 const User = require('../models/user');
 const Article = require('../models/article');
-const Updation = require('../models/updation');  
+const Updation = require('../models/updation');
+const ArticleDraft = require('../models/articleDraft');
 
 var router = express.Router();
 
@@ -95,8 +96,10 @@ router.get('/settings/payment', isAuthorised, (req, res, next) => {
 router.get('/new', isAuthorised, (req, res, next) => {
   res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session && req.session.user ? req.session.user : false });
 });
-router.get('/article/new', isAuthorised, (req, res, next) => {
-  res.render('dashboard/newArticle', { title: "New >> Article >> Dashboard", style: ['dashboard', 'newArticle'], user: req.session && req.session.user ? req.session.user : false });
+router.get('/article/new', isAuthorised, async (req, res, next) => {
+  let drafts = await ArticleDraft.findOne({ author_id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+  console.log(drafts);
+  res.render('dashboard/newArticle', { title: "New >> Article >> Dashboard", style: ['dashboard', 'newArticle'], drafts, user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Edit Article
