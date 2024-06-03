@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Article = require('../models/article');
 const Page = require('../models/page');
 let mongoose = require('mongoose');
+var geoip = require('geoip-lite');
 const SitemapGenerator = require('sitemap-generator');
 
 var router = express.Router();
@@ -214,12 +215,18 @@ router.get('/terms-and-conditions', (req, res, next) => {
   res.render('user/terms-and-conditions', { title: "Grovix Lab Terms and Conditions", description: "Understand our terms and conditions and how we collect and manage your information to provide a better experience", url: 'https://www.grovixlab.com/privacy-policy', style: ['article'], user: req.session && req.session.user ? req.session.user : false });
 });
 
-// Article
+// Article Page
 router.get('/page/:endpoint', async (req, res, next) => {
   try {
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    var geo = await geoip.lookup(clientIp);
+    const userCountry = geo && geo.country ? geo.country : 'Unknown';
+    
     let article = await Article.findOneAndUpdate(
       { endpoint: req.params.endpoint, status: true },
-      { $inc: { views: 1 } }, // Increment the views field by 1
+      { 
+        $inc: { views: 1, impressions: 1, [`country_views.${userCountry}`]: 1 } // Increment the views, impressions, and country views
+      }, 
       { new: true } // Return the updated document
     ).lean();
 

@@ -34,9 +34,18 @@ const articleSchema = new Schema({
         type: Number,
         required: true,
     },
+    impressions: {
+        type: Number,
+        default: 0,
+    },
+    country_views: {
+        type: Map,
+        of: Number,
+        default: {},
+    },
     endpoint: {
         type: String,
-        require: true,
+        required: true,
     },
     updated_at: {
         type: String,
@@ -44,7 +53,7 @@ const articleSchema = new Schema({
     },
     custom: {
         type: String,
-        require: false,
+        required: false,
     },
 });
 

@@ -261,9 +261,7 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
       let verification = await Code.findOne({ user_id: req.params.user_id });
       if (req.body.otp == verification.verification_code) {
         const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-        console.log(clientIp);
         var geo = await geoip.lookup(clientIp);
-        console.log(geo);
         let user = await User.updateOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) }, { verified: true, status: true });
         let userData = await User.findOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) });
 
@@ -1441,28 +1439,50 @@ router.post('/admin/send', isAdmin, async (req, res, next) => {
   }
 });
 
-// Fetch article data for charts
+// Fetch analytics data for charts
 router.get('/articles/analytics', async (req, res) => {
   try {
-    // Fetch all articles
-    const articles = await Article.find({}).sort({ views: -1 }).limit(5).lean();
+    const articles = await Article.find({}).sort({ views: -1 }).lean();
+
+    // Most viewed article
+    const mostViewedArticle = articles[0];
+
+    // Most impressions article
+    const mostImpressionsArticle = articles.sort((a, b) => b.impressions - a.impressions)[0];
+
+    // Country views
+    const countryViews = {};
+    articles.forEach(article => {
+      for (const [country, views] of Object.entries(article.country_views || {})) {
+        countryViews[country] = (countryViews[country] || 0) + views;
+      }
+    });
+    const mostVisitingCountry = Object.keys(countryViews).reduce((a, b) => countryViews[a] > countryViews[b] ? a : b);
 
     // Prepare data for charts
     const articleViewsData = articles.map(article => ({
       title: article.title,
       views: article.views,
+      impressions: article.impressions,
       created_time: article.created_time
     }));
 
     res.json({
       success: true,
-      data: articleViewsData
+      data: {
+        articleViewsData,
+        mostViewedArticle,
+        mostImpressionsArticle,
+        countryViews,
+        mostVisitingCountry
+      }
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Failed to fetch article data' });
   }
 });
+
 
 // const convertAllJpgToWebp = async (dir) => {
 //   try {
