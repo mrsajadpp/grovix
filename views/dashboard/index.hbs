@@ -1,10 +1,21 @@
 {{>headers/dashboard/dashboard_header}}
 
-<!-- Dashboard Graph Metrix Coming Soon -->
-<div class="comingSoon">
-    <div class="comgText">
-        <span>Dashboard Graph Metrics Under Construction. Please wait, they will be coming soon! Our team is working
-            on it <span class="higlight">:)</span></span>
+<!-- Spacing -->
+<style>
+    .mobile-view {
+        height: 75px;
+    }
+</style>
+
+<div class="mobile-view"></div>
+
+<!-- Dashboard Graph Metrics -->
+<div class="graphContainer">
+    <div class="graph">
+        <canvas id="articleViewsChart"></canvas>
+    </div>
+    <div class="graph" style="margin-top: 20px;">
+        <canvas id="topReachedArticlesChart"></canvas>
     </div>
 </div>
 
@@ -26,3 +37,113 @@
         </a>
     </div>
 </div>
+
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart Data and Configuration -->
+<script>
+    document.addEventListener('DOMContentLoaded', async (event) => {
+        try {
+            // Fetch article data from the backend
+            const response = await fetch('/articles/analytics');
+            const result = await response.json();
+
+            if (!result.success) {
+                throw new Error(result.message);
+            }
+
+            const articles = result.data;
+
+            // Prepare data for Article Views Chart
+            const articleViewsLabels = articles.map(article => new Date(article.created_time).toLocaleDateString());
+            const articleViewsData = articles.map(article => article.views);
+
+            // Article Views Chart
+            const ctx1 = document.getElementById('articleViewsChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: articleViewsLabels,
+                    datasets: [{
+                        label: 'Article Views',
+                        data: articleViewsData,
+                        backgroundColor: 'rgba(0, 120, 232, 0.2)',
+                        borderColor: 'rgba(0, 120, 232, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Prepare data for Top Reached Articles Chart
+            const topReachedArticlesLabels = articles.map(article => article.title);
+            const topReachedArticlesData = articles.map(article => article.views);
+
+            // Top Reached Articles Chart
+            const ctx2 = document.getElementById('topReachedArticlesChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: topReachedArticlesLabels,
+                    datasets: [{
+                        label: 'Views',
+                        data: topReachedArticlesData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        } catch (error) {
+            console.error('Error loading article data:', error);
+        }
+    });
+</script>
+
+<style>
+    /* Add to your style.css or dashboard.css */
+
+    .graphContainer {
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .graph {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+    }
+</style>

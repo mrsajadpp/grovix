@@ -1441,6 +1441,29 @@ router.post('/admin/send', isAdmin, async (req, res, next) => {
   }
 });
 
+// Fetch article data for charts
+router.get('/articles/analytics', async (req, res) => {
+  try {
+    // Fetch all articles
+    const articles = await Article.find({}).sort({ views: -1 }).limit(5).lean();
+
+    // Prepare data for charts
+    const articleViewsData = articles.map(article => ({
+      title: article.title,
+      views: article.views,
+      created_time: article.created_time
+    }));
+
+    res.json({
+      success: true,
+      data: articleViewsData
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Failed to fetch article data' });
+  }
+});
+
 // const convertAllJpgToWebp = async (dir) => {
 //   try {
 //     // Check if the directory exists
