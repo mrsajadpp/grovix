@@ -550,7 +550,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
         let counter = 1;
         let newSlag = slag;
         while (await Article.findOne({ endpoint: newSlag }).lean()) {
-          newSlag = `${slag}-${counter}`;
+          newSlag = `${slag}${counter}`;
           counter++;
         }
         slag = newSlag;
@@ -985,7 +985,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
           author_id: user._id,
           title,
           description,
-          category,
+          category: 'null',
           body: content,
           created_time: article.created_time,
           updated_at: new Date(),
@@ -994,6 +994,38 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 
         // Check if an updation already exists for this article
         const existingUpdation = await Updation.findOne({ article_id: article._id, status: 'pending' });
+
+        // Extract first image from content and save it
+        const imgTagRegex = /<img[^>]+src="([^">]+)"/i;
+        const match = imgTagRegex.exec(content);
+
+        if (match && match[1]) {
+          const imgURL = match[1];
+          const imagePath = path.join(__dirname, '/../public/img/article/', `${article._id}.jpg`);
+
+          // Download the image from the URL
+          const downloadImage = async (url, filepath) => {
+            const writer = fs.createWriteStream(filepath);
+            const response = await axios({
+              url,
+              method: 'GET',
+              responseType: 'stream'
+            });
+
+            response.data.pipe(writer);
+
+            return new Promise((resolve, reject) => {
+              writer.on('finish', resolve);
+              writer.on('error', reject);
+            });
+          };
+        };
+
+        try {
+          await downloadImage(imgURL, imagePath);
+        } catch (err) {
+          console.error("Error downloading image:", err);
+        }
 
         if (existingUpdation) {
           // Update existing updation record
