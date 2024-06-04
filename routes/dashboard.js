@@ -50,7 +50,7 @@ router.get('/', isAuthorised, (req, res, next) => {
 
 // Articles
 router.get('/articles', isAuthorised, async (req, res, next) => {
-  const article_list = await Article.find({ author_id: req.session.user._id, status: true }).sort({ created_time: 1 }).lean();
+  const article_list = await Article.find({ author_id: req.session.user._id, status: true }).sort({ _id: -1 }).lean();
   res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
 });
 
