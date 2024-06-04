@@ -56,7 +56,7 @@ router.get('/articles', isAuthorised, async (req, res, next) => {
 
 router.get('/articles/pending', isAuthorised, async (req, res, next) => {
   try {
-    const article_list = await Article.find({ author_id: req.session.user._id, status: false }).lean();
+    const article_list = await Article.find({ author_id: req.session.user._id, status: false }).sort({ _id: -1 }).lean();
     res.render('dashboard/pending_articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);

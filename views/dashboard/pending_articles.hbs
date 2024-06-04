@@ -1,6 +1,6 @@
 {{> headers/dashboard/articlesp_header}}
 <!-- Article Grid -->
-<div class="articleContainer">
+{{!-- <div class="articleContainer">
     <div class="articles">
         {{#if article_list}}
         {{#each article_list}}
@@ -91,6 +91,289 @@
                 <span>No articles <span class="higlight">:)</span></span>
             </div>
         </div>
+        {{/if}}
+    </div>
+</div> --}}
+
+<style>
+    .topWriters {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 90px;
+    }
+
+    .topWriters .topContainer {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .topWriters .cardTitle {
+        display: flex;
+        align-items: center;
+    }
+
+    .topWriters .slideIcon {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .topWriters .slideIcon button {
+        width: 40px;
+        height: 40px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: transparent;
+        cursor: pointer;
+        background-color: #f6f6f6;
+    }
+
+    .topWriters .cardContainer {
+        width: 90%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding-bottom: 20px;
+    }
+
+    .topWriters .card {
+        height: 170px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        border-radius: 13px;
+        overflow: hidden;
+        background: #0078e8;
+    }
+
+    .topWriters .card .topCard {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        overflow: hidden;
+        align-items: end;
+        justify-content: center;
+    }
+
+    .topWriters .card .topCard .topperText {
+        width: 100%;
+        height: 20px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        transform: rotate(-5deg);
+        transform-origin: left center;
+        margin-top: 8px !important;
+        margin: 0 -601.5rem;
+        padding: 0.25rem 1.5rem;
+    }
+
+    .topWriters .card .topCard .topperText marquee {
+        color: #000;
+        text-transform: capitalize;
+        font-size: 12px;
+    }
+
+    .topWriters .card .bottomCard {
+        width: 100%;
+        height: calc(100% - 70px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .topWriters .card .bottomCard .profileArea {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 85px;
+        height: 100%;
+    }
+
+    .topWriters .card .bottomCard .profileArea .profile {
+        width: 60px;
+        height: 60px;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
+
+    .topWriters .card .bottomCard .profileArea .profile img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .topWriters .card .bottomCard .profileText {
+        width: calc(100% - 85px);
+        height: 100%;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column;
+        color: #f6f6f6;
+        padding: 10px;
+    }
+
+    .topWriters .card .bottomCard .profileText h3 {
+        margin: 0;
+        font-weight: 400;
+        font-size: 14px;
+        color: #fff;
+        line-height: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        text-align: left;
+        font-weight: 700;
+    }
+
+    .topWriters .card .bottomCard .profileText span {
+        font-size: 12px;
+        color: #f6f6f6;
+        margin: 0px;
+        line-height: 20px !important;
+        text-align: left;
+    }
+
+    .topWriters .card .bottomCard .profileText .name {
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: end;
+    }
+
+    .topWriters .card .bottomCard .profileText .articleAmount {
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: start;
+    }
+
+    .artCart .innerCard {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(70, 70, 70, 0.377);
+        backdrop-filter: blur(3px);
+        padding: 10px 0px 10px;
+    }
+
+    .artCart .innerCard .artTitle {
+        width: 100%;
+        height: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+
+    .artCart .innerCard .artBtn {
+        width: 100%;
+        height: 30%;
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+    }
+
+    .artCart .innerCard .artTitle a {
+        text-decoration: none;
+    }
+
+    .artCart .innerCard .artTitle h3 {
+        font-size: 16px;
+        margin-left: 20px;
+        line-height: 15px;
+        color: #fff;
+    }
+
+    .artCart .innerCard .artBtn button {
+        background: transparent;
+        border: none;
+        height: 100%;
+        width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+    }
+
+    .artCart .innerCard .artBtn button svg {
+        fill: #fff;
+    }
+
+    .artBtn .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100%;
+    }
+</style>
+
+
+<div class="topWriters">
+    <div class="topContainer" style="margin-top: 90px;">
+    </div>
+
+    <!-- Card -->
+    <div class="cardContainer" id="tcardContainer">
+        {{#if article_list}}
+        {{#each article_list}}
+        <div class="card artCart"
+            style="background: url('/img/article/{{this._id}}.jpg')  no-repeat center center;  background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/page/{{this.endpoint}}">
+                        <h3>{{this.title}}</h3>
+                    </a>
+                </div>
+                <div class="artBtn">
+                    <button style="width: 120px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                            fill="#fff">
+                            <path
+                                d="m625.85-305.85 28.3-28.3L500-488.33V-680h-40v208.31l165.85 165.84ZM480.13-120q-74.67 0-140.41-28.34-65.73-28.34-114.36-76.92-48.63-48.58-76.99-114.26Q120-405.19 120-479.87q0-74.67 28.34-140.41 28.34-65.73 76.92-114.36 48.58-48.63 114.26-76.99Q405.19-840 479.87-840q74.67 0 140.41 28.34 65.73 28.34 114.36 76.92 48.63 48.58 76.99 114.26Q840-554.81 840-480.13q0 74.67-28.34 140.41-28.34 65.73-76.92 114.36-48.58 48.63-114.26 76.99Q554.81-120 480.13-120ZM480-480Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
+                        </svg>
+                        &nbsp; Pending
+                    </button>
+                    <div class="buttons">
+                        <button onclick="location.href = '/dashboard/edit/{{this._id}}'">
+                            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
+                                class="style-scope tp-yt-iron-icon"
+                                style="pointer-events: none; display: block; width: 24px; height: 24px;">
+                                <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
+                                    <path
+                                        d="M14.06 7.6L16.4 9.94L6.34 20H4V17.66L14.06 7.6ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19ZM17.61 4.05L19.98 6.42L18.84 7.56L16.47 5.19L17.61 4.05ZM17.61 2.63L15.06 5.18L18.85 8.97001L21.4 6.42L17.61 2.63Z"
+                                        class="style-scope tp-yt-iron-icon"></path>
+                                </g>
+                            </svg>
+                        </button>
+                        <button onclick="confirmDelete('{{this._id}}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
+                                viewBox="0 0 24 24" width="24" focusable="false"
+                                style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
+                                <path d="M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
         {{/if}}
     </div>
 </div>
