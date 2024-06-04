@@ -50,7 +50,7 @@ router.get('/', isAuthorised, (req, res, next) => {
 
 // Articles
 router.get('/articles', isAuthorised, async (req, res, next) => {
-  const article_list = await Article.find({ author_id: req.session.user._id, status: true }).lean();
+  const article_list = await Article.find({ author_id: req.session.user._id, status: true }).sort({ created_time: 1 }).lean();
   res.render('dashboard/articles', { title: "Articles >> Dashboard", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
 });
 
@@ -93,9 +93,9 @@ router.get('/settings/payment', isAuthorised, (req, res, next) => {
 });
 
 // New Article
-router.get('/new', isAuthorised, (req, res, next) => {
-  res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session && req.session.user ? req.session.user : false });
-});
+// router.get('/new', isAuthorised, (req, res, next) => {
+//   res.render('dashboard/new', { title: "New >> Article >> Dashboard", style: ['dashboard', 'regform'], user: req.session && req.session.user ? req.session.user : false });
+// });
 router.get('/article/new', isAuthorised, async (req, res, next) => {
   let drafts = await ArticleDraft.findOne({ author_id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
   res.render('dashboard/newArticle', { title: "New >> Article >> Dashboard", style: ['dashboard', 'newArticle'], drafts, user: req.session && req.session.user ? req.session.user : false });
