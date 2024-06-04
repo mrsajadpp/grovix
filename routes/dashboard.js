@@ -106,7 +106,7 @@ router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {
   try {
     let drafts = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
     drafts.content = drafts.body;
-    res.render('dashboard/newArticle', { title: "New >> Article >> Dashboard", style: ['dashboard', 'newArticle'], drafts, user: req.session && req.session.user ? req.session.user : false });
+    res.render('dashboard/editArticle', { title: "Edit >> Article >> Dashboard", style: ['dashboard', 'newArticle'], drafts, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });

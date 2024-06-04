@@ -972,12 +972,12 @@ The Grovix Team`,
 // Update article
 router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
   try {
-    const { title, description, category, content } = req.body;
+    const { title, description, content } = req.body;
     const { user } = req.session;
     const articleId = req.params.article_id;
+    const article = await Article.findOne({ _id: new mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
 
-    if (title && description && category && content) {
-      const article = await Article.findOne({ _id: new mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
+    if (title && description && content) {
 
       if (article) {
         const updateData = {
@@ -1002,7 +1002,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
         if (match && match[1]) {
           const imgURL = match[1];
           const imagePath = path.join(__dirname, '/../public/img/article/', `${article._id}.jpg`);
-
+  
           // Download the image from the URL
           const downloadImage = async (url, filepath) => {
             const writer = fs.createWriteStream(filepath);
@@ -1011,20 +1011,20 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
               method: 'GET',
               responseType: 'stream'
             });
-
+  
             response.data.pipe(writer);
-
+  
             return new Promise((resolve, reject) => {
               writer.on('finish', resolve);
               writer.on('error', reject);
             });
           };
-        };
-
-        try {
-          await downloadImage(imgURL, imagePath);
-        } catch (err) {
-          console.error("Error downloading image:", err);
+  
+          try {
+            await downloadImage(imgURL, imagePath);
+          } catch (err) {
+            console.error("Error downloading image:", err);
+          }
         }
 
         if (existingUpdation) {
@@ -1042,7 +1042,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 
           thumbnailFile.mv(imagePath, async (err) => {
             if (err) {
-              return res.render('dashboard/edit', { title: "Edit Article", style: ['dashboard', 'regform'], article, error: { message: "Error uploading thumbnail image: " + err }, user });
+              return res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Error uploading thumbnail image: " + err }, user });
             }
           });
         }
@@ -1074,7 +1074,7 @@ The Grovix Team`,
         res.render('error', { title: "404", status: 404, message: "Article not found", style: ['error'], user });
       }
     } else {
-      res.render('dashboard/edit', { title: "Edit Article", style: ['dashboard', 'regform'], article, error: { message: "Please fill in all fields" }, user });
+      res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Please fill in all fields" }, user });
     }
   } catch (error) {
     console.error(error);

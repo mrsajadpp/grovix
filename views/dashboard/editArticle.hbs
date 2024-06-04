@@ -1,0 +1,99 @@
+{{>headers/dashboard/new}}
+<form action="/article/update/{{drafts._id}}" id="form" method="post" enctype="multipart/form-data"
+    class="newContainer">
+    <div class="newTop" style="border-bottom: none !important;">
+        <div class="topLeft">
+            <input type="text" placeholder="Title of Your Article" value="{{drafts.title}}" name="title" id="title">
+        </div>
+        <div class="topRight">
+            <div class="saveIcon" id="saveIcon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" fill="red" viewBox="0 -960 960 960" width="24px">
+                    <path
+                        d="M164.62-186.15v-40h123.84l-42.15-41.7q-46.62-45.23-67.23-99.23-20.62-54-20.62-109.38 0-96.39 54.96-174.42 54.96-78.04 145.04-111.43v42.46q-72.77 30.62-116.38 96.97-43.62 66.34-43.62 146.42 0 48.84 18.54 94.81 18.54 45.96 57.62 85.03l40.76 40.77v-121.07h40v190.77H164.62ZM480-289.23q-12.38 0-21.58-9.19-9.19-9.2-9.19-21.58 0-12.38 9.19-21.58 9.2-9.19 21.58-9.19 12.38 0 21.58 9.19 9.19 9.2 9.19 21.58 0 12.38-9.19 21.58-9.2 9.19-21.58 9.19Zm-20-141.54V-660h40v229.23h-40Zm141.54 233.08v-42.46q72.77-30.62 116.38-96.97 43.62-66.34 43.62-146.42 0-48.84-18.54-94.81-18.54-45.96-57.62-85.03l-40.76-40.77v121.07h-40v-190.77h190.76v40H671.54l42.15 41.7q45.93 45.92 66.89 99.57 20.96 53.66 20.96 109.04 0 96.39-54.96 174.42-54.96 78.04-145.04 111.43Z" />
+                </svg>
+            </div>
+            <a>
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" fill="#fff"
+                        width="32px">
+                        <path
+                            d="M160-220v-520l616.92 260L160-220Zm40-60 474-200-474-200v155.38L393.85-480 200-435.38V-280Zm0 0v-400 400Z" />
+                    </svg>
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="newTop"
+        style="display: flex !important;align-items:center !important; justify-content:center !important;">
+        <div class="top">
+            <div class="textBox">
+                <textarea name="description" id="description"
+                    placeholder="Description of your Article">{{drafts.description}}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="newBottom">
+        <div class="bottomLeft">
+            <div class="textArea">
+                <link rel="stylesheet" href="/editor/richtexteditor/rte_theme_default.css" />
+                <script type="text/javascript" src="/editor/richtexteditor/rte.js"></script>
+                <script>RTE_DefaultConfig.url_base = 'richtexteditor'</script>
+                <script type="text/javascript" src='/editor/richtexteditor/plugins/all_plugins.js'></script>
+
+                <textarea name="content" id="content" hidden></textarea>
+
+                <div id="div_editor1" style="width: 100%; height: 100%; border-radius: 0px; border: none;">
+                    {{{drafts.content}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let form = document.getElementById('form');
+        let editor = new RichTextEditor("#div_editor1");
+        let content = document.getElementById('content');
+        let title = document.getElementById('title');
+        let description = document.getElementById('description');
+        let saveIcon = document.getElementById('saveIcon');
+
+        form.addEventListener('submit', (event) => {
+            content.value = editor.getHTMLCode();
+        });
+
+        // Autosave function
+        const saveContent = () => {
+            content.value = editor.getHTMLCode();
+            // Send content to the server via AJAX
+            fetch('/article/autosave', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: title.value,
+                    description: description.value,
+                    content: content.value
+                })
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('Autosave successful:', data);
+                    // Change the save icon to indicate successful save
+                    saveIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="green">
+                        <path d="M420-125.08q-65.23-11.84-120.35-43.8-55.11-31.97-95.15-78.93-40.04-46.96-62.27-106.34Q120-413.54 120-480q0-86.38 37.27-160.69t111.81-130.08H150v-40h190v190h-40v-122.85Q229.62-695 194.81-626.27 160-557.54 160-480q0 114.54 71.65 202.5Q303.31-189.54 420-166.08v41Zm3-198.61L281.69-465.23 310-493.54l113 113 227-227L678.31-579 423-323.69Zm197 175.23v-190h40v122.84q69.62-49.61 104.81-118.23Q800-402.46 800-480q0-114.54-71.65-202.5Q656.69-770.46 540-793.92v-41q131.23 23.46 215.62 122.23Q840-613.92 840-480q0 86.38-37.27 161.08-37.27 74.69-111.81 130.46H810v40H620Z"/>
+                    </svg>`;
+                })
+                .catch((error) => {
+                    console.error('Autosave error:', error);
+                });
+        };
+
+        // Event listeners for autosave on change
+        title.addEventListener('input', saveContent);
+        description.addEventListener('input', saveContent);
+        editor.attachEvent("change", saveContent);
+    });
+</script>
