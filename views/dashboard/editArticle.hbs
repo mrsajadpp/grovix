@@ -64,7 +64,7 @@
         });
 
         // Autosave function
-        const saveContent = () => {
+       /* const saveContent = () => {
             content.value = editor.getHTMLCode();
             // Send content to the server via AJAX
             fetch('/article/autosave', {
@@ -89,11 +89,11 @@
                 .catch((error) => {
                     console.error('Autosave error:', error);
                 });
-        };
+        };*/
 
         // Event listeners for autosave on change
-        title.addEventListener('input', saveContent);
+        /*title.addEventListener('input', saveContent);
         description.addEventListener('input', saveContent);
-        editor.attachEvent("change", saveContent);
+        editor.attachEvent("change", saveContent);*/
     });
 </script>
