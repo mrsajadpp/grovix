@@ -3,6 +3,5 @@ Allow: /*
 Disallow: /admin/*
 Disallow: /dashboard/*
 Disallow: /logout
-Crawl-delay: 20
 Sitemap: https://www.grovixlab.com/sitemap.xml
 Sitemap: https://www.grovixlab.com/articles.xml
