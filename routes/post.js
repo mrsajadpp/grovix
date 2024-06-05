@@ -991,6 +991,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
           created_time: article.created_time,
           updated_at: new Date().toString(),
           status: 'pending',
+          custom: true,
         };
 
         // Check if an updation already exists for this article
@@ -1003,7 +1004,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
         if (match && match[1]) {
           const imgURL = match[1];
           const imagePath = path.join(__dirname, '/../public/img/article/', `${article._id}.jpg`);
-  
+
           // Download the image from the URL
           const downloadImage = async (url, filepath) => {
             const writer = fs.createWriteStream(filepath);
@@ -1012,15 +1013,15 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
               method: 'GET',
               responseType: 'stream'
             });
-  
+
             response.data.pipe(writer);
-  
+
             return new Promise((resolve, reject) => {
               writer.on('finish', resolve);
               writer.on('error', reject);
             });
           };
-  
+
           try {
             await downloadImage(imgURL, imagePath);
           } catch (err) {
@@ -1093,7 +1094,7 @@ router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
     if (updation) {
       const { article_id, title, description, category, body } = updation;
 
-      await Article.updateOne({ _id: article_id }, { title, description, category, body, updated_at: new Date() });
+      await Article.updateOne({ _id: article_id }, { title, description, category, body, updated_at: new Date().toString(), custom: true });
       await Updation.deleteOne({ _id: updationId });
 
       // Notify the author
