@@ -564,7 +564,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
         body: content,
         author_id: req.session.user._id,
         status: false,
-        created_time: new Date(),
+        created_time: new Date().toString(),
         endpoint: slag,
         views: 0,
         custom: true,
@@ -969,6 +969,7 @@ The Grovix Team`,
   }
 });
 
+
 // Update article
 router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
   try {
@@ -988,7 +989,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
           category: 'null',
           body: content,
           created_time: article.created_time,
-          updated_at: new Date(),
+          updated_at: new Date().toString(),
           status: 'pending',
         };
 
