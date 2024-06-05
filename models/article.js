@@ -27,7 +27,7 @@ const articleSchema = new Schema({
         required: true,
     },
     created_time: {
-        type: String,
+        type: Date,
         default: Date.now,
     },
     views: {
@@ -48,7 +48,7 @@ const articleSchema = new Schema({
         required: true,
     },
     updated_at: {
-        type: String,
+        type: Date,
         default: Date.now,
     },
     custom: {
