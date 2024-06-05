@@ -221,12 +221,12 @@ router.get('/page/:endpoint', async (req, res, next) => {
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     var geo = await geoip.lookup(clientIp);
     const userCountry = geo && geo.country ? geo.country : 'Unknown';
-    
+
     let article = await Article.findOneAndUpdate(
       { endpoint: req.params.endpoint, status: true },
-      { 
+      {
         $inc: { views: 1, impressions: 1, [`country_views.${userCountry}`]: 1 } // Increment the views, impressions, and country views
-      }, 
+      },
       { new: true } // Return the updated document
     ).lean();
 
@@ -234,11 +234,13 @@ router.get('/page/:endpoint', async (req, res, next) => {
       let keywords = await separateWords(article.title);
       let trend = await getMostViewedArticles(keywords);
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
+      let date = await article.updated_at ? article.updated_at : article.created_time;
       res.render('user/article', {
         title: article.title,
         style: ['article'],
         article: article,
         author,
+        date,
         trend,
         url: `https://www.grovixlab.com/page/${article.endpoint}`,
         user: req.session && req.session.user ? req.session.user : false
