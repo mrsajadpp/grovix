@@ -388,7 +388,7 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
         }
       }
     } else {
-      res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Please enter valid data" } });
+      res.render('user/login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Please enter email or password" } });
     }
   } catch (error) {
     console.error(error);
