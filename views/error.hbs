@@ -1,33 +1,83 @@
-<link rel="stylesheet" href="/stylesheets/errorstyle.css">
 
-<section>
-	<div class="container-fluid d-flex  justify-content-center">
-		<div class="row d-flex   position-fixed  ">
-			<div class=" ">
-				<h1 class="large fw-bolder text-black-50 opacity-25 ">{{status}}</h1>
-			</div>
+	<style>
+		* {
+			margin: 0;
+			padding: 0
+		}
 
-		</div>
+		html,
+		code {
+			font: 15px/22px arial, sans-serif
+		}
 
+		html {
+			background: #fff;
+			color: #222;
+			padding: 15px
+		}
 
-		<div class="row  bgimg text-center ">
-			<div class="col-12">
+		body {
+			margin: 7% auto 0;
+			max-width: 390px;
+			min-height: 180px;
+			padding: 30px 0 15px
+		}
 
-			</div> 
+		*>body {
+			background: url(https://www.grovixlab.com/img/robot.png) 100% 5px no-repeat;
+			padding-right: 205px
+		}
 
+		p {
+			margin: 11px 0 22px;
+			overflow: hidden
+		}
 
-		</div>
+		ins {
+			color: #777;
+			text-decoration: none
+		}
 
+		a img {
+			border: 0
+		}
 
-	</div>
-	<div class="row text-center">
-		<div>
-			<h5>Oops! {{message}}</h5>
-			<a href="/" class="btn btn-dark  poppins-medium">Back to homepage</a>
+		@media screen and (max-width:772px) {
+			body {
+				background: none;
+				margin-top: 0;
+				max-width: none;
+				padding-right: 0
+			}
+		}
 
-		</div>
+		#logo {
+			background: url(https://www.grovixlab.com/img/grovix_150x54dp.png) no-repeat;
+			margin-left: -5px
+		}
 
+		@media only screen and (min-resolution:192dpi) {
+			#logo {
+				background: url(https://www.grovixlab.com/img/grovix_150x544dp.png) no-repeat 0% 0%/100% 100%;
+				-moz-border-image: url(https://www.grovixlab.com/img/grovix_150x544dp.png) 0
+			}
+		}
 
-	</div>
+		@media only screen and (-webkit-min-device-pixel-ratio:2) {
+			#logo {
+				background: url(https://www.grovixlab.com/img/grovix_150x544dp.png) no-repeat;
+				-webkit-background-size: 100% 100%
+			}
+		}
 
-</section>
+		#logo {
+			display: inline-block;
+			height: 54px;
+			width: 150px
+		}
+	</style>
+	<a href="//www.google.com/"><span id="logo" aria-label="Google"></span></a>
+	<p><b>404.</b> <ins>That’s an error.</ins>
+	</p>
+	<p>The requested URL was not found on this server. <ins>That’s all we know.</ins>
+	</p>
