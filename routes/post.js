@@ -1569,8 +1569,10 @@ router.get('/api/suggestions', async (req, res) => {
         { title: new RegExp(query, 'i') },
         { description: new RegExp(query, 'i') }
       ]
-    }, 'title description')
+    }, 'title description endpoint')
       .limit(10);
+
+      console.log(suggestions);
 
     res.json(suggestions);
   } catch (error) {
