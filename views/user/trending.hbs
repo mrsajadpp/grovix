@@ -239,7 +239,7 @@
         {{#if trend}}
         {{#each trend}}
         <div class="card artCart"
-            style="background: url({{#if this.new_thumb}}'/img/article/{{this.endpoint}}-{{this._id}}-0.jpg'{{else}}'/img/article/{{this._id}}.jpg'{{/if}})  no-repeat center center;  background-size: cover;">
+            style="background: url({{#if this.new_thumb}}'/img/article/{{this.endpoint}}-{{this._id}}-0.jpg'{{else}}'{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}'{{/if}})  no-repeat center center;  background-size: cover;">
             <div class="innerCard">
                 <div class="artTitle">
                     <a href="/page/{{this.endpoint}}">

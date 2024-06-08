@@ -7,7 +7,7 @@
         <!--<div class="article">
             <div class="articleCont">
                 <div class="articleImg">
-                    <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
+                    <img src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}" alt="{{this.title}}">
                 </div>
                 <div class="articleContent">
                     <h4>{{this.title}}</h4>
@@ -45,7 +45,7 @@
             <div class="articleCont">
                 <div class="articleImg">
                     <div class="img">
-                        <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
+                        <img src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}" alt="{{this.title}}">
                     </div>
                 </div>
                 <div class="cont">
@@ -333,7 +333,7 @@
         {{#if article_list}}
         {{#each article_list}}
         <div class="card artCart"
-            style="background: url({{#if this.new_thumb}}'/img/article/{{this.endpoint}}-{{this._id}}-0.jpg'{{else}}'/img/article/{{this._id}}.jpg'{{/if}})  no-repeat center center;  background-size: cover;">
+            style="background: url({{#if this.new_thumb}}'/img/article/{{this.endpoint}}-{{this._id}}-0.jpg'{{else}}'{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}'{{/if}})  no-repeat center center;  background-size: cover;">
             <div class="innerCard">
                 <div class="artTitle">
                     <a href="/page/{{this.endpoint}}">

@@ -8,7 +8,7 @@
             <div class="articleCont">
                 <div class="articleImg">
                     <div class="img" onclick="location.href = 'https://www.grovixlab.com/page/{{this.endpoint}}'">
-                        <img src="/img/article/{{this._id}}.jpg" alt="{{this.title}}">
+                        <img src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}" alt="{{this.title}}">
                     </div>
 
                 </div>
@@ -305,7 +305,7 @@
         {{#if article_list}}
         {{#each article_list}}
         <div class="card artCart"
-            style="background: url({{#if this.new_thumb}}'/img/article/{{this.endpoint}}-{{this._id}}-0.jpg'{{else}}'/img/article/{{this._id}}.jpg'{{/if}})  no-repeat center center;  background-size: cover;">
+            style="background: url({{#if this.new_thumb}}'/img/article/{{this.endpoint}}-{{this._id}}-0.jpg'{{else}}'{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}'{{/if}})  no-repeat center center;  background-size: cover;">
             <div class="innerCard">
                 <div class="artTitle">
                     <a href="/page/{{this.endpoint}}">
