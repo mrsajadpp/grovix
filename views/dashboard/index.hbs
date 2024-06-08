@@ -1,283 +1,172 @@
 {{>headers/dashboard/dashboard_header}}
-
-<!-- Dashboard Graph Metrix Coming Soon -->
-<div class="comingSoon">
-    <div class="comgText">
-        <span>Dashboard Coming Soon! Stay tuned for an amazing experience <span class="higlight">:)</span></span>
-    </div>
-</div> 
-
-<!-- Spacing -->
-{{!-- <style>
-    .mobile-view {
-        height: 75px;
+<style>
+    body {
+        font-family: Arial, sans-serif;
     }
-</style> --}}
 
-{{!-- <div class="mobile-view"></div>
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
 
-<!-- Dashboard Graph Metrics -->
-<div class="graphContainer">
-    <div class="graph">
-        <canvas id="articleViewsChart"></canvas>
+    .chart-container {
+        background: #f4f4f4;
+        padding: 20px;
+        border-radius: 0px;
+        border: 1px solid #ccc;
+    }
+
+    canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+</style>
+<div class="container" style="margin-top: 70px;">
+    <div class="chart-container">
+        <canvas id="areaChart1"></canvas>
     </div>
-    <div class="graph" style="margin-top: 20px;">
-        <canvas id="topReachedArticlesChart"></canvas>
+    <div class="chart-container">
+        <canvas id="areaChart2"></canvas>
     </div>
-    <div class="graph" style="margin-top: 20px;">
-        <canvas id="countryViewsChart"></canvas>
+    <div class="chart-container">
+        <canvas id="lineChart"></canvas>
     </div>
-    <div class="graph" style="margin-top: 20px;">
-        <canvas id="impressionsChart"></canvas>
+    <div class="chart-container">
+        <canvas id="countryChart"></canvas>
     </div>
 </div>
 
-<!-- New Article Button -->
-<div class="newArticle">
-    <div class="articleButton">
-        <a href="/dashboard/article/new">
-            <button>
-                <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"
-                    class="style-scope tp-yt-iron-icon"
-                    style="pointer-events: none; display: block; width: 28px; height: 28px;">
-                    <g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon">
-                        <path
-                            d="M14.06 7.6L16.4 9.94L6.34 20H4V17.66L14.06 7.6ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19ZM17.61 4.05L19.98 6.42L18.84 7.56L16.47 5.19L17.61 4.05ZM17.61 2.63L15.06 5.18L18.85 8.97001L21.4 6.42L17.61 2.63Z"
-                            class="style-scope tp-yt-iron-icon"></path>
-                    </g>
-                </svg>
-            </button>
-        </a>
-    </div>
-</div>
-
-<!-- Chart.js Library -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- Chart Data and Configuration -->
 <script>
-    document.addEventListener('DOMContentLoaded', async (event) => {
+    async function fetchData() {
         try {
-            // Fetch article data from the backend
             const response = await fetch('/articles/analytics');
             const result = await response.json();
-
-            if (!result.success) {
-                throw new Error(result.message);
+            if (result.success) {
+                return result.data;
+            } else {
+                console.error('Failed to fetch data');
+                return null;
             }
-
-            const { articleViewsData, mostViewedArticle, mostImpressionsArticle, countryViews, mostVisitingCountry } = result.data;
-
-            // Prepare data for Article Views Chart
-            const articleViewsLabels = articleViewsData.map(article => new Date(article.created_time).toLocaleDateString());
-            const articleViewsDataPoints = articleViewsData.map(article => article.views);
-
-            // Article Views Chart
-            const ctx1 = document.getElementById('articleViewsChart').getContext('2d');
-            new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: articleViewsLabels,
-                    datasets: [{
-                        label: 'Article Views',
-                        data: articleViewsDataPoints,
-                        backgroundColor: 'rgba(0, 120, 232, 0.2)',
-                        borderColor: 'rgba(0, 120, 232, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function (tooltipItem) {
-                                    const article = articleViewsData[tooltipItem.dataIndex];
-                                    return `${article.title}: ${tooltipItem.raw} views`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Prepare data for Top Reached Articles Chart
-            const topReachedArticlesLabels = articleViewsData.map(article => article.title);
-            const topReachedArticlesDataPoints = articleViewsData.map(article => article.views);
-
-            // Top Reached Articles Chart
-            const ctx2 = document.getElementById('topReachedArticlesChart').getContext('2d');
-            new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: topReachedArticlesLabels,
-                    datasets: [{
-                        label: 'Views',
-                        data: topReachedArticlesDataPoints,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                title: function (tooltipItem) {
-                                    return articleViewsData[tooltipItem[0].dataIndex].title;
-                                },
-                                label: function (tooltipItem) {
-                                    return `Views: ${tooltipItem.raw}`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Prepare data for Country Views Chart
-            const countryViewsLabels = Object.keys(countryViews);
-            const countryViewsDataPoints = Object.values(countryViews);
-
-            // Country Views Chart
-            const ctx3 = document.getElementById('countryViewsChart').getContext('2d');
-            new Chart(ctx3, {
-                type: 'pie',
-                data: {
-                    labels: countryViewsLabels,
-                    datasets: [{
-                        label: 'Country Views',
-                        data: countryViewsDataPoints,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(255, 205, 86, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(255, 205, 86, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function (tooltipItem) {
-                                    return `${tooltipItem.label}: ${tooltipItem.raw} views`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Prepare data for Impressions Chart
-            const impressionsLabels = articleViewsData.map(article => article.title);
-            const impressionsDataPoints = articleViewsData.map(article => article.impressions);
-
-            // Impressions Chart
-            const ctx4 = document.getElementById('impressionsChart').getContext('2d');
-            new Chart(ctx4, {
-                type: 'bar',
-                data: {
-                    labels: impressionsLabels,
-                    datasets: [{
-                        label: 'Impressions',
-                        data: impressionsDataPoints,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function (tooltipItem) {
-                                    return `${tooltipItem.label}: ${tooltipItem.raw} impressions`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
         } catch (error) {
-            console.error('Error loading article data:', error);
+            console.error('Error fetching data:', error);
+            return null;
+        }
+    }
+
+    function createCharts(data) {
+        const { articleViewsData, countryViews } = data;
+
+        const titles = articleViewsData.map(article => article.title);
+        const views = articleViewsData.map(article => article.views);
+        const impressions = articleViewsData.map(article => article.impressions);
+
+        const areaChart1Ctx = document.getElementById('areaChart1').getContext('2d');
+        const areaChart2Ctx = document.getElementById('areaChart2').getContext('2d');
+        const lineChartCtx = document.getElementById('lineChart').getContext('2d');
+        const countryChartCtx = document.getElementById('countryChart').getContext('2d');
+
+        const areaChart1 = new Chart(areaChart1Ctx, {
+            type: 'line',
+            data: {
+                labels: titles,
+                datasets: [{
+                    label: 'Views',
+                    data: views,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const areaChart2 = new Chart(areaChart2Ctx, {
+            type: 'line',
+            data: {
+                labels: titles,
+                datasets: [{
+                    label: 'Impressions',
+                    data: impressions,
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const lineChart = new Chart(lineChartCtx, {
+            type: 'line',
+            data: {
+                labels: titles,
+                datasets: [{
+                    label: 'Views',
+                    data: views,
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const countryLabels = Object.keys(countryViews);
+        const countryData = Object.values(countryViews);
+
+        const countryChart = new Chart(countryChartCtx, {
+            type: 'bar',
+            data: {
+                labels: countryLabels,
+                datasets: [{
+                    label: 'Country Views',
+                    data: countryData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const data = await fetchData();
+        if (data) {
+            createCharts(data);
         }
     });
 </script>
-
-<style>
-    /* Add to your style.css or dashboard.css */
-
-    .graphContainer {
-        width: 100%;
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .graph {
-        width: 100%;
-        height: 400px;
-        margin-bottom: 20px;
-    }
-</style> --}}
