@@ -210,6 +210,77 @@ router.get('/privacy-policy', (req, res, next) => {
   res.render('user/privacy-policy', { title: "Grovix Lab Privacy Policy", description: "Understand our privacy policy and how we collect and manage your information to provide a better experience", url: 'https://www.grovixlab.com/privacy-policy', style: ['article'], user: req.session && req.session.user ? req.session.user : false });
 });
 
+function slugToKeywords(slug) {
+  // Replace hyphens with spaces, split by spaces, and filter out empty strings
+  return slug.replace(/-/g, ' ').split(' ').filter(Boolean);
+}
+
+function slugToTitle(slug) {
+  // Replace hyphens with spaces
+  let words = slug.split('-');
+
+  // Capitalize the first letter of each word
+  let capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+
+  // Join the words with spaces and return the resulting string
+  return capitalizedWords.join(' ');
+}
+
+const moment = require('moment');
+
+function findArticles(articles, keywords) {
+  // Convert the articles' created_time to Date objects and sort them
+  articles.forEach(article => {
+    article.created_time = new Date(article.created_time);
+  });
+
+  // Sort articles by created_time in descending order
+  const sortedArticles = articles.sort((a, b) => b.created_time - a.created_time);
+
+  // Find the latest articles
+  const latestDate = sortedArticles[0].created_time;
+  const latestArticles = sortedArticles.filter(article =>
+    moment(article.created_time).isSame(latestDate, 'day')
+  );
+
+  // Find articles that match any of the keywords
+  const keywordMatchedArticles = articles.filter(article => {
+    const articleContent = `${article.title} ${article.description} ${article.body}`.toLowerCase();
+    return keywords.some(keyword => articleContent.includes(keyword.toLowerCase()));
+  });
+
+  return keywordMatchedArticles;
+}
+
+// Categories Route
+router.get('/category/:slug', async (req, res, next) => {
+  try {
+    const keywords = slugToKeywords(req.params.slug);
+    const title = slugToTitle(req.params.slug);
+    let articles = await Article.find().lean();
+    const trend = await findArticles(articles, keywords);
+    console.log(trend);
+
+    res.render('user/cateitem', {
+      title: title,
+      category: title,
+      description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.",
+      url: 'https://www.grovixlab.com/category/' + req.params.slug,
+      trend,
+      style: [],
+      user: req.session && req.session.user ? req.session.user : false
+    });
+  } catch (error) {
+    console.error(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false
+    });
+  }
+})
 // Terms and codintions
 router.get('/terms-and-conditions', (req, res, next) => {
   res.render('user/terms-and-conditions', { title: "Grovix Lab Terms and Conditions", description: "Understand our terms and conditions and how we collect and manage your information to provide a better experience", url: 'https://www.grovixlab.com/privacy-policy', style: ['article'], user: req.session && req.session.user ? req.session.user : false });

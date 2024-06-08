@@ -1,7 +1,149 @@
 {{> headers/user/category_header}}
-<!-- Landing Coming Soon -->
-<div class="comingSoon">
-    <div class="comgText">
-        <span>Category Page Coming Soon! Stay tuned for an amazing experience <span class="higlight">:)</span></span>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .grid-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 13px;
+    }
+
+    .grid-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .grid-item:hover .overlay {
+        opacity: 1;
+    }
+
+    h2 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .grid-item a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+</style>
+<div class="grid-container" style="margin-top: 70px;">
+    <div class="grid-item" tabindex="0" aria-labelledby="category-programming">
+        <a href="/category/programming">
+            <div class="overlay">
+                <h2 id="category-programming">Programming</h2>
+            </div>
+            <img src="/img/category/programming.png" alt="Programming">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-education-learning">
+        <a href="/category/education-learning">
+            <div class="overlay">
+                <h2 id="category-education-learning">Education & Learning</h2>
+            </div>
+            <img src="/img/category/education.png" alt="Education & Learning">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-technology">
+        <a href="/category/technology">
+            <div class="overlay">
+                <h2 id="category-technology">Technology</h2>
+            </div>
+            <img src="/img/category/technology.png" alt="Technology">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-health-wellness">
+        <a href="/category/health-wellness">
+            <div class="overlay">
+                <h2 id="category-health-wellness">Health & Wellness</h2>
+            </div>
+            <img src="/img/category/health.png" alt="Health & Wellness">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-finance-investment">
+        <a href="/category/finance-investment">
+            <div class="overlay">
+                <h2 id="category-finance-investment">Finance & Investment</h2>
+            </div>
+            <img src="/img/category/finance.png" alt="Finance & Investment">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-travel-leisure">
+        <a href="/category/travel-leisure">
+            <div class="overlay">
+                <h2 id="category-travel-leisure">Travel & Leisure</h2>
+            </div>
+            <img src="/img/category/travel.png" alt="Travel & Leisure">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-food-cooking">
+        <a href="/category/food-cooking">
+            <div class="overlay">
+                <h2 id="category-food-cooking">Food & Cooking</h2>
+            </div>
+            <img src="/img/category/food.png" alt="Food & Cooking">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-fashion-beauty">
+        <a href="/category/fashion-beauty">
+            <div class="overlay">
+                <h2 id="category-fashion-beauty">Fashion & Beauty</h2>
+            </div>
+            <img src="/img/category/fashion.png" alt="Fashion & Beauty">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-sports-fitness">
+        <a href="/category/sports-fitness">
+            <div class="overlay">
+                <h2 id="category-sports-fitness">Sports & Fitness</h2>
+            </div>
+            <img src="/img/category/sports.png" alt="Sports & Fitness">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-entertainment">
+        <a href="/category/entertainment">
+            <div class="overlay">
+                <h2 id="category-entertainment">Entertainment</h2>
+            </div>
+            <img src="/img/category/entertainment.png" alt="Entertainment">
+        </a>
+    </div>
+    <div class="grid-item" tabindex="0" aria-labelledby="category-home-garden">
+        <a href="/category/home-garden">
+            <div class="overlay">
+                <h2 id="category-home-garden">Home & Garden</h2>
+            </div>
+            <img src="/img/category/home.png" alt="Home & Garden">
+        </a>
     </div>
 </div>
