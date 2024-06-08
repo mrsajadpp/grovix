@@ -89,6 +89,7 @@ router.get('/articles/pending', isAdmin, async (req, res, next) => {
 router.get('/articles/edits', isAdmin, async (req, res, next) => {
   try {
     const article_list = await Updation.find({ status: 'pending' }).sort({ _id: -1 }).lean();
+    console.log(article_list);
     res.render('admin/edits', {
       title: "Pending Edits >> Articles >> Admin",
       style: ['dashboard'],

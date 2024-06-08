@@ -7,7 +7,7 @@ const updationSchema = new Schema({
     required: true,
   },
   author_id: {
-    type: mongoose.Types.ObjectId,
+    type: String,
     required: true,
   },
   title: {
@@ -22,22 +22,34 @@ const updationSchema = new Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+  },
   body: {
     type: String,
     required: true,
   },
   created_time: {
-    type: Date,
+    type: String,
     default: Date.now,
   },
   updated_at: {
-    type: Date,
+    type: String,
     default: Date.now,
   },
-  status: {
+  custom: {
     type: String,
-    default: 'pending', // pending, approved, rejected
-  }
+    required: false,
+  },
+  endpoint: {
+    type: String,
+    required: true,
+  },
+  new_thumb: {
+    type: String,
+    required: false,
+  },
 });
 
 const Updation = mongoose.model('Updation', updationSchema);

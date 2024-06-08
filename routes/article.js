@@ -132,7 +132,7 @@ const downloadImage = async (url, filepath) => {
     });
 };
 
-
+// New Article
 router.post('/article/request', isAuthorised, async (req, res, next) => {
     try {
         const {
@@ -192,8 +192,6 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
                 }
             });
 
-            console.log($.html());
-
             articleData.body = await $.html();
 
             await Article.updateOne({ _id: article._id }, articleData);
@@ -235,6 +233,165 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
             style: ['error'],
             user: req.session && req.session.user ? req.session.user : false
         });
+    }
+});
+
+
+// Update article
+router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
+    try {
+        const { title, description, content } = req.body;
+        const { user } = req.session;
+        const articleId = req.params.article_id;
+        const article = await Article.findOne({ _id: new mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
+
+        if (title && description && content) {
+
+            if (article) {
+                const updateData = {
+                    article_id: article._id,
+                    author_id: user._id,
+                    title,
+                    description,
+                    category: 'null',
+                    body: content,
+                    endpoint: article.endpoint,
+                    views: article.views,
+                    created_time: article.created_time,
+                    updated_at: new Date().toString(),
+                    endpoint: article.endpoint,
+                    status: 'pending',
+                    custom: true,
+                    new_thumb: true
+                };
+
+                // Check if an updation already exists for this article
+                const existingUpdation = await Updation.findOne({ article_id: article._id, status: 'pending' });
+
+                // Load the HTML into cheerio
+                const $ = cheerio.load(updateData.body);
+
+                // Select all image elements and extract the src attributes
+                $('img').each((index, element) => {
+                    const src = $(element).attr('src');
+                    if (src) {
+                        src.startsWith('/img/') ? downloadImage(`http://localhost:${process.env.PORT}${src}`, path.join(__dirname, '/../public/img/update/', `${article.endpoint}-${article._id}-${index}.jpg`)) : downloadImage(src, path.join(__dirname, '/../public/img/update/', `${article.endpoint}-${article._id}-${index}.jpg`));;
+                        $(element).attr('src', `/img/update/${article.endpoint}-${article._id}-${index}.jpg`);
+                    }
+                });
+
+                updateData.body = await $.html();
+
+                if (existingUpdation) {
+                    // Update existing updation record
+                    await Updation.updateOne({ _id: existingUpdation._id }, updateData);
+                } else {
+                    // Create a new updation record
+                    const updation = new Updation(updateData);
+                    await updation.save();
+                }
+
+                if (req.files && req.files.thumbnail) {
+                    const thumbnailFile = req.files.thumbnail;
+                    const imagePath = __dirname + '/../public/img/article/' + article._id + '.jpg';
+
+                    thumbnailFile.mv(imagePath, async (err) => {
+                        if (err) {
+                            return res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Error uploading thumbnail image: " + err }, user });
+                        }
+                    });
+                }
+
+                // Send email notification to the author
+                sendMail({
+                    from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+                    to: user.email,
+                    subject: "Your Article Edits Have Been Requested for Review",
+                    text: `Hello ${user.first_name},
+  
+  Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, the current version of your article remains published.
+  
+  If you have any questions, please contact our support team for assistance.
+  
+  Thank you for your understanding.
+  
+  Best regards,
+  The Grovix Team`,
+                    html: `<p>Hello ${user.first_name},</p>
+                   <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, the current version of your article remains published.</p>
+                   <p>If you have any questions, please contact our support team for assistance.</p>
+                   <p>Thank you for your understanding.</p>
+                   <p>Best regards,<br>The Grovix Team</p>`,
+                });
+
+                res.redirect('/dashboard/articles');
+            } else {
+                res.render('error', { title: "404", status: 404, message: "Article not found", style: ['error'], user });
+            }
+        } else {
+            res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Please fill in all fields" }, user });
+        }
+    } catch (error) {
+        console.error(error);
+        res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+    }
+});
+
+// Approve article update
+router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
+    try {
+        const updationId = req.params.updation_id;
+        const updation = await Updation.findById(updationId).lean();
+
+        if (updation) {
+            const { article_id, title, description, category, body } = updation;
+
+            let article = await Article.findOne({ _id: new ObjectId(article_id) }).lean();
+
+            // Load the HTML into cheerio
+            const $ = cheerio.load(body);
+
+            // Select all image elements and extract the src attributes
+            $('img').each((index, element) => {
+                const src = $(element).attr('src');
+                if (src) {
+                    src.startsWith('/img/') ? downloadImage(`http://localhost:${process.env.PORT}${src}`, path.join(__dirname, '/../public/img/article/', `${article.endpoint}-${article._id}-${index}.jpg`)) : downloadImage(src, path.join(__dirname, '/../public/img/article/', `${article.endpoint}-${article._id}-${index}.jpg`));
+                    $(element).attr('src', `/img/article/${article.endpoint}-${article._id}-${index}.jpg`);
+                }
+            });
+
+            let articleBody = await $.html();
+
+            await Article.updateOne({ _id: article_id }, { title, description, category, body: articleBody, updated_at: new Date().toString(), custom: true });
+            await Updation.deleteOne({ _id: updationId });
+
+            // Notify the author
+            const user = await User.findById(updation.author_id).lean();
+            sendMail({
+                from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+                to: user.email,
+                subject: "Your Article Edits Have Been Approved",
+                text: `Hello ${user.first_name},
+  
+  Your edits for the article titled "${title}" have been approved and published.
+  
+  Thank you for your contribution.
+  
+  Best regards,
+  The Grovix Team`,
+                html: `<p>Hello ${user.first_name},</p>
+                 <p>Your edits for the article titled "<strong>${title}</strong>" have been approved and published.</p>
+                 <p>Thank you for your contribution.</p>
+                 <p>Best regards,<br>The Grovix Team</p>`,
+            });
+
+            res.redirect('/admin/articles');
+        } else {
+            res.render('error', { title: "404", status: 404, message: "Updation not found", style: ['error'], user: req.session.user ? req.session.user : false });
+        }
+    } catch (error) {
+        console.error(error);
+        res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
     }
 });
 

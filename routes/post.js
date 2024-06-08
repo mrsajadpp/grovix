@@ -1007,161 +1007,161 @@ The Grovix Team`,
 
 
 // Update article
-router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
-  try {
-    const { title, description, content } = req.body;
-    const { user } = req.session;
-    const articleId = req.params.article_id;
-    const article = await Article.findOne({ _id: new mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
+// router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
+//   try {
+//     const { title, description, content } = req.body;
+//     const { user } = req.session;
+//     const articleId = req.params.article_id;
+//     const article = await Article.findOne({ _id: new mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
 
-    if (title && description && content) {
+//     if (title && description && content) {
 
-      if (article) {
-        const updateData = {
-          article_id: article._id,
-          author_id: user._id,
-          title,
-          description,
-          category: 'null',
-          body: content,
-          created_time: article.created_time,
-          updated_at: new Date().toString(),
-          status: 'pending',
-          custom: true,
-        };
+//       if (article) {
+//         const updateData = {
+//           article_id: article._id,
+//           author_id: user._id,
+//           title,
+//           description,
+//           category: 'null',
+//           body: content,
+//           created_time: article.created_time,
+//           updated_at: new Date().toString(),
+//           status: 'pending',
+//           custom: true,
+//         };
 
-        // Check if an updation already exists for this article
-        const existingUpdation = await Updation.findOne({ article_id: article._id, status: 'pending' });
+//         // Check if an updation already exists for this article
+//         const existingUpdation = await Updation.findOne({ article_id: article._id, status: 'pending' });
 
-        // Extract first image from content and save it
-        const imgTagRegex = /<img[^>]+src="([^">]+)"/i;
-        const match = imgTagRegex.exec(content);
+//         // Extract first image from content and save it
+//         const imgTagRegex = /<img[^>]+src="([^">]+)"/i;
+//         const match = imgTagRegex.exec(content);
 
-        if (match && match[1]) {
-          const imgURL = match[1];
-          const imagePath = path.join(__dirname, '/../public/img/article/', `${article._id}.jpg`);
+//         if (match && match[1]) {
+//           const imgURL = match[1];
+//           const imagePath = path.join(__dirname, '/../public/img/article/', `${article._id}.jpg`);
 
-          // Download the image from the URL
-          const downloadImage = async (url, filepath) => {
-            const writer = fs.createWriteStream(filepath);
-            const response = await axios({
-              url,
-              method: 'GET',
-              responseType: 'stream'
-            });
+//           // Download the image from the URL
+//           const downloadImage = async (url, filepath) => {
+//             const writer = fs.createWriteStream(filepath);
+//             const response = await axios({
+//               url,
+//               method: 'GET',
+//               responseType: 'stream'
+//             });
 
-            response.data.pipe(writer);
+//             response.data.pipe(writer);
 
-            return new Promise((resolve, reject) => {
-              writer.on('finish', resolve);
-              writer.on('error', reject);
-            });
-          };
+//             return new Promise((resolve, reject) => {
+//               writer.on('finish', resolve);
+//               writer.on('error', reject);
+//             });
+//           };
 
-          try {
-            await downloadImage(imgURL, imagePath);
-          } catch (err) {
-            console.error("Error downloading image:", err);
-          }
-        }
+//           try {
+//             await downloadImage(imgURL, imagePath);
+//           } catch (err) {
+//             console.error("Error downloading image:", err);
+//           }
+//         }
 
-        if (existingUpdation) {
-          // Update existing updation record
-          await Updation.updateOne({ _id: existingUpdation._id }, updateData);
-        } else {
-          // Create a new updation record
-          const updation = new Updation(updateData);
-          await updation.save();
-        }
+//         if (existingUpdation) {
+//           // Update existing updation record
+//           await Updation.updateOne({ _id: existingUpdation._id }, updateData);
+//         } else {
+//           // Create a new updation record
+//           const updation = new Updation(updateData);
+//           await updation.save();
+//         }
 
-        if (req.files && req.files.thumbnail) {
-          const thumbnailFile = req.files.thumbnail;
-          const imagePath = __dirname + '/../public/img/article/' + article._id + '.jpg';
+//         if (req.files && req.files.thumbnail) {
+//           const thumbnailFile = req.files.thumbnail;
+//           const imagePath = __dirname + '/../public/img/article/' + article._id + '.jpg';
 
-          thumbnailFile.mv(imagePath, async (err) => {
-            if (err) {
-              return res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Error uploading thumbnail image: " + err }, user });
-            }
-          });
-        }
+//           thumbnailFile.mv(imagePath, async (err) => {
+//             if (err) {
+//               return res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Error uploading thumbnail image: " + err }, user });
+//             }
+//           });
+//         }
 
-        // Send email notification to the author
-        sendMail({
-          from: '"Grovix Lab" <noreply.grovix@gmail.com>',
-          to: user.email,
-          subject: "Your Article Edits Have Been Requested for Review",
-          text: `Hello ${user.first_name},
+//         // Send email notification to the author
+//         sendMail({
+//           from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+//           to: user.email,
+//           subject: "Your Article Edits Have Been Requested for Review",
+//           text: `Hello ${user.first_name},
 
-Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, the current version of your article remains published.
+// Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, the current version of your article remains published.
 
-If you have any questions, please contact our support team for assistance.
+// If you have any questions, please contact our support team for assistance.
 
-Thank you for your understanding.
+// Thank you for your understanding.
 
-Best regards,
-The Grovix Team`,
-          html: `<p>Hello ${user.first_name},</p>
-                 <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, the current version of your article remains published.</p>
-                 <p>If you have any questions, please contact our support team for assistance.</p>
-                 <p>Thank you for your understanding.</p>
-                 <p>Best regards,<br>The Grovix Team</p>`,
-        });
+// Best regards,
+// The Grovix Team`,
+//           html: `<p>Hello ${user.first_name},</p>
+//                  <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, the current version of your article remains published.</p>
+//                  <p>If you have any questions, please contact our support team for assistance.</p>
+//                  <p>Thank you for your understanding.</p>
+//                  <p>Best regards,<br>The Grovix Team</p>`,
+//         });
 
-        res.redirect('/dashboard/articles');
-      } else {
-        res.render('error', { title: "404", status: 404, message: "Article not found", style: ['error'], user });
-      }
-    } else {
-      res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Please fill in all fields" }, user });
-    }
-  } catch (error) {
-    console.error(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
-  }
-});
+//         res.redirect('/dashboard/articles');
+//       } else {
+//         res.render('error', { title: "404", status: 404, message: "Article not found", style: ['error'], user });
+//       }
+//     } else {
+//       res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Please fill in all fields" }, user });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+//   }
+// });
 
 
 // Approve article update
-router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
-  try {
-    const updationId = req.params.updation_id;
-    const updation = await Updation.findById(updationId).lean();
+// router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
+//   try {
+//     const updationId = req.params.updation_id;
+//     const updation = await Updation.findById(updationId).lean();
 
-    if (updation) {
-      const { article_id, title, description, category, body } = updation;
+//     if (updation) {
+//       const { article_id, title, description, category, body } = updation;
 
-      await Article.updateOne({ _id: article_id }, { title, description, category, body, updated_at: new Date().toString(), custom: true });
-      await Updation.deleteOne({ _id: updationId });
+//       await Article.updateOne({ _id: article_id }, { title, description, category, body, updated_at: new Date().toString(), custom: true });
+//       await Updation.deleteOne({ _id: updationId });
 
-      // Notify the author
-      const user = await User.findById(updation.author_id).lean();
-      sendMail({
-        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
-        to: user.email,
-        subject: "Your Article Edits Have Been Approved",
-        text: `Hello ${user.first_name},
+//       // Notify the author
+//       const user = await User.findById(updation.author_id).lean();
+//       sendMail({
+//         from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+//         to: user.email,
+//         subject: "Your Article Edits Have Been Approved",
+//         text: `Hello ${user.first_name},
 
-Your edits for the article titled "${title}" have been approved and published.
+// Your edits for the article titled "${title}" have been approved and published.
 
-Thank you for your contribution.
+// Thank you for your contribution.
 
-Best regards,
-The Grovix Team`,
-        html: `<p>Hello ${user.first_name},</p>
-               <p>Your edits for the article titled "<strong>${title}</strong>" have been approved and published.</p>
-               <p>Thank you for your contribution.</p>
-               <p>Best regards,<br>The Grovix Team</p>`,
-      });
+// Best regards,
+// The Grovix Team`,
+//         html: `<p>Hello ${user.first_name},</p>
+//                <p>Your edits for the article titled "<strong>${title}</strong>" have been approved and published.</p>
+//                <p>Thank you for your contribution.</p>
+//                <p>Best regards,<br>The Grovix Team</p>`,
+//       });
 
-      res.redirect('/admin/articles');
-    } else {
-      res.render('error', { title: "404", status: 404, message: "Updation not found", style: ['error'], user: req.session.user ? req.session.user : false });
-    }
-  } catch (error) {
-    console.error(error);
-    res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
-  }
-});
+//       res.redirect('/admin/articles');
+//     } else {
+//       res.render('error', { title: "404", status: 404, message: "Updation not found", style: ['error'], user: req.session.user ? req.session.user : false });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+//   }
+// });
 
 // Cancel article update
 router.get('/article/cancel/:updation_id', isAdmin, async (req, res, next) => {
