@@ -1554,8 +1554,6 @@ router.get('/articles/analytics', isAuthorised, async (req, res) => {
 });
 
 // Search suggestions
-
-// Search suggestions endpoint
 router.get('/api/suggestions', async (req, res) => {
   const { query } = req.query;
 

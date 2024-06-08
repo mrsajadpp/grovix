@@ -7,7 +7,7 @@
     </div>
     <div class="hCenter">
         <div class="searchBar">
-            <input type="text" placeholder="Search" name="query" id="query">
+            <input type="text" placeholder="Search" name="query" id="desktop-query">
             <button>
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                     viewBox="0 0 24 24" width="24" focusable="false"
@@ -95,7 +95,12 @@
                 &nbsp;&nbsp;
             </ul>
         </nav>
+    </div>
+</div>
 
+<div class="suggestionCo">
+    <div class="desktop-searchSuggestions hidden" id="desktop-searchSuggestions">
+        <!-- Suggestions will be dynamically inserted here -->
     </div>
 </div>
 
@@ -127,13 +132,6 @@
                                     d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z">
                                 </path>
                             </svg>
-
-                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
-                                    <path
-                                        d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z">
-                                    </path>
-                                </svg> -->
                         </button>
                     </a>
                 </li>
@@ -258,7 +256,6 @@
     </div>
 </div>
 
-<!-- Mobile Search -->
 
 <!-- Mobile Search -->
 <div class="mobileSearch hide" id="searchBar">
@@ -278,13 +275,67 @@
     </div>
 </div>
 
-
 <style>
+    .desktop-searchSuggestions {
+        position: absolute;
+        width: calc(60% - 70px);
+        /* Adjust according to the search bar width */
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 1000;
+        top: 12%;
+    }
+
+    .desktop-searchSuggestions .desktop-searchSuggestion {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .desktop-searchSuggestions .desktop-searchSuggestion:last-child {
+        border-bottom: none;
+    }
+
+    .desktop-searchSuggestions .desktop-searchSuggestion a {
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .desktop-searchSuggestions .desktop-searchSuggestion a:hover {
+        background-color: #f5f5f5;
+    }
+
+    .desktop-searchSuggestions .desktop-searchSuggestion a button {
+        border: none;
+        background: none;
+        margin-right: 10px;
+    }
+
+    .desktop-searchSuggestions .no-suggestions-message {
+        padding: 10px;
+        text-align: center;
+        color: #999;
+    }
+
+    .suggestionCo {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .hidden {
         display: none;
     }
 </style>
-
 
 <!-- Mobile Menu Script -->
 <script>
@@ -307,7 +358,6 @@
 
 <!-- Search Bar Script -->
 <script>
-
     const search = () => {
         searhBar.classList.toggle('hide');
         mobileMenu.classList.add('hide');
@@ -382,6 +432,63 @@
                 noSuggestionsItem.textContent = 'No suggestions found';
                 mobileSuggestionsContainer.appendChild(noSuggestionsItem);
                 mobileSuggestionsContainer.classList.remove('hidden');
+            }
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const desktopQueryInput = document.getElementById('desktop-query');
+        const desktopSuggestionsContainer = document.getElementById('desktop-searchSuggestions');
+
+        desktopQueryInput.addEventListener('input', async function () {
+            const query = desktopQueryInput.value;
+            if (query.length < 2) {
+                desktopSuggestionsContainer.innerHTML = '';
+                desktopSuggestionsContainer.classList.add('hidden');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/suggestions?query=${encodeURIComponent(query)}`);
+                const suggestions = await response.json();
+                displayDesktopSuggestions(suggestions);
+            } catch (error) {
+                console.error('Error fetching suggestions:', error);
+            }
+        });
+
+        function displayDesktopSuggestions(suggestions) {
+            desktopSuggestionsContainer.innerHTML = '';
+            if (suggestions.length > 0) {
+                desktopSuggestionsContainer.classList.remove('hidden');
+                suggestions.forEach(suggestion => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.classList.add('desktop-searchSuggestion');
+                    suggestionItem.innerHTML = `
+                    <a href="/page/${suggestion.endpoint}">
+                        <button title="${suggestion.title}" aria-label="${suggestion.title}">
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" style="pointer-events: none; display: inherit; width: 28px; height: 28px; fill: #ccc;">
+                                <path d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"></path>
+                            </svg>
+                        </button>
+                        <span>${suggestion.title}</span>
+                    </a>
+                `;
+                    suggestionItem.addEventListener('click', () => {
+                        desktopQueryInput.value = suggestion.title;
+                        desktopSuggestionsContainer.innerHTML = '';
+                        desktopSuggestionsContainer.classList.add('hidden');
+                    });
+                    desktopSuggestionsContainer.appendChild(suggestionItem);
+                });
+            } else {
+                const noSuggestionsItem = document.createElement('div');
+                noSuggestionsItem.classList.add('no-suggestions-message');
+                noSuggestionsItem.textContent = 'No suggestions found';
+                desktopSuggestionsContainer.appendChild(noSuggestionsItem);
+                desktopSuggestionsContainer.classList.remove('hidden');
             }
         }
     });
