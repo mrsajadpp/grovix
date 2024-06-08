@@ -1,149 +1,234 @@
-{{> headers/user/category_header}}
+{{> headers/user/trending_header}}
+
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-        padding: 15px;
-    }
-
-    .grid-item {
-        position: relative;
-        overflow: hidden;
-        border-radius: 13px;
-    }
-
-    .grid-item img {
+    .topWriters {
         width: 100%;
-        height: auto;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 90px;
     }
 
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
+    .topWriters .topContainer {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .topWriters .cardTitle {
+        display: flex;
+        align-items: center;
+    }
+
+    .topWriters .slideIcon {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .topWriters .slideIcon button {
+        width: 40px;
+        height: 40px;
+        border: none;
         display: flex;
         align-items: center;
         justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
+        border-radius: 50%;
+        background-color: transparent;
+        cursor: pointer;
+        background-color: #f6f6f6;
     }
 
-    .grid-item:hover .overlay {
-        opacity: 1;
+    .topWriters .cardContainer {
+        width: 90%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding-bottom: 20px;
     }
 
-    h2 {
-        margin: 0;
-        font-size: 1.5rem;
+    .topWriters .card {
+        height: 170px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        border-radius: 13px;
+        overflow: hidden;
+        background: #0078e8;
+        position: relative;
     }
 
-    .grid-item a {
-        display: block;
+    .topWriters .card .innerCard {
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(70, 70, 70, 0.377);
+        backdrop-filter: blur(3px);
+        padding: 10px 0px 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .topWriters .card:hover .innerCard {
+        background-color: rgba(70, 70, 70, 0.6);
+    }
+
+    .topWriters .card .artTitle {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .topWriters .card .artTitle a {
         text-decoration: none;
-        color: inherit;
+    }
+
+    .topWriters .card .artTitle h3 {
+        font-size: 24px;
+        margin: 0;
+        color: #fff;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .topWriters .card:hover .artTitle h3 {
+        transform: scale(1.1);
+        color: #f6f6f6;
     }
 </style>
-<div class="grid-container" style="margin-top: 70px;">
-    <div class="grid-item" tabindex="0" aria-labelledby="category-programming">
-        <a href="/category/programming">
-            <div class="overlay">
-                <h2 id="category-programming">Programming</h2>
-            </div>
-            <img src="/img/category/programming.png" alt="Programming">
-        </a>
+
+<div class="topWriters">
+    <div class="topContainer">
+        <div class="cardTitle">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                <path
+                    d="M320-184.62v-391q0-26.84 19-45.61T384.85-640h390.53q26.85 0 45.74 18.88Q840-602.23 840-575.38v278.46L663.08-120H384.62q-26.85 0-45.74-18.88Q320-157.77 320-184.62ZM121-696.15q-5.23-26.85 10.31-48.35 15.54-21.5 42.38-26.73L558.46-839q26.85-5.23 48.35 10.31 21.5 15.54 26.73 42.38l8.46 50.93H384.62q-66 0-113 47t-47 113v311.23q-13.7-6.7-23.27-19-9.58-12.31-12.58-28.23L121-696.15ZM800-320H640v160l160-160Z" />
+            </svg>
+            <h3>Categories</h3>
+        </div>
+        <div class="slideIcon">
+        </div>
     </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-education-learning">
-        <a href="/category/education-learning">
-            <div class="overlay">
-                <h2 id="category-education-learning">Education & Learning</h2>
+
+    <!-- Card Container -->
+    <div class="cardContainer" id="tcardContainer">
+        <div class="card artCart"
+            style="background: url('/img/category/programming.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/programming">
+                        <h3>Programming</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/education.png" alt="Education & Learning">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-technology">
-        <a href="/category/technology">
-            <div class="overlay">
-                <h2 id="category-technology">Technology</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/education.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/education-learning">
+                        <h3>Education & Learning</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/technology.png" alt="Technology">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-health-wellness">
-        <a href="/category/health-wellness">
-            <div class="overlay">
-                <h2 id="category-health-wellness">Health & Wellness</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/technology.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/technology">
+                        <h3>Technology</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/health.png" alt="Health & Wellness">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-finance-investment">
-        <a href="/category/finance-investment">
-            <div class="overlay">
-                <h2 id="category-finance-investment">Finance & Investment</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/health.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/health-wellness">
+                        <h3>Health & Wellness</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/finance.png" alt="Finance & Investment">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-travel-leisure">
-        <a href="/category/travel-leisure">
-            <div class="overlay">
-                <h2 id="category-travel-leisure">Travel & Leisure</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/finance.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/finance-investment">
+                        <h3>Finance & Investment</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/travel.png" alt="Travel & Leisure">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-food-cooking">
-        <a href="/category/food-cooking">
-            <div class="overlay">
-                <h2 id="category-food-cooking">Food & Cooking</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/travel.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/travel-leisure">
+                        <h3>Travel & Leisure</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/food.png" alt="Food & Cooking">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-fashion-beauty">
-        <a href="/category/fashion-beauty">
-            <div class="overlay">
-                <h2 id="category-fashion-beauty">Fashion & Beauty</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/food.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/food-cooking">
+                        <h3>Food & Cooking</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/fashion.png" alt="Fashion & Beauty">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-sports-fitness">
-        <a href="/category/sports-fitness">
-            <div class="overlay">
-                <h2 id="category-sports-fitness">Sports & Fitness</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/fashion.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/fashion-beauty">
+                        <h3>Fashion & Beauty</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/sports.png" alt="Sports & Fitness">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-entertainment">
-        <a href="/category/entertainment">
-            <div class="overlay">
-                <h2 id="category-entertainment">Entertainment</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/sports.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/sports-fitness">
+                        <h3>Sports & Fitness</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/entertainment.png" alt="Entertainment">
-        </a>
-    </div>
-    <div class="grid-item" tabindex="0" aria-labelledby="category-home-garden">
-        <a href="/category/home-garden">
-            <div class="overlay">
-                <h2 id="category-home-garden">Home & Garden</h2>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/entertainment.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/entertainment">
+                        <h3>Entertainment</h3>
+                    </a>
+                </div>
             </div>
-            <img src="/img/category/home.png" alt="Home & Garden">
-        </a>
+        </div>
+        <div class="card artCart"
+            style="background: url('/img/category/home.png') no-repeat center center; background-size: cover;">
+            <div class="innerCard">
+                <div class="artTitle">
+                    <a href="/category/home-garden">
+                        <h3>Home & Garden</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
