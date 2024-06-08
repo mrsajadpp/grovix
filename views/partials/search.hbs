@@ -12,5 +12,57 @@
                 </svg>
             </button>
         </div>
+
     </div>
 </div>
+<div class="suggestionCo hidden">
+    <div class="suggestions no-suggestions" id="suggestions"></div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const queryInput = document.getElementById('query');
+    const suggestionsContainer = document.getElementById('suggestions');
+    const suggestionCo = document.querySelector('.suggestionCo');
+
+    queryInput.addEventListener('input', async function () {
+        const query = queryInput.value;
+        if (query.length < 2) {
+            suggestionsContainer.innerHTML = '';
+            suggestionCo.classList.add('hidden');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/suggestions?query=${encodeURIComponent(query)}`);
+            const suggestions = await response.json();
+            displaySuggestions(suggestions);
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+        }
+    });
+
+    function displaySuggestions(suggestions) {
+        suggestionsContainer.innerHTML = '';
+        if (suggestions.length > 0) {
+            suggestionCo.classList.remove('hidden');
+            suggestions.forEach(suggestion => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.classList.add('suggestion-item');
+                suggestionItem.textContent = suggestion.title;
+                suggestionItem.addEventListener('click', () => {
+                    queryInput.value = suggestion.title;
+                    suggestionsContainer.innerHTML = '';
+                    suggestionCo.classList.add('hidden');
+                });
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        } else {
+            const noSuggestionsItem = document.createElement('div');
+            noSuggestionsItem.classList.add('no-suggestions-message');
+            noSuggestionsItem.textContent = 'No suggestions found';
+            suggestionsContainer.appendChild(noSuggestionsItem);
+            suggestionCo.classList.remove('hidden');
+        }
+    }
+});
+</script>

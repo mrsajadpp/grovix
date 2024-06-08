@@ -1553,6 +1553,32 @@ router.get('/articles/analytics', isAuthorised, async (req, res) => {
   }
 });
 
+// Search suggestions
+
+// Search suggestions endpoint
+router.get('/api/suggestions', async (req, res) => {
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ error: 'Query parameter is required' });
+  }
+
+  try {
+    const suggestions = await Article.find({
+      $or: [
+        { title: new RegExp(query, 'i') },
+        { description: new RegExp(query, 'i') }
+      ]
+    }, 'title description')
+      .limit(10);
+
+    res.json(suggestions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 // const convertAllJpgToWebp = async (dir) => {
 //   try {

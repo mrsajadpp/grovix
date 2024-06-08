@@ -280,7 +280,10 @@ router.get('/category/:slug', async (req, res, next) => {
       user: req.session && req.session.user ? req.session.user : false
     });
   }
-})
+});
+
+
+
 // Terms and codintions
 router.get('/terms-and-conditions', (req, res, next) => {
   res.render('user/terms-and-conditions', { title: "Grovix Lab Terms and Conditions", description: "Understand our terms and conditions and how we collect and manage your information to provide a better experience", url: 'https://www.grovixlab.com/privacy-policy', style: ['article'], user: req.session && req.session.user ? req.session.user : false });
