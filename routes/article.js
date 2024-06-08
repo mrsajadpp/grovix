@@ -243,7 +243,8 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
         const { title, description, content } = req.body;
         const { user } = req.session;
         const articleId = req.params.article_id;
-        const article = await Article.findOne({ _id: new mongoose.Types.ObjectId(articleId), author_id: user._id }).lean();
+        const article = await Article.findOne({ _id: new ObjectId(articleId), author_id: user._id }).lean();
+        console.log(article);
 
         if (title && description && content) {
 
@@ -265,8 +266,11 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     new_thumb: true
                 };
 
+                console.log("hi");
+
+
                 // Check if an updation already exists for this article
-                const existingUpdation = await Updation.findOne({ article_id: article._id, status: 'pending' });
+                const existingUpdation = await Updation.findOne({ article_id: article._id.toString(), status: 'pending' });
 
                 // Load the HTML into cheerio
                 const $ = cheerio.load(updateData.body);
@@ -280,6 +284,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     }
                 });
 
+
                 updateData.body = await $.html();
 
                 if (existingUpdation) {
@@ -289,17 +294,6 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     // Create a new updation record
                     const updation = new Updation(updateData);
                     await updation.save();
-                }
-
-                if (req.files && req.files.thumbnail) {
-                    const thumbnailFile = req.files.thumbnail;
-                    const imagePath = __dirname + '/../public/img/article/' + article._id + '.jpg';
-
-                    thumbnailFile.mv(imagePath, async (err) => {
-                        if (err) {
-                            return res.render('dashboard/editArticle', { title: "Edit Article", style: ['dashboard', 'newArticle'], article, error: { message: "Error uploading thumbnail image: " + err }, user });
-                        }
-                    });
                 }
 
                 // Send email notification to the author

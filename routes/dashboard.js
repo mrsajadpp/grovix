@@ -108,6 +108,7 @@ router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {
     let updation = await Updation.findOne({ article_id: article._id.toString() }).lean();
     let drafts = updation ? updation : article;
     drafts.content = drafts.body;
+    updation ? updation._id = article._id : null;
     res.render('dashboard/editArticle', { title: "Edit >> Article >> Dashboard", style: ['dashboard', 'newArticle'], drafts, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
