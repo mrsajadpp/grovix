@@ -95,7 +95,10 @@
 
   {{/if}}
 
+  {{#if iserror}}
+  {{else}}
   <link rel="stylesheet" href="/css/style.css">
+  {{/if}}
   {{#if style}}
   {{#each style}}
   <link rel="stylesheet" href="/css/{{this}}.css">

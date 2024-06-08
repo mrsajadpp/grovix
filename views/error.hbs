@@ -1,86 +1,86 @@
 <style>
 	* {
-		margin: 0;
-		padding: 0
+		margin: 0 !important;
+		padding: 0 !important;
 	}
 
 	html,
 	code {
-		font: 15px/22px arial, sans-serif
+		font: 15px/22px arial, sans-serif !important;
 	}
 
 	html {
-		background: #fff;
-		color: #222;
-		padding: 15px
+		background: #fff !important;
+		color: #222 !important;
+		padding: 15px !important;
 	}
 
 	body {
-		margin: 7% auto 0;
-		max-width: 390px;
-		min-height: 180px;
-		padding: 30px 0 15px
+		margin: 7% auto 0 !important;
+		max-width: 390px !important;
+		min-height: 180px !important;
+		padding: 30px 0 15px !important;
 	}
 
 	*>body {
-		background: url("https://www.grovixlab.com/img/robot.png") 100% 5px no-repeat;
-		padding-right: 205px
+		background: url("https://www.grovixlab.com/img/robot.png") 100% 5px no-repeat !important;
+		padding-right: 205px !important;
 	}
 
 	p {
-		margin: 11px 0 22px;
-		overflow: hidden
+		margin: 11px 0 22px !important;
+		overflow: hidden !important;
 	}
 
 	ins {
-		color: #777;
-		text-decoration: none
+		color: #777 !important;
+		text-decoration: none !important;
 	}
 
 	a img {
-		border: 0
+		border: 0 !important;
 	}
 
-	@media screen and (max-width:772px) {
+	@media screen and (max-width: 772px) {
 		body {
-			background: none;
-			margin-top: 0;
-			max-width: none;
-			padding-right: 0
+			background: none !important;
+			margin-top: 0 !important;
+			max-width: none !important;
+			padding-right: 0 !important;
 		}
 	}
 
 	#logo {
-		background: url("https://www.grovixlab.com/img/grovix_150x54dp.png") no-repeat;
-		margin-left: -5px
+		background: url("https://www.grovixlab.com/img/grovix_150x54dp.png") no-repeat !important;
+		margin-left: -5px !important;
 	}
 
-	@media only screen and (min-resolution:192dpi) {
+	@media only screen and (min-resolution: 192dpi) {
 		#logo {
-			background: url("https://www.grovixlab.com/img/grovix_150x544dp.png") no-repeat 0% 0%/100% 100%;
-			-moz-border-image: url("https://www.grovixlab.com/img/grovix_150x544dp.png") 0
+			background: url("https://www.grovixlab.com/img/grovix_150x544dp.png") no-repeat 0% 0%/100% 100% !important;
+			-moz-border-image: url("https://www.grovixlab.com/img/grovix_150x544dp.png") 0 !important;
 		}
 	}
 
-	@media only screen and (-webkit-min-device-pixel-ratio:2) {
+	@media only screen and (-webkit-min-device-pixel-ratio: 2) {
 		#logo {
-			background: url("https://www.grovixlab.com/img/grovix_150x544dp.png") no-repeat;
-			-webkit-background-size: 100% 100%
+			background: url("https://www.grovixlab.com/img/grovix_150x544dp.png") no-repeat !important;
+			-webkit-background-size: 100% 100% !important;
 		}
 	}
 
 	#logo {
-		display: inline-block;
-		height: 54px;
-		width: 150px
+		display: inline-block !important;
+		height: 54px !important;
+		width: 150px !important;
 	}
 
 	.footer {
 		display: none !important;
 	}
 </style>
-<a href="https://www.grovixlab.com/"><span id="logo" aria-label="GrovixLab"></span></a>
-<p><b>{{status}}.</b> <ins>That’s an error.</ins>
-</p>
-<p>{{message}}. <ins>That’s all we know.</ins>
-</p>
+<body>
+    <a href="https://www.grovixlab.com/"><span id="logo" aria-label="GrovixLab"></span></a>
+    <p><b>{{status}}.</b> <ins>That’s an error.</ins></p>
+    <p>{{message}}. <ins>That’s all we know.</ins></p>
+</body>
