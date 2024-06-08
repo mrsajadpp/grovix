@@ -24,7 +24,7 @@
 		}
 
 		*>body {
-			background: url(https://www.grovixlab.com/img/robot.png) 100% 5px no-repeat;
+			background: url("https://www.grovixlab.com/img/robot.png") 100% 5px no-repeat;
 			padding-right: 205px
 		}
 
@@ -52,20 +52,20 @@
 		}
 
 		#logo {
-			background: url(https://www.grovixlab.com/img/grovix_150x54dp.png) no-repeat;
+			background: url("https://www.grovixlab.com/img/grovix_150x54dp.png") no-repeat;
 			margin-left: -5px
 		}
 
 		@media only screen and (min-resolution:192dpi) {
 			#logo {
-				background: url(https://www.grovixlab.com/img/grovix_150x544dp.png) no-repeat 0% 0%/100% 100%;
-				-moz-border-image: url(https://www.grovixlab.com/img/grovix_150x544dp.png) 0
+				background: url("https://www.grovixlab.com/img/grovix_150x544dp.png") no-repeat 0% 0%/100% 100%;
+				-moz-border-image: url("https://www.grovixlab.com/img/grovix_150x544dp.png") 0
 			}
 		}
 
 		@media only screen and (-webkit-min-device-pixel-ratio:2) {
 			#logo {
-				background: url(https://www.grovixlab.com/img/grovix_150x544dp.png) no-repeat;
+				background: url("https://www.grovixlab.com/img/grovix_150x544dp.png") no-repeat;
 				-webkit-background-size: 100% 100%
 			}
 		}
@@ -76,8 +76,8 @@
 			width: 150px
 		}
 	</style>
-	<a href="//www.google.com/"><span id="logo" aria-label="Google"></span></a>
-	<p><b>404.</b> <ins>That’s an error.</ins>
+	<a href="https://www.grovixlab.com/"><span id="logo" aria-label="GrovixLab"></span></a>
+	<p><b>{{status}}.</b> <ins>That’s an error.</ins>
 	</p>
-	<p>The requested URL was not found on this server. <ins>That’s all we know.</ins>
+	<p>{{message}}. <ins>That’s all we know.</ins>
 	</p>
