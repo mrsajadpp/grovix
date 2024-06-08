@@ -104,7 +104,9 @@ router.get('/article/new', isAuthorised, async (req, res, next) => {
 // Edit Article
 router.get('/edit/:article_id', isAuthorised, async (req, res, next) => {
   try {
-    let drafts = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
+    let article = await Article.findOne({ _id: new mongoose.Types.ObjectId(req.params.article_id), author_id: req.session.user._id }).lean();
+    let updation = await Updation.findOne({ article_id: article._id.toString() }).lean();
+    let drafts = updation ? updation : article;
     drafts.content = drafts.body;
     res.render('dashboard/editArticle', { title: "Edit >> Article >> Dashboard", style: ['dashboard', 'newArticle'], drafts, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
