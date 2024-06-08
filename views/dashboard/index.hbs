@@ -60,6 +60,7 @@
         const { articleViewsData, countryViews } = data;
 
         const titles = articleViewsData.map(article => article.title.substring(0, 6));
+        const fullTitles = articleViewsData.map(article => article.title); // Store full titles
         const views = articleViewsData.map(article => article.views);
         const impressions = articleViewsData.map(article => article.impressions);
 
@@ -87,6 +88,15 @@
                     y: {
                         beginAtZero: true
                     }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                return fullTitles[context[0].dataIndex];
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -110,6 +120,15 @@
                     y: {
                         beginAtZero: true
                     }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                return fullTitles[context[0].dataIndex];
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -132,6 +151,15 @@
                 scales: {
                     y: {
                         beginAtZero: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                return fullTitles[context[0].dataIndex];
+                            }
+                        }
                     }
                 }
             }
