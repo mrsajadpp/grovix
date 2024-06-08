@@ -54,7 +54,7 @@ router.get('/', isAdmin, async (req, res, next) => {
 // Articles
 router.get('/articles', isAdmin, async (req, res, next) => {
   try {
-    const article_list = await Article.find({ status: true }).lean();
+    const article_list = await Article.find({ status: true }).sort({ _id: -1 }).lean();
     res.render('admin/articles', { title: "Articles >> Admin", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
@@ -65,7 +65,7 @@ router.get('/articles', isAdmin, async (req, res, next) => {
 
 router.get('/articles/bin', isAdmin, async (req, res, next) => {
   try {
-    const article_list = await ArticleBin.find({ status: true }).lean();
+    const article_list = await ArticleBin.find({ status: true }).sort({ _id: -1 }).lean();
     res.render('admin/locked', { title: "Bin >> Articles >> Admin", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
@@ -76,7 +76,7 @@ router.get('/articles/bin', isAdmin, async (req, res, next) => {
 
 router.get('/articles/pending', isAdmin, async (req, res, next) => {
   try {
-    const article_list = await Article.find({ status: false }).lean();
+    const article_list = await Article.find({ status: false }).sort({ _id: -1 }).lean();
     res.render('admin/pending', { title: "Pending >> Articles >> Admin", style: ['dashboard'], article_list, user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
@@ -88,7 +88,7 @@ router.get('/articles/pending', isAdmin, async (req, res, next) => {
 // Route to get pending article edits
 router.get('/articles/edits', isAdmin, async (req, res, next) => {
   try {
-    const article_list = await Updation.find({ status: 'pending' }).lean();
+    const article_list = await Updation.find({ status: 'pending' }).sort({ _id: -1 }).lean();
     res.render('admin/edits', {
       title: "Pending Edits >> Articles >> Admin",
       style: ['dashboard'],
