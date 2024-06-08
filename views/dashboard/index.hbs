@@ -59,7 +59,7 @@
     function createCharts(data) {
         const { articleViewsData, countryViews } = data;
 
-        const titles = articleViewsData.map(article => article.title);
+        const titles = articleViewsData.map(article => article.title.substring(0, 6));
         const views = articleViewsData.map(article => article.views);
         const impressions = articleViewsData.map(article => article.impressions);
 
