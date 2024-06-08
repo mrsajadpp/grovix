@@ -55,6 +55,10 @@ const articleSchema = new Schema({
         type: String,
         required: false,
     },
+    new_thumb: {
+        type: String,
+        required: false,
+    },
 });
 
 const Article = mongoose.model('Article', articleSchema);

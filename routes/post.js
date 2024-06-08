@@ -567,117 +567,117 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 });
 
 // New article
-router.post('/article/request', isAuthorised, async (req, res, next) => {
-  try {
-    const {
-      title,
-      description,
-      content
-    } = req.body;
+// router.post('/article/request', isAuthorised, async (req, res, next) => {
+//   try {
+//     const {
+//       title,
+//       description,
+//       content
+//     } = req.body;
 
-    if (title && description && content) {
-      // Generate slug and ensure uniqueness
-      let slag = await convertToSlug(title);
-      let existSlag = await Article.findOne({ endpoint: slag }).lean();
+//     if (title && description && content) {
+//       // Generate slug and ensure uniqueness
+//       let slag = await convertToSlug(title);
+//       let existSlag = await Article.findOne({ endpoint: slag }).lean();
 
-      await ArticleDraft.deleteOne({ author_id: new mongoose.Types.ObjectId(req.session.user._id) });
+//       await ArticleDraft.deleteOne({ author_id: new mongoose.Types.ObjectId(req.session.user._id) });
 
-      if (existSlag) {
-        let counter = 1;
-        let newSlag = slag;
-        while (await Article.findOne({ endpoint: newSlag }).lean()) {
-          newSlag = `${slag}${counter}`;
-          counter++;
-        }
-        slag = newSlag;
-      }
+//       if (existSlag) {
+//         let counter = 1;
+//         let newSlag = slag;
+//         while (await Article.findOne({ endpoint: newSlag }).lean()) {
+//           newSlag = `${slag}${counter}`;
+//           counter++;
+//         }
+//         slag = newSlag;
+//       }
 
-      // Create article data
-      let articleData = {
-        title: title,
-        description: description,
-        category: 'null',
-        body: content,
-        author_id: req.session.user._id,
-        status: false,
-        created_time: new Date().toString(),
-        endpoint: slag,
-        views: 0,
-        custom: true,
-      };
+//       // Create article data
+//       let articleData = {
+//         title: title,
+//         description: description,
+//         category: 'null',
+//         body: content,
+//         author_id: req.session.user._id,
+//         status: false,
+//         created_time: new Date().toString(),
+//         endpoint: slag,
+//         views: 0,
+//         custom: true,
+//       };
 
-      // Save article to database
-      let article = new Article(articleData);
-      await article.save();
+//       // Save article to database
+//       let article = new Article(articleData);
+//       await article.save();
 
-      // Extract first image from content and save it
-      const imgTagRegex = /<img[^>]+src="([^">]+)"/i;
-      const match = imgTagRegex.exec(content);
+//       // Extract first image from content and save it
+//       const imgTagRegex = /<img[^>]+src="([^">]+)"/i;
+//       const match = imgTagRegex.exec(content);
 
-      if (match && match[1]) {
-        const imgURL = match[1];
-        const imagePath = path.join(__dirname, '/../public/img/article/', `${article._id}.jpg`);
+//       if (match && match[1]) {
+//         const imgURL = match[1];
+//         const imagePath = path.join(__dirname, '/../public/img/article/', `${article._id}.jpg`);
 
-        // Download the image from the URL
-        const downloadImage = async (url, filepath) => {
-          const writer = fs.createWriteStream(filepath);
-          const response = await axios({
-            url,
-            method: 'GET',
-            responseType: 'stream'
-          });
+//         // Download the image from the URL
+//         const downloadImage = async (url, filepath) => {
+//           const writer = fs.createWriteStream(filepath);
+//           const response = await axios({
+//             url,
+//             method: 'GET',
+//             responseType: 'stream'
+//           });
 
-          response.data.pipe(writer);
+//           response.data.pipe(writer);
 
-          return new Promise((resolve, reject) => {
-            writer.on('finish', resolve);
-            writer.on('error', reject);
-          });
-        };
+//           return new Promise((resolve, reject) => {
+//             writer.on('finish', resolve);
+//             writer.on('error', reject);
+//           });
+//         };
 
-        try {
-          await downloadImage(imgURL, imagePath);
-        } catch (err) {
-          console.error("Error downloading image:", err);
-        }
-      }
+//         try {
+//           await downloadImage(imgURL, imagePath);
+//         } catch (err) {
+//           console.error("Error downloading image:", err);
+//         }
+//       }
 
-      // Send confirmation email to the user
-      let userData = req.session.user;
-      sendMail({
-        from: '"Grovix Lab" <noreply.grovix@gmail.com>',
-        to: userData.email,
-        subject: "Your Article Has Been Requested for Review",
-        text: `Hello ${userData.first_name},
+//       // Send confirmation email to the user
+//       let userData = req.session.user;
+//       sendMail({
+//         from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+//         to: userData.email,
+//         subject: "Your Article Has Been Requested for Review",
+//         text: `Hello ${userData.first_name},
         
-        We have received your article titled "${article.title}" and it has been requested for review.
+//         We have received your article titled "${article.title}" and it has been requested for review.
         
-        Please wait while our team reviews your submission. We will notify you once the review process is complete.
+//         Please wait while our team reviews your submission. We will notify you once the review process is complete.
         
-        Thank you for your patience and your valuable contribution.
+//         Thank you for your patience and your valuable contribution.
         
-        Best regards,
-        The Grovix Team`,
-        html: `<p>Hello ${userData.first_name},</p>
-               <p>We have received your article titled "<strong>${article.title}</strong>" and it has been requested for review.</p>
-               <p>Please wait while our team reviews your submission. We will notify you once the review process is complete.</p>
-               <p>Thank you for your patience and your valuable contribution.</p>
-               <p>Best regards,<br>The Grovix Team</p>`,
-      });
+//         Best regards,
+//         The Grovix Team`,
+//         html: `<p>Hello ${userData.first_name},</p>
+//                <p>We have received your article titled "<strong>${article.title}</strong>" and it has been requested for review.</p>
+//                <p>Please wait while our team reviews your submission. We will notify you once the review process is complete.</p>
+//                <p>Thank you for your patience and your valuable contribution.</p>
+//                <p>Best regards,<br>The Grovix Team</p>`,
+//       });
 
-      res.redirect('/dashboard/articles/pending');
-    }
-  } catch (error) {
-    console.error(error);
-    res.render('error', {
-      title: "500",
-      status: 500,
-      message: error.message,
-      style: ['error'],
-      user: req.session && req.session.user ? req.session.user : false
-    });
-  }
-});
+//       res.redirect('/dashboard/articles/pending');
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.render('error', {
+//       title: "500",
+//       status: 500,
+//       message: error.message,
+//       style: ['error'],
+//       user: req.session && req.session.user ? req.session.user : false
+//     });
+//   }
+// });
 
 // Autosave endpoint
 router.post('/article/autosave', isAuthorised, async (req, res) => {

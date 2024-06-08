@@ -9,6 +9,7 @@
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "change-package-name": "^1.0.5",
+    "cheerio": "^1.0.0-rc.12",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
     "cookie-session": "^2.1.0",
