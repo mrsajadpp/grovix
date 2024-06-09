@@ -182,7 +182,7 @@
     function minifyHTML() {
         const inputHTML = document.getElementById('inputHTML').value;
 
-        fetch('https://www.grovixlab.com/api/minify/html', {
+        fetch('/api/minify/html', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
