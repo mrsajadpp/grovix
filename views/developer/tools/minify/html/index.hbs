@@ -47,6 +47,28 @@
         background-color: #0056b3;
     }
 
+    .widgetContainer {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .widget {
+        padding: 10px;
+        background-color: #000;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .widget:hover {
+        background-color: #000;
+    }
+
     h1,
     h2,
     h3 {
@@ -130,6 +152,14 @@
             font-size: 14px;
         }
 
+        .widgetContainer {
+            flex-direction: column;
+        }
+
+        .widget {
+            margin-bottom: 10px;
+        }
+
         h1,
         h2,
         h3 {
@@ -151,7 +181,8 @@
 
 <div class="container">
     <h1>HTML Minifier and Compressor Tool</h1>
-    <p>Welcome to our HTML Minifier tool. Use this tool to minify your HTML code quickly and easily. Minifying your HTML helps to reduce file size and improve load times for your website.</p>
+    <p>Welcome to our HTML Minifier tool. Use this tool to minify your HTML code quickly and easily. Minifying your HTML
+        helps to reduce file size and improve load times for your website.</p>
 
     <div class="minContainer">
         <textarea id="inputHTML" placeholder="Enter your HTML here..."></textarea>
@@ -159,8 +190,18 @@
         <button onclick="minifyHTML()">Minify HTML</button>
     </div>
 
+    <br>
+    <div class="minContainer widgetContainer">
+        <a href="https://www.grovixlab.com/developer/tools/minify/css" class="widget">CSS Minifier</a>
+        <br>
+        <a href="https://www.grovixlab.com/developer/tools/minify/js" class="widget">JS Minifier</a>
+        <br>
+        <a href="https://www.grovixlab.com/developer/tools/minify/html" class="widget">HTML Minifier</a>
+    </div>
+
     <h2>API Documentation</h2>
-    <p>Our HTML Minifier API allows you to minify HTML programmatically. Below is a brief guide on how to use the API.</p>
+    <p>Our HTML Minifier API allows you to minify HTML programmatically. Below is a brief guide on how to use the API.
+    </p>
     <h3>Endpoint</h3>
     <pre><code class="keyword">POST</code> <code class="string">https://www.grovixlab.com/api/minify/html</code></pre>
 

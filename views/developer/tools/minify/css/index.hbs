@@ -9,7 +9,6 @@
     .container {
         max-width: 800px;
         margin: 120px auto 50px;
-        /* Adjusted margin for header */
         padding: 20px;
         background-color: #fff;
         border: 1px solid #ccc;
@@ -46,6 +45,28 @@
 
     .minContainer button:hover {
         background-color: #0056b3;
+    }
+
+    .widgetContainer {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .widget {
+        padding: 10px;
+        background-color: #000;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .widget:hover {
+        background-color: #000;
     }
 
     h1,
@@ -131,6 +152,14 @@
             font-size: 14px;
         }
 
+        .widgetContainer {
+            flex-direction: column;
+        }
+
+        .widget {
+            margin-bottom: 10px;
+        }
+
         h1,
         h2,
         h3 {
@@ -160,6 +189,14 @@
         <textarea id="outputCSS" placeholder="Minified CSS will appear here..." readonly></textarea>
         <button onclick="minifyCSS()">Minify CSS</button>
     </div>
+    <br>
+    <div class="minContainer widgetContainer">
+        <a href="https://www.grovixlab.com/developer/tools/minify/css" class="widget">CSS Minifier</a>
+        <br>
+        <a href="https://www.grovixlab.com/developer/tools/minify/js" class="widget">JS Minifier</a>
+        <br>
+        <a href="https://www.grovixlab.com/developer/tools/minify/html" class="widget">HTML Minifier</a>
+    </div>
 
     <h2>API Documentation</h2>
     <p>Our CSS Minifier API allows you to minify CSS programmatically. Below is a brief guide on how to use the API.</p>
@@ -184,7 +221,7 @@
     function minifyCSS() {
         const inputCSS = document.getElementById('inputCSS').value;
 
-        fetch('https://www.grovixlab.com/api/minify/css', {
+        fetch('/api/minify/css', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
