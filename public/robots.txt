@@ -5,3 +5,4 @@ Disallow: /dashboard/*
 Disallow: /logout
 Sitemap: https://www.grovixlab.com/sitemap.xml
 Sitemap: https://www.grovixlab.com/articles.xml
+Sitemap: https://www.grovixlab.com/sitemap-tools.xml
