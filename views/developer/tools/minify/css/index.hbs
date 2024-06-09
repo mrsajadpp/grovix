@@ -8,12 +8,12 @@
 
     .container {
         max-width: 800px;
-        margin: 120px auto 50px; /* Adjusted margin for header */
+        margin: 120px auto 50px;
+        /* Adjusted margin for header */
         padding: 20px;
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .minContainer {
@@ -48,7 +48,9 @@
         background-color: #0056b3;
     }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
         font-weight: 600;
         margin-bottom: 15px;
     }
@@ -72,23 +74,86 @@
         white-space: pre-wrap;
     }
 
-    .keyword { color: #569cd6; }
-    .string { color: #ce9178; }
-    .number { color: #b5cea8; }
-    .property { color: #9cdcfe; }
-    .operator { color: #d4d4d4; }
-    .function { color: #dcdcaa; }
-    .comment { color: #6a9955; }
+    .keyword {
+        color: #569cd6;
+    }
+
+    .string {
+        color: #ce9178;
+    }
+
+    .number {
+        color: #b5cea8;
+    }
+
+    .property {
+        color: #9cdcfe;
+    }
+
+    .operator {
+        color: #d4d4d4;
+    }
+
+    .function {
+        color: #dcdcaa;
+    }
+
+    .comment {
+        color: #6a9955;
+    }
 
     .footer {
         display: none !important;
+    }
+
+    @media screen and (max-width: 916px) {
+        body {
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: 80px auto 20px;
+            padding: 10px;
+            box-shadow: none;
+            border: none;
+        }
+
+        .minContainer textarea {
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        .minContainer button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        pre {
+            padding: 10px;
+        }
     }
 </style>
 {{> headers/user/article_header}} <!-- Your existing header partial -->
 
 <div class="container">
     <h1>CSS Minifier and Compressor Tool</h1>
-    <p>Welcome to our CSS Minifier tool. Use this tool to minify your CSS code quickly and easily. Minifying your CSS helps to reduce file size and improve load times for your website.</p>
+    <p>Welcome to our CSS Minifier tool. Use this tool to minify your CSS code quickly and easily. Minifying your CSS
+        helps to reduce file size and improve load times for your website.</p>
 
     <div class="minContainer">
         <textarea id="inputCSS" placeholder="Enter your CSS here..."></textarea>
@@ -99,7 +164,7 @@
     <h2>API Documentation</h2>
     <p>Our CSS Minifier API allows you to minify CSS programmatically. Below is a brief guide on how to use the API.</p>
     <h3>Endpoint</h3>
-    <p><code class="keyword">POST</code> <code class="string">https://www.grovixlab.com/api/minify/css</code></p>
+    <pre><code class="keyword">POST</code> <code class="string">https://www.grovixlab.com/api/minify/css</code></pre>
 
     <h3>Request Body</h3>
     <p>The API expects a JSON object with the following structure:</p>
@@ -126,16 +191,16 @@
             },
             body: JSON.stringify({ css: inputCSS })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert('Error: ' + data.error);
-            } else {
-                document.getElementById('outputCSS').value = data.minifiedCSS;
-            }
-        })
-        .catch(error => {
-            alert('Error: ' + error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    document.getElementById('outputCSS').value = data.minifiedCSS;
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            });
     }
 </script>
