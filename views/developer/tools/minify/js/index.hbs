@@ -1,0 +1,204 @@
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 120px auto 50px;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .minContainer {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .minContainer textarea {
+        flex-grow: 1;
+        height: 150px;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        resize: none;
+        outline: none;
+    }
+
+    .minContainer button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .minContainer button:hover {
+        background-color: #0056b3;
+    }
+
+    h1,
+    h2,
+    h3 {
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-weight: 300;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    pre {
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+        padding: 15px;
+        border-radius: 5px;
+        overflow: auto;
+    }
+
+    code {
+        font-family: 'Source Code Pro', monospace;
+        white-space: pre-wrap;
+    }
+
+    .keyword {
+        color: #569cd6;
+    }
+
+    .string {
+        color: #ce9178;
+    }
+
+    .number {
+        color: #b5cea8;
+    }
+
+    .property {
+        color: #9cdcfe;
+    }
+
+    .operator {
+        color: #d4d4d4;
+    }
+
+    .function {
+        color: #dcdcaa;
+    }
+
+    .comment {
+        color: #6a9955;
+    }
+
+    .footer {
+        display: none !important;
+    }
+
+    @media screen and (max-width: 916px) {
+        body {
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: 80px auto 20px;
+            padding: 10px;
+            box-shadow: none;
+            border: none;
+        }
+
+        .minContainer textarea {
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        .minContainer button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        pre {
+            padding: 10px;
+        }
+    }
+</style>
+{{> headers/user/article_header}} <!-- Your existing header partial -->
+
+<div class="container">
+    <h1>JavaScript Minifier and Compressor Tool</h1>
+    <p>Welcome to our JavaScript Minifier tool. Use this tool to minify your JavaScript code quickly and easily. Minifying your JavaScript helps to reduce file size and improve load times for your website.</p>
+
+    <div class="minContainer">
+        <textarea id="inputJS" placeholder="Enter your JavaScript here..."></textarea>
+        <textarea id="outputJS" placeholder="Minified JavaScript will appear here..." readonly></textarea>
+        <button onclick="minifyJS()">Minify JavaScript</button>
+    </div>
+
+    <h2>API Documentation</h2>
+    <p>Our JavaScript Minifier API allows you to minify JavaScript programmatically. Below is a brief guide on how to use the API.</p>
+    <h3>Endpoint</h3>
+    <pre><code class="keyword">POST</code> <code class="string">https://www.grovixlab.com/api/minify/js</code></pre>
+
+    <h3>Request Body</h3>
+    <p>The API expects a JSON object with the following structure:</p>
+    <pre><code>{
+    <span class="property">"js"</span><span class="operator">:</span> <span class="string">"your-js-code-here"</span>
+}</code></pre>
+
+    <h3>Response</h3>
+    <p>The API will return a JSON object with the minified JavaScript:</p>
+    <pre><code>{
+    <span class="property">"minifiedJS"</span><span class="operator">:</span> <span class="string">"minified-js-code-here"</span>
+}</code></pre>
+    <p>In case of an error, the response will contain an error message.</p>
+</div>
+
+<script>
+    function minifyJS() {
+        const inputJS = document.getElementById('inputJS').value;
+
+        fetch('https://www.grovixlab.com/api/minify/js', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ js: inputJS })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    document.getElementById('outputJS').value = data.minifiedJS;
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            });
+    }
+</script>

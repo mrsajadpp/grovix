@@ -16,6 +16,7 @@ let axios = require('axios');
 let fs = require('fs');
 let path = require('path');
 const CleanCSS = require('clean-css');
+const { minify } = require('uglify-js');
 let { sendMail } = require('../email/config')
 const speakeasy = require('speakeasy');
 // const sharp = require('sharp');
@@ -1583,7 +1584,6 @@ router.get('/api/suggestions', async (req, res) => {
 // Minify css
 router.post('/api/minify/css', (req, res) => {
   const inputCSS = req.body.css;
-  console.log(inputCSS);
   
   if (!inputCSS) {
       return res.status(400).send({ error: 'No CSS provided' });
@@ -1598,6 +1598,27 @@ router.post('/api/minify/css', (req, res) => {
   res.send({ minifiedCSS: output.styles });
 });
 
+// Minify JavaScript
+router.post('/api/minify/js', (req, res) => {
+  const inputJS = req.body.js;
+  console.log(inputJS);
+
+  if (!inputJS) {
+    return res.status(400).send({ error: 'No JavaScript provided' });
+  }
+
+  try {
+    const result = minify(inputJS);
+
+    if (result.error) {
+      return res.status(500).send({ error: result.error });
+    }
+
+    res.send({ minifiedJS: result.code });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
 
 // const convertAllJpgToWebp = async (dir) => {
 //   try {
