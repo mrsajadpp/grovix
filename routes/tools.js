@@ -36,7 +36,18 @@ router.get('/sitemap-tools.xml', async (req, res, next) => {
       
       <url>
   <loc>https://www.grovixlab.com/developer/tools/minify/css</loc>
-  <lastmod>2024-06-09T05:16:01+00:00</lastmod>
+  <lastmod>2024-06-09T13:39:34+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.grovixlab.com/developer/tools/minify/js</loc>
+  <lastmod>2024-06-09T13:39:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.grovixlab.com/developer/tools/minify/html</loc>
+  <lastmod>2024-06-09T13:39:34+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
       
       
