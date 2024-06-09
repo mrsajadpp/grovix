@@ -15,6 +15,7 @@ var geoip = require('geoip-lite');
 let axios = require('axios');
 let fs = require('fs');
 let path = require('path');
+const CleanCSS = require('clean-css');
 let { sendMail } = require('../email/config')
 const speakeasy = require('speakeasy');
 // const sharp = require('sharp');
@@ -1577,6 +1578,24 @@ router.get('/api/suggestions', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+});
+
+// Minify css
+router.post('/api/minify', (req, res) => {
+  const inputCSS = req.body.css;
+  console.log(inputCSS);
+  
+  if (!inputCSS) {
+      return res.status(400).send({ error: 'No CSS provided' });
+  }
+
+  const output = new CleanCSS().minify(inputCSS);
+
+  if (output.errors.length > 0) {
+      return res.status(500).send({ error: output.errors });
+  }
+
+  res.send({ minifiedCSS: output.styles });
 });
 
 
