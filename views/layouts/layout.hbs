@@ -27,10 +27,10 @@
   <meta name="og:description" content="{{article.description}}" />
   <meta name="og:type" content="article" />
   <meta name="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
-  <meta name="image" content="http://www.grovixlab.com/img/article/{{article._id}}.jpg" />
-  <meta name="og:image" content="http://www.grovixlab.com/img/article/{{article._id}}.jpg" />
-  <meta name="image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
-  <meta name="og:image:secure_url" content="https://www.grovixlab.com/img/article/{{article._id}}.jpg" />
+  <meta name="image" content="http://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
+  <meta name="og:image" content="http://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
+  <meta name="image:secure_url" content="https://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
+  <meta name="og:image:secure_url" content="https://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
 
   {{else}}
   <meta name="description" content="{{description}}" />
