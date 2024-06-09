@@ -1581,7 +1581,7 @@ router.get('/api/suggestions', async (req, res) => {
 });
 
 // Minify css
-router.post('/api/minify', (req, res) => {
+router.post('/api/minify/css', (req, res) => {
   const inputCSS = req.body.css;
   console.log(inputCSS);
   

@@ -1,94 +1,141 @@
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
     body {
-        font-family: 'Roboto', sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh !important;
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
         margin: 0;
-        background-color: #f7f9fc;
-        color: #333;
+        padding: 0;
     }
 
-    h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
-
-    textarea {
-        width: 90%;
-        max-width: 600px;
-        padding: 1rem;
-        margin-bottom: 1rem;
+    .container {
+        max-width: 800px;
+        margin: 120px auto 50px; /* Adjusted margin for header */
+        padding: 20px;
+        background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 8px;
-        font-size: 1rem;
-        font-family: 'Roboto', sans-serif;
-        resize: vertical;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    button {
-        padding: 0.75rem 1.5rem;
+    .minContainer {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .minContainer textarea {
+        flex-grow: 1;
+        height: 150px;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        resize: none;
+        outline: none;
+    }
+
+    .minContainer button {
+        padding: 10px 20px;
         background-color: #007bff;
-        color: #fff;
+        color: white;
         border: none;
-        border-radius: 8px;
-        font-size: 1rem;
+        border-radius: 4px;
         cursor: pointer;
-        transition: background-color 0.3s;
+        font-size: 16px;
     }
 
-    button:hover {
+    .minContainer button:hover {
         background-color: #0056b3;
     }
 
-    @media (max-width: 600px) {
-        h1 {
-            font-size: 2rem;
-        }
-
-        textarea {
-            font-size: 0.875rem;
-        }
-
-        button {
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-        }
+    h1, h2, h3 {
+        font-weight: 600;
+        margin-bottom: 15px;
     }
+
+    p {
+        font-weight: 300;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    pre {
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+        padding: 15px;
+        border-radius: 5px;
+        overflow: auto;
+    }
+
+    code {
+        font-family: 'Source Code Pro', monospace;
+        white-space: pre-wrap;
+    }
+
+    .keyword { color: #569cd6; }
+    .string { color: #ce9178; }
+    .number { color: #b5cea8; }
+    .property { color: #9cdcfe; }
+    .operator { color: #d4d4d4; }
+    .function { color: #dcdcaa; }
+    .comment { color: #6a9955; }
 
     .footer {
         display: none !important;
     }
 </style>
-<h1>CSS Minifier</h1>
-<textarea id="inputCSS" placeholder="Enter your CSS here..." rows="10"></textarea>
-<button onclick="minifyCSS()">Minify</button>
-<textarea id="outputCSS" placeholder="Minified CSS will appear here..." rows="10" readonly></textarea>
+{{> headers/user/article_header}} <!-- Your existing header partial -->
+
+<div class="container">
+    <h1>CSS Minifier and Compressor Tool</h1>
+    <p>Welcome to our CSS Minifier tool. Use this tool to minify your CSS code quickly and easily. Minifying your CSS helps to reduce file size and improve load times for your website.</p>
+
+    <div class="minContainer">
+        <textarea id="inputCSS" placeholder="Enter your CSS here..."></textarea>
+        <textarea id="outputCSS" placeholder="Minified CSS will appear here..." readonly></textarea>
+        <button onclick="minifyCSS()">Minify CSS</button>
+    </div>
+
+    <h2>API Documentation</h2>
+    <p>Our CSS Minifier API allows you to minify CSS programmatically. Below is a brief guide on how to use the API.</p>
+    <h3>Endpoint</h3>
+    <p><code class="keyword">POST</code> <code class="string">https://www.grovixlab.com/api/minify/css</code></p>
+
+    <h3>Request Body</h3>
+    <p>The API expects a JSON object with the following structure:</p>
+    <pre><code>{
+    <span class="property">"css"</span><span class="operator">:</span> <span class="string">"your-css-code-here"</span>
+}</code></pre>
+
+    <h3>Response</h3>
+    <p>The API will return a JSON object with the minified CSS:</p>
+    <pre><code>{
+    <span class="property">"minifiedCSS"</span><span class="operator">:</span> <span class="string">"minified-css-code-here"</span>
+}</code></pre>
+    <p>In case of an error, the response will contain an error message.</p>
+</div>
 
 <script>
     function minifyCSS() {
         const inputCSS = document.getElementById('inputCSS').value;
 
-        fetch('https://www.grovixlab.com/api/minify', {
+        fetch('https://www.grovixlab.com/api/minify/css', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ css: inputCSS })
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert('Error: ' + data.error);
-                } else {
-                    document.getElementById('outputCSS').value = data.minifiedCSS;
-                }
-            })
-            .catch(error => {
-                alert('Error: ' + error);
-            });
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert('Error: ' + data.error);
+            } else {
+                document.getElementById('outputCSS').value = data.minifiedCSS;
+            }
+        })
+        .catch(error => {
+            alert('Error: ' + error);
+        });
     }
 </script>
