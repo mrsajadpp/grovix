@@ -25,6 +25,7 @@
     "express-session": "^1.18.0",
     "geoip-lite": "^1.4.10",
     "hbs": "^4.2.0",
+    "html-minifier": "^4.0.0",
     "http-errors": "~1.6.3",
     "imagemin": "^9.0.0",
     "imagemin-webp": "^8.0.0",

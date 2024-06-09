@@ -17,6 +17,7 @@ let fs = require('fs');
 let path = require('path');
 const CleanCSS = require('clean-css');
 const { minify } = require('uglify-js');
+const { minifyHTML } = require('html-minifier');
 let { sendMail } = require('../email/config')
 const speakeasy = require('speakeasy');
 // const sharp = require('sharp');
@@ -1615,6 +1616,30 @@ router.post('/api/minify/js', (req, res) => {
     }
 
     res.send({ minifiedJS: result.code });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+// Minify HTML
+router.post('/api/minify/html', (req, res) => {
+  const inputHTML = req.body.html;
+  console.log(inputHTML);
+
+  if (!inputHTML) {
+    return res.status(400).send({ error: 'No HTML provided' });
+  }
+
+  try {
+    const minifiedHTML = minify(inputHTML, {
+      removeAttributeQuotes: true,
+      collapseWhitespace: true,
+      removeComments: true,
+      minifyCSS: true,
+      minifyJS: true
+    });
+
+    res.send({ minifiedHTML });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
