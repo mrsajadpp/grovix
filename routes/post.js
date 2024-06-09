@@ -652,13 +652,13 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 //         to: userData.email,
 //         subject: "Your Article Has Been Requested for Review",
 //         text: `Hello ${userData.first_name},
-        
+
 //         We have received your article titled "${article.title}" and it has been requested for review.
-        
+
 //         Please wait while our team reviews your submission. We will notify you once the review process is complete.
-        
+
 //         Thank you for your patience and your valuable contribution.
-        
+
 //         Best regards,
 //         The Grovix Team`,
 //         html: `<p>Hello ${userData.first_name},</p>
@@ -1573,7 +1573,7 @@ router.get('/api/suggestions', async (req, res) => {
     }, 'title description endpoint')
       .limit(10);
 
-      console.log(suggestions);
+    console.log(suggestions);
 
     res.json(suggestions);
   } catch (error) {
@@ -1585,15 +1585,15 @@ router.get('/api/suggestions', async (req, res) => {
 // Minify css
 router.post('/api/minify/css', (req, res) => {
   const inputCSS = req.body.css;
-  
+
   if (!inputCSS) {
-      return res.status(400).send({ error: 'No CSS provided' });
+    return res.status(400).send({ error: 'No CSS provided' });
   }
 
   const output = new CleanCSS().minify(inputCSS);
 
   if (output.errors.length > 0) {
-      return res.status(500).send({ error: output.errors });
+    return res.status(500).send({ error: output.errors });
   }
 
   res.send({ minifiedCSS: output.styles });
