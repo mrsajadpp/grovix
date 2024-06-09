@@ -8,6 +8,7 @@ let session = require('express-session');
 let cookieSession = require('cookie-session');
 let fileUpload = require('express-fileupload');
 let favicon = require("serve-favicon");
+const cors = require('cors');
 const compression = require("compression");
 const connectDB = require('./db');
 
@@ -26,6 +27,7 @@ var articleRouter = require('./routes/article');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.use(cors());
 app.use(favicon(path.join(__dirname, 'public', '/icons/favicon.ico')));
 app.engine('hbs', handlebars.engine({
   extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/', partialsDir: __dirname + '/views/partials/', helpers: {
