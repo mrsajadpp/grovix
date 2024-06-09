@@ -24,6 +24,7 @@ var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/dashboard');
 var articleRouter = require('./routes/article');
+var toolaRouter = require('./routes/tools');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -86,7 +87,8 @@ app.use('/', postRouter);
 app.use('/', indexRouter);
 app.use('/', articleRouter);
 app.use('/admin', adminRouter);
-app.use('/dashboard', authRouter)
+app.use('/dashboard', authRouter);
+app.use('/', toolaRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
