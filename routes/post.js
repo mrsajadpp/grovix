@@ -1645,6 +1645,90 @@ router.post('/api/minify/html', (req, res) => {
   }
 });
 
+const cron = require('node-cron');
+
+// Function to find new articles based on user interests and send email notifications
+async function sendUserInterestEmails() {
+  try {
+    // Fetch all users
+    const users = await User.find().lean();
+
+    // Iterate over each user
+    for (let user of users) {
+      if (user.interests && user.interests.length > 0) {
+        // Find new articles that match the user's interests and have not been sent before
+        const newArticles = await Article.find({
+          $and: [
+            { status: true },
+            {
+              $or: user.interests.map(keyword => ({
+                $or: [
+                  { title: new RegExp(keyword, 'i') },
+                  { description: new RegExp(keyword, 'i') }
+                ]
+              }))
+            },
+            { _id: { $nin: user.sent_articles || [] } }
+          ]
+        }).sort({ created_time: -1 }).limit(1).lean(); // Limit to 1 article, most recent first
+
+        // If there is a new article and one week has passed since the last email
+        if (newArticles.length > 0) {
+          const lastSentDate = user.last_sent_date || new Date(0); // Use epoch if no date
+          const oneWeekAgo = new Date();
+          oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+          if (lastSentDate < oneWeekAgo) {
+            const article = newArticles[0];
+
+            sendMail({
+              from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+              to: user.email,
+              subject: "New Article Based on Your Interests",
+              text: `Hello ${user.first_name},
+
+We have found a new article that matches your interests:
+
+${article.title}
+
+Please visit our website to read more: https://www.grovixlab.com/page/${article.endpoint}
+
+Thank you.
+
+Best regards,
+The Grovix Team`,
+
+              html: `<p>Hello ${user.first_name},</p>
+                     <p>We have found a new article that matches your interests:</p>
+                     <h3>${article.title}</h3>
+                     <p>${article.description}</p>
+                     <a href="https://www.grovixlab.com/page/${article.endpoint}">Read more</a>
+                     <p>Thank you.</p>
+                     <p>Best regards,<br>The Grovix Team</p>`,
+            });
+
+            // Update the user's sent_articles field and last_sent_date
+            await User.updateOne(
+              { _id: user._id },
+              {
+                $addToSet: { sent_articles: article._id },
+                $set: { last_sent_date: new Date() }
+              }
+            );
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error sending interest-based emails:', error);
+  }
+}
+
+// Schedule the function to run once a week
+cron.schedule('0 0 * * 0', () => { // This cron expression runs at midnight every Sunday
+  sendUserInterestEmails();
+});
+
 // const convertAllJpgToWebp = async (dir) => {
 //   try {
 //     // Check if the directory exists

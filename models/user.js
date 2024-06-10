@@ -74,6 +74,10 @@ const userSchema = new Schema({
             required: false,
         },
     },
+    interests: {
+        type: [String],
+        required: false,
+    },
 });
 
 const User = mongoose.model('User', userSchema);

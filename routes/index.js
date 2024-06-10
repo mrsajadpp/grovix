@@ -311,6 +311,23 @@ router.get('/page/:endpoint', async (req, res, next) => {
       let trend = await getMostViewedArticles(keywords);
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
       let date = await article.updated_at ? article.updated_at : article.created_time;
+
+      let keywordsTitle = await separateWords(article.title);
+      let keywordsDescription = await separateWords(article.description);
+      let Keywords = [...new Set([...keywordsTitle, ...keywordsDescription])]; // Combine and deduplicate keywords
+
+      // If user is logged in, save keywords to their profile
+      if (req.session && req.session.user) {
+        let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+        if (user) {
+          // Assuming you have a field to store user interests
+          let userInterests = user.interests || [];
+          userInterests = [...new Set([...userInterests, ...Keywords])]; // Combine and deduplicate interests
+
+          await User.updateOne({ _id: user._id }, { $set: { interests: userInterests } });
+        }
+      }
+
       res.render('user/article', {
         title: article.title,
         style: ['article'],
