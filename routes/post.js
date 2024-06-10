@@ -1704,7 +1704,7 @@ The Grovix Team`,
                      <p>${article.description}</p>
                      <a href="https://www.grovixlab.com/page/${article.endpoint}">Read more</a>
                      <p>Thank you.</p>
-                     <p>Best regards,<br>The Grovix Team</p>`,
+                     <p>Best regards,<br>The Grovix Lab Team</p>`,
             });
 
             // Update the user's sent_articles field and last_sent_date
