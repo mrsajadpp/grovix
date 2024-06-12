@@ -1759,6 +1759,6 @@ cron.schedule('0 0 * * 0', () => { // This cron expression runs at midnight ever
 // Example usage
 // const directoryPath = path.resolve(__dirname, '../public/img/user/'); // Adjust the path as needed
 // console.log(directoryPath);
-// convertAllJpgToWebp(directoryPath);
+// convertAllJpgToWebp(directoryPath); 
 
 module.exports = router;
