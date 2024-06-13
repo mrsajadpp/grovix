@@ -289,6 +289,16 @@ router.get('/terms-and-conditions', (req, res, next) => {
   res.render('user/terms-and-conditions', { title: "Grovix Lab Terms and Conditions", description: "Understand our terms and conditions and how we collect and manage your information to provide a better experience", url: 'https://www.grovixlab.com/privacy-policy', style: ['article'], user: req.session && req.session.user ? req.session.user : false });
 });
 
+
+// Function to calculate reading time
+function calculateReadingTime(text) {
+  const wordsPerMinute = 200; // You can adjust this number based on your average reading speed
+  const words = text.split(/\s+/).length; // Split text by spaces and count the number of words
+  const minutes = words / wordsPerMinute;
+  return Math.ceil(minutes); // Round up to the nearest minute
+}
+
+
 // Article Page
 router.get('/page/:endpoint', async (req, res, next) => {
   try {
@@ -309,6 +319,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
       let trend = await getMostViewedArticles(keywords);
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
       let date = await article.updated_at ? article.updated_at : article.created_time;
+      let time = calculateReadingTime(article.body);
 
       let keywordsTitle = await separateWords(article.title);
       let keywordsDescription = await separateWords(article.description);
@@ -333,6 +344,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
         author,
         date,
         trend,
+        time,
         url: `https://www.grovixlab.com/page/${article.endpoint}`,
         user: req.session && req.session.user ? req.session.user : false
       });
