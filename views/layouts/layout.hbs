@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{title}}</title>
 
-  {{!-- Icons --}}
+  <!-- Icons -->
   <link rel="apple-touch-icon" sizes="180x180" href="https://www.grovixlab.com/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="https://www.grovixlab.com/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="https://www.grovixlab.com/icons/favicon-16x16.png">
@@ -17,101 +17,42 @@
   <meta name="msapplication-config" content="https://www.grovixlab.com/icons/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
 
-  {{!-- Search Engine Optiomisation --}}
+  <!-- Search Engine Optimization -->
   <meta name="robots" content="noarchive, index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="title" content="{{title}}" />
-  <meta name="og:title" content="{{title}}" />
-  <meta name="site_name" content="Grovix" />
-  <meta name="og:site_name" content="Grovix" />
   <link rel="dns-prefetch" href="https://www.grovixlab.com/">
   <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com/">
   <meta name="twitter:site" content="@grovixlab">
+  <meta property="og:site_name" content="grovixlab">
+
   {{#if article}}
-  <meta name="description" content="{{article.description}}" />
-  <meta name="type" content="article" />
-  <meta name="url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
-  <meta name="og:description" content="{{article.description}}" />
-  <meta name="og:type" content="article" />
-  <meta property="article:publisher" content="https://www.instagram.com/grovixlab" />
-  <meta property="article:published_time" content="{{article.created_time}}" />
+  <meta name="description" content="{{article.description}}">
+  <meta property="og:description" content="{{article.description}}">
+  <meta property="og:type" content="article">
+  <meta property="article:publisher" content="https://www.instagram.com/grovixlab">
+  <meta property="article:published_time" content="{{article.created_time}}">
   {{#if article.updated_at}}
   <meta property="article:modified_time" content="{{article.updated_at}}">
   {{/if}}
-  <meta name="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
-  <meta name="image"
-    content="http://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
-  <meta name="og:image"
-    content="http://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
-  <meta name="image:secure_url"
-    content="https://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
-  <meta name="og:image:secure_url"
-    content="https://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
-
+  <meta property="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}">
+  <meta property="og:image"
+    content="http://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg">
+  <meta property="og:image:secure_url"
+    content="https://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   {{else}}
-  <meta name="description" content="{{description}}" />
-  <meta name="og:description" content="{{description}}" />
-  <meta name="type" content="website" />
-  <meta name="og:type" content="website" />
-  {{/if}}
-
-  {{#if url}}
-  <link rel="canonical" href="{{url}}" />
-  {{/if}}
-
-  {{#if ogimage}}
-  <meta name="image" content="{{ogimage}}" />
-  <meta name="og:image" content="{{ogimage}}" />
-  <meta name="image:secure_url" content="{{ogimage}}" />
-  <meta name="og:image:secure_url" content="{{ogimage}}" />
-  {{/if}}
-
-  <meta name="image:width" content="1200" />
-  <meta name="image:height" content="630" />
-  <meta name="og:image:width" content="1200" />
-  <meta name="og:image:height" content="630" />
-
-  {{#if article}}
-  <!-- Schema Markup -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "{{article.title}}",
-      "image": [
-        "https://www.grovixlab.com/img/article/{{article._id}}.jpg"
-      ], 
-      "datePublished": "{{date}}",
-      "author": {
-        "@type": "Person",
-        "name": "{{author.first_name}} {{author.last_name}}"
-      }
-    }
-    </script>
-  {{/if}}
-
-  {{#if tool}}
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "{{title}}",  "description": "{{description}}",
-  "url": "{{url}}",
-  "operatingSystem": "Any",
-  "category": "Developer tool",
-  "offers": {
-    "@type": "Service",
-    "name": "{{title}}",
-    "description": "{{description}}",
-    "price": "Free"
-  }
-}
-</script>
-
+  <meta name="description" content="{{description}}">
+  <meta name="title" content="{{title}}">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{url}}">
+  <link rel="canonical" href="{{url}}">
   {{/if}}
 
   {{#if home}}
-  <!-- Schema Markup -->
+  <!-- Schema Markup for Home Page -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -119,15 +60,69 @@
       "name": "Grovix Lab",
       "url": "https://www.grovixlab.com/"
     }
-    </script>
-
-  <meta name="image" content="http://www.grovixlab.com/img/opengraph/home/home-min.jpg" />
-  <meta name="og:image" content="http://www.grovixlab.com/img/opengraph/home/home-min.jpg" />
-  <meta name="image:secure_url" content="https://www.grovixlab.com/img/opengraph/home/home-min.jpg" />
-  <meta name="og:image:secure_url" content="https://www.grovixlab.com/img/opengraph/home/home-min.jpg" />
-
+  </script>
+  <meta property="og:image" content="http://www.grovixlab.com/img/opengraph/home/home-min.jpg">
+  <meta property="og:image:secure_url" content="https://www.grovixlab.com/img/opengraph/home/home-min.jpg">
   {{/if}}
 
+  {{#if ogimage}}
+  <meta name="image" content="{{ogimage}}">
+  <meta property="og:image" content="{{ogimage}}">
+  <meta property="og:image:secure_url" content="{{ogimage}}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  {{/if}}
+
+  {{#if article}}
+  <!-- Schema Markup for Articles -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "{{article.title}}",
+      "image": [
+        "https://www.grovixlab.com/img/article/{{article._id}}.jpg"
+      ],
+      "datePublished": "{{article.created_time}}",
+      "author": {
+        "@type": "Person",
+        "name": "{{author.first_name}} {{author.last_name}}"
+      }
+    }
+  </script>
+  {{/if}}
+
+  {{#if tool}}
+  <!-- Schema Markup for Tools -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "{{title}}",
+      "description": "{{description}}",
+      "url": "{{url}}",
+      "operatingSystem": "Any",
+      "category": "Developer tool",
+      "offers": {
+        "@type": "Service",
+        "name": "{{title}}",
+        "description": "{{description}}",
+        "price": "Free"
+      }
+    }
+  </script>
+  {{/if}}
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H64E20TLLZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-H64E20TLLZ');
+  </script>
+
+  <!-- Stylesheets -->
   {{#if iserror}}
   {{else}}
   <link rel="stylesheet" href="/css/style.css">
@@ -137,28 +132,16 @@
   <link rel="stylesheet" href="/css/{{this}}.css">
   {{/each}}
   {{/if}}
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H64E20TLLZ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-H64E20TLLZ');
-  </script>
-
 </head>
 
 <body>
-
   {{#if user.admin}}
   <button style="position: fixed; bottom: 20px; right: 20px; zindex: 999;" onclick="location.href = '/admin/'">Admin
     Panel</button>
   {{/if}}
   {{{body}}}
 
-  {{!-- Footer --}}
+  <!-- Footer -->
   {{> footer}}
 </body>
 
