@@ -114,7 +114,7 @@ function getCurrentDate() {
 // Function to fetch and sort articles
 async function getMostViewedArticles(keywords) {
   // Fetch articles with status true
-  let articles = await Article.find({ status: true }).lean();
+  let articles = await Article.find({ status: true }).sort({ _id: -1 }).lean();
 
   // Function to check if an article contains any of the keywords
   function containsKeywords(article, keywords) {
@@ -257,7 +257,7 @@ router.get('/category/:slug', async (req, res, next) => {
   try {
     const keywords = slugToKeywords(req.params.slug);
     const title = slugToTitle(req.params.slug);
-    let articles = await Article.find().lean();
+    let articles = await Article.find({ status: true }).sort({ _id: -1 }).lean();
     const trend = await findArticles(articles, keywords);
     console.log(trend);
 
