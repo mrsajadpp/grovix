@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#ffffff">
 
   {{!-- Search Engine Optiomisation --}}
-  <meta name="robots" content="noarchive">
+  <meta name="robots" content="noarchive, index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="title" content="{{title}}" />
   <meta name="og:title" content="{{title}}" />
   <meta name="site_name" content="Grovix" />
@@ -26,19 +26,12 @@
   <link rel="dns-prefetch" href="https://www.grovixlab.com/">
   <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com/">
-  {{#if user}}
-  {{else}}
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  {{/if}}
   {{#if article}}
   <meta name="description" content="{{article.description}}" />
   <meta name="type" content="article" />
   <meta name="url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
   <meta name="og:description" content="{{article.description}}" />
   <meta name="og:type" content="article" />
-  {{#if user}}
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  {{/if}}
   <meta name="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
   <meta name="image"
     content="http://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
