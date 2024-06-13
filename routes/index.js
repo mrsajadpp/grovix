@@ -359,7 +359,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
         date,
         trend,
         time,
-        keyword: `${parentKeyword} / ${childKeyword}`
+        keyword: `${parentKeyword} / ${childKeyword}`,
         url: `https://www.grovixlab.com/page/${article.endpoint}`,
         user: req.session && req.session.user ? req.session.user : false
       });
