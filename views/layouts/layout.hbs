@@ -32,6 +32,11 @@
   <meta name="url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
   <meta name="og:description" content="{{article.description}}" />
   <meta name="og:type" content="article" />
+  <meta property="article:publisher" content="https://www.instagram.com/grovixlab" />
+  <meta property="article:published_time" content="{{article.created_time}}" />
+  {{#if article}}
+  <meta property="article:modified_time" content="{{article.updated_at}}">
+  {{/if}}
   <meta name="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
   <meta name="image"
     content="http://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg" />
