@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Keyword Optimization</title>
+        <style>
+            html {
+                scroll-behavior: smooth;
+            }
+    
+            header {
+                width: 100%;
+                position: fixed;
+                top: 0px;
+                height: 65px;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                flex-direction: column;
+                background-color: white; /* Added background color to make header visible */
+                box-shadow: rgba(51, 59, 81, 0.05) 0px 15px 30px;
+            }
+    
+            header .inside {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: start;
+            }
+    
+            header .inside button {
+                border: none;
+                background-color: transparent;
+                height: 100%;
+                width: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            header .inside .logo {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            header .inside .logo img {
+                width: 126px;
+            }
+    
+            header .progress-bar {
+                height: 2px; /* Increased height for better visibility */
+                width: 100%;
+                background-color: #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: start;
+            }
+    
+            header .progress-bar .progress {
+                width: 0%; /* Initial width set to 0 */
+                height: 100%;
+                background-color: #0078e8;
+            }
+    
+            @media (min-width: 768px) {
+                header {
+                    display: none;
+                }
+            }
+        </style>
+        <style>
+            .desktop-header {
+                width: 100%;
+                position: fixed;
+                top: 0px;
+                height: 65px;
+                overflow: hidden;
+                display: none;
+                align-items: center;
+                justify-content: start;
+                flex-direction: column;
+                background-color: white; /* Added background color to make .desktop-header visible */
+                z-index: 1000; /* Ensure header is on top */
+                box-shadow: rgba(51, 59, 81, 0.05) 0px 15px 30px;
+            }
+    
+            .desktop-header .inside {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: start;
+            }
+    
+            .desktop-header .inside button {
+                border: none;
+                background-color: transparent;
+                height: 100%;
+                width: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            .desktop-header .inside button a span {
+                font-size: 16px;
+            }
+    
+            .desktop-header .inside button a {
+                text-decoration: none;
+                color: #282733;
+            }
+    
+            .desktop-header .inside .regbtn {
+                height: 40px;
+                padding: 20px;
+                background-color: #0078e8;
+                margin-right: 20px;
+                border-radius: 3px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            .desktop-header .inside .regbtn span {
+                color: #fff;
+            }
+    
+            .desktop-header .inside .logo {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            .desktop-header .inside .logo img {
+                width: 126px;
+            }
+    
+            .desktop-header .inside .centerH {
+                height: 100%;
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+                justify-content: start;
+            }
+    
+            .desktop-header .dprogress-bar {
+                height: 2px; /* Increased height for better visibility */
+                width: 100%;
+                background-color: #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: start;
+            }
+    
+            .desktop-header .dprogress-bar .progress {
+                width: 0%; /* Initial width set to 0 */
+                height: 100%;
+                background-color: #0078e8;
+            }
+    
+            @media (min-width: 768px) {
+                .desktop-header {
+                    display: flex;
+                }
+            }
+        </style>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        
+        .poppins-thin {
+            font-family: "Poppins", sans-serif;
+            font-weight: 100;
+            font-style: normal;
+        }
+
+        .poppins-extralight {
+            font-family: "Poppins", sans-serif;
+            font-weight: 200;
+            font-style: normal;
+        }
+
+        .poppins-light {
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        .poppins-regular {
+            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .poppins-medium {
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        .poppins-semibold {
+            font-family: "Poppins", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .poppins-bold {
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        .poppins-extrabold {
+            font-family: "Poppins", sans-serif;
+            font-weight: 800;
+            font-style: normal;
+        }
+
+        .poppins-black {
+            font-family: "Poppins", sans-serif;
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        .poppins-thin-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 100;
+            font-style: italic;
+        }
+
+        .poppins-extralight-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 200;
+            font-style: italic;
+        }
+
+        .poppins-light-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .poppins-regular-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .poppins-medium-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .poppins-semibold-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .poppins-bold-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        .poppins-extrabold-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 800;
+            font-style: italic;
+        }
+
+        .poppins-black-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 900;
+            font-style: italic;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: #0078e8;
+            color: #000;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 65px;
+        }
+        .content {
+            max-width: 800px;
+            padding: 20px;
+        }
+        .meta-info {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .meta-info span {
+            margin: 0 10px;
+        }
+        .content h1 {
+            font-size: 1.8em;
+            margin: 20px 0;
+        }
+        .content p {
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+        .image-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+            .content {
+                max-width: 50%;
+                padding-right: 20px;
+            }
+            .image-container {
+                max-width: 50%;
+            }
+            .content h1 {
+                font-size: 2.5em;
+            }
+            .content p {
+                font-size: 1.2em;
+            }
+            .meta-info {
+                font-size: 1em;
+            }
+
+
+            .ar-cont {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .article-container {
+            max-width: 95%;
+                padding-right: 20px;
+            font-family: 'Poppins', sans-serif;
+            text-align: left;
+        }
+
+        .article-container h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .article-container p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .container {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+            .article-container {
+                max-width: 95%;
+                padding-right: 20px;
+            }
+            .content {
+                max-width: 50%;
+                padding-right: 20px;
+            }
+            .image-container {
+                max-width: 50%;
+            }
+            .content h1 {
+                font-size: 2.5em;
+            }
+            .content p {
+                font-size: 1.2em;
+            }
+            .meta-info {
+                font-size: 1em;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                padding: 60px 40px;
+            }
+
+            .ar-cont {
+                padding: 60px 40px;
+            }
+            .content h1 {
+                font-size: 3em;
+            }
+            .content p {
+                font-size: 1.2em;
+            }
+            .meta-info {
+                font-size: 1em;
+            }
+        }
+        @media (max-width: 767px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            .ar-cont {
+                padding: 20px;
+            }
+            .article-container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            .content, .image-container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            .content h1 {
+                font-size: 1.5em;
+                text-align: left;
+            }
+            .content p {
+                font-size: 0.8em;
+                text-align: left;
+            }
+            .meta-info {
+                font-size: 0.9em;
+                text-align: left;
+            }
+            .image-container {
+                display: none;
+                justify-content: start;
+            }
+            .image-container img {
+                max-width: 60%;
+            }
+        }
+        @media (max-width: 425px) {
+            .container {
+                padding: 15px;
+            }
+            .ar-cont {
+                padding: 15px;
+            }
+            .content h1 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            .content p {
+                font-size: 0.7em;
+                margin: 5px 0;
+            }
+            .meta-info {
+                font-size: 0.9em;
+                margin-bottom: 10px;
+            }
+            .meta-info span {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+        ul, ol {
+            padding: 0px;
+            margin: 0px;
+        }
+        </style>
+    </head>
+    <body>
+        <!-- Mobile Header -->
+        <header>
+            <div class="inside">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32"
+                        viewBox="0 -960 960 960" width="32" fill="#000">
+                        <path
+                            d="M140-254.62v-50.25h680v50.25H140Zm0-200.25v-50.26h680v50.26H140Zm0-200.26v-50.25h680v50.25H140Z"></path>
+                    </svg>
+                </button>
+                <div class="logo">
+                    <a href="/">
+                        <img src="https://grovixlab.com/img/logo.png" alt>
+                    </a>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </header>
+
+        <!-- Desktop Header -->
+
+        <div class="desktop-header">
+            <div class="inside">
+                <div class="logo">
+                    <a href="/">
+                        <img src="https://grovixlab.com/img/logo.png" alt>
+                    </a>
+                </div>
+                <div class="centerH">
+                    &nbsp;
+                    <button style="margin-left: 30px;">
+                        <a href>
+                            <span class="poppins-semibold">Trending</span>
+                        </a>
+                    </button>
+                    &nbsp;
+                    <button>
+                        <a href>
+                            <span class="poppins-semibold">Categories</span>
+                        </a>
+                    </button>
+                </div>
+
+                &nbsp;&nbsp;&nbsp;
+
+                <button class="regbtn">
+                    <span class="poppins-medium">Create Account</span>
+                </button>
+            </div>
+            <div class="dprogress-bar">
+                <div class="progress"></div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="content">
+                <div class="meta-info">
+                    <span class="poppins-light">SEO / Keyword Research</span>
+                </div>
+                <h1 class="poppins-medium">Keyword Optimization: 7 Steps to
+                    Getting It Right</h1>
+                <p class="poppins-light">Carlos Silva &nbsp;&nbsp;|&nbsp;&nbsp;
+                    Apr 22, 2024 &nbsp;&nbsp;|&nbsp;&nbsp; 7 min read</p>
+                <p class="poppins-light">Author: Muhammed Sajad</p>
+            </div>
+            <div class="image-container">
+            </div>
+        </div>
+
+        <div class="ar-cont">
+            <div class="article-container">
+                <h2 class="poppins-medium">What is Keyword Optimization?</h2>
+                <p class="poppins-regular">Keyword optimization is the process
+                    of
+                    improving your pages to better use your target queries to
+                    help
+                    more people find your website in search engines.</p>
+                <p class="poppins-regular">It’s not about finding, analyzing,
+                    and
+                    choosing keywords. That’s keyword research.</p>
+                <p class="poppins-regular">Keyword optimization is about using
+                    the
+                    right ones in the right places and in the right ways. Which
+                    is
+                    more likely to help you meet your SEO goals?</p>
+            </div>
+        </div>
+
+        <script>
+            window.onscroll = function () {
+                var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                var scrolled = (winScroll / height) * 100;
+                document.querySelector(".progress-bar .progress").style.width = scrolled + "%";
+                var dwinScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var dheight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var dscrolled = (dwinScroll / dheight) * 100;
+        document.querySelector(".dprogress-bar .progress").style.width = dscrolled + "%";
+            };
+        </script>
+    </body>
+</html>
