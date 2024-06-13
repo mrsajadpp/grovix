@@ -298,6 +298,18 @@ function calculateReadingTime(text) {
   return Math.ceil(minutes); // Round up to the nearest minute
 }
 
+const extractKeywords = (text) => {
+  const parentKeywordRegex = /\(([^)]+)\)/; // Regex to find text within parentheses
+  const childKeywordRegex = /\[([^\]]+)\]/; // Regex to find text within square brackets
+
+  const parentMatch = text.match(parentKeywordRegex);
+  const childMatch = text.match(childKeywordRegex);
+
+  const parentKeyword = parentMatch ? parentMatch[1] : null;
+  const childKeyword = childMatch ? childMatch[1] : null;
+
+  return { parentKeyword, childKeyword };
+};
 
 // Article Page
 router.get('/page/:endpoint', async (req, res, next) => {
@@ -320,6 +332,8 @@ router.get('/page/:endpoint', async (req, res, next) => {
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
       let date = await article.updated_at ? article.updated_at : article.created_time;
       let time = calculateReadingTime(article.body);
+      
+      const { parentKeyword, childKeyword } = extractKeywords(article.body);
 
       let keywordsTitle = await separateWords(article.title);
       let keywordsDescription = await separateWords(article.description);
@@ -345,6 +359,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
         date,
         trend,
         time,
+        keyword: `${parentKeyword} / ${childKeyword}`
         url: `https://www.grovixlab.com/page/${article.endpoint}`,
         user: req.session && req.session.user ? req.session.user : false
       });
@@ -368,6 +383,9 @@ router.get('/page/:endpoint', async (req, res, next) => {
     });
   }
 });
+
+
+
 
 
 // Recover Page
