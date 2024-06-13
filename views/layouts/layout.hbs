@@ -26,6 +26,7 @@
   <link rel="dns-prefetch" href="https://www.grovixlab.com/">
   <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com/">
+  <meta name="twitter:site" content="@grovixlab">
   {{#if article}}
   <meta name="description" content="{{article.description}}" />
   <meta name="type" content="article" />
@@ -34,7 +35,7 @@
   <meta name="og:type" content="article" />
   <meta property="article:publisher" content="https://www.instagram.com/grovixlab" />
   <meta property="article:published_time" content="{{article.created_time}}" />
-  {{#if article}}
+  {{#if article.updated_at}}
   <meta property="article:modified_time" content="{{article.updated_at}}">
   {{/if}}
   <meta name="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}" />
