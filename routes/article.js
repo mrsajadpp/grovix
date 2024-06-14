@@ -138,7 +138,9 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
         const {
             title,
             description,
-            content
+            content,
+            parentKeyword,
+            childKeyword
         } = req.body;
 
         if (title && description && content) {
@@ -162,7 +164,10 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
             let articleData = {
                 title: title,
                 description: description,
-                category: 'null',
+                category: {
+                    parentKeyword,
+                    childKeyword
+                },
                 body: content,
                 author_id: req.session.user._id,
                 status: false,
@@ -240,7 +245,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
 // Update article
 router.post('/article/update/:article_id', isAuthorised, async (req, res, next) => {
     try {
-        const { title, description, content } = req.body;
+        const { title, description, content, parentKeyword, childKeyword } = req.body;
         const { user } = req.session;
         const articleId = req.params.article_id;
         const article = await Article.findOne({ _id: new ObjectId(articleId), author_id: user._id }).lean();
@@ -254,7 +259,10 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     author_id: user._id,
                     title,
                     description,
-                    category: 'null',
+                    category: {
+                        parentKeyword,
+                        childKeyword
+                    },
                     body: content,
                     endpoint: article.endpoint,
                     views: article.views,
@@ -265,9 +273,6 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     custom: true,
                     new_thumb: true
                 };
-
-                console.log("hi");
-
 
                 // Check if an updation already exists for this article
                 const existingUpdation = await Updation.findOne({ article_id: article._id.toString(), status: 'pending' });

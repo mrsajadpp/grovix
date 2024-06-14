@@ -1,4 +1,3 @@
-{{>headers/dashboard/new}}
 <form action="/article/request" id="form" method="post" enctype="multipart/form-data" class="newContainer">
     <div class="newTop" style="border-bottom: none !important;">
         <div class="topLeft">
@@ -22,12 +21,18 @@
             </a>
         </div>
     </div>
-    <div class="newTop"
-        style="display: flex !important;align-items:center !important; justify-content:center !important;">
-        <div class="top">
-            <div class="textBox">
-                <textarea name="description" id="description" placeholder="Description of your Article">{{drafts.description}}</textarea>
-            </div>
+    <div class="newTop" style="border-bottom: none !important;">
+        <div class="topLeft" style="width:80%;">
+            <input type="text" placeholder="Description of your Article" value="{{drafts.description}}"
+                name="description" id="title">
+        </div>
+    </div>
+    <div class="newTop" style="border-bottom: none !important;">
+        <div class="topLeft" style="width:80%;">
+            <input type="text" placeholder="Category" value="{{drafts.category.parentKeyword}}" name="parentKeyword"
+                id="title"> &nbsp;
+            <input type="text" placeholder="Sub Category" value="{{drafts.category.childKeyword}}" name="childKeyword"
+                id="title">
         </div>
     </div>
 

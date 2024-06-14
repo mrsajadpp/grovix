@@ -333,7 +333,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
       let date = await article.updated_at ? article.updated_at : article.created_time;
       let time = calculateReadingTime(article.body);
       
-      const { parentKeyword, childKeyword } = extractKeywords(article.body);
+      const { parentKeyword, childKeyword } = article.category;
 
       let keywordsTitle = await separateWords(article.title);
       let keywordsDescription = await separateWords(article.description);

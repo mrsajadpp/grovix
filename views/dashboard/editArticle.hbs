@@ -1,6 +1,4 @@
-{{>headers/dashboard/new}}
-<form action="/article/update/{{drafts._id}}" id="form" method="post" enctype="multipart/form-data"
-    class="newContainer">
+<form action="/article/update/{{drafts._id}}" id="form" method="post" enctype="multipart/form-data" class="newContainer">
     <div class="newTop" style="border-bottom: none !important;">
         <div class="topLeft">
             <input type="text" placeholder="Title of Your Article" value="{{drafts.title}}" name="title" id="title">
@@ -23,13 +21,18 @@
             </a>
         </div>
     </div>
-    <div class="newTop"
-        style="display: flex !important;align-items:center !important; justify-content:center !important;">
-        <div class="top">
-            <div class="textBox">
-                <textarea name="description" id="description"
-                    placeholder="Description of your Article">{{drafts.description}}</textarea>
-            </div>
+    <div class="newTop" style="border-bottom: none !important;">
+        <div class="topLeft" style="width:80%;">
+            <input type="text" placeholder="Description of your Article" value="{{drafts.description}}"
+                name="description" id="title">
+        </div>
+    </div>
+    <div class="newTop" style="border-bottom: none !important;">
+        <div class="topLeft" style="width:80%;">
+            <input type="text" placeholder="Category" value="{{drafts.category.parentKeyword}}" name="parentKeyword"
+                id="title"> &nbsp;
+            <input type="text" placeholder="Sub Category" value="{{drafts.category.childKeyword}}" name="childKeyword"
+                id="title">
         </div>
     </div>
 
@@ -64,7 +67,7 @@
         });
 
         // Autosave function
-       /* const saveContent = () => {
+        const saveContent = () => {
             content.value = editor.getHTMLCode();
             // Send content to the server via AJAX
             fetch('/article/autosave', {
@@ -89,11 +92,11 @@
                 .catch((error) => {
                     console.error('Autosave error:', error);
                 });
-        };*/
+        };
 
         // Event listeners for autosave on change
-        /*title.addEventListener('input', saveContent);
+        title.addEventListener('input', saveContent);
         description.addEventListener('input', saveContent);
-        editor.attachEvent("change", saveContent);*/
+        editor.attachEvent("change", saveContent);
     });
 </script>

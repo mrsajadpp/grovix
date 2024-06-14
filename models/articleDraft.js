@@ -21,6 +21,16 @@ const ArticleDraftSchema = new Schema({
         type: String,
         default: ''
     },
+    category: {
+        parentKeyword: {
+            type: String,
+            default: ''
+        },
+        childKeyword: {
+            type: String,
+            default: ''
+        }
+    },
     last_saved: {
         type: Date,
         default: Date.now

@@ -534,6 +534,7 @@
         padding: 0px;
         margin: 20px;
     }
+
     .article-container img {
         width: 100% !important;
     }
@@ -582,12 +583,14 @@
                 </a>
             </button>
         </div>
-
+        {{#if user}}
+        {{else}}
         &nbsp;&nbsp;&nbsp;
 
         <button class="regbtn" onclick="location.href='/auth/signup'">
             <span class="poppins-medium">Create Account</span>
         </button>
+        {{/if}}
     </div>
     <div class="dprogress-bar">
         <div class="progress"></div>
@@ -597,7 +600,7 @@
 <div class="container">
     <div class="content">
         <div class="meta-info">
-            <span class="poppins-light">{{keyword}}</span>
+            <span class="poppins-light">{{#if keyword}}{{keyword}}{{/if}}</span>
         </div>
         <h1 class="poppins-medium">{{article.title}}</h1>
         <p class="poppins-light">{{formatDate date}} &nbsp;&nbsp;|&nbsp;&nbsp; {{time}} Min read</p>
