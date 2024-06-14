@@ -19,8 +19,14 @@ const updationSchema = new Schema({
     required: true,
   },
   category: {
-    type: String,
-    required: true,
+    parentKeyword: {
+      type: String,
+      required: true,
+    },
+    childKeyword: {
+      type: String,
+      required: true,
+    }
   },
   status: {
     type: String,
