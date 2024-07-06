@@ -351,7 +351,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
         }
       }
 
-      res.render('user/page', {
+      res.render('user/article', {
         title: article.title,
         style: ['article'],
         article: article,
