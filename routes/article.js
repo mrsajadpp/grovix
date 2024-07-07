@@ -130,7 +130,7 @@ const downloadImage = async (url, filepath) => {
         writer.on('finish', resolve);
         writer.on('error', reject);
     });
-}; 
+};
 
 // New Article
 router.post('/article/request', isAuthorised, async (req, res, next) => {
@@ -207,23 +207,34 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
             sendMail({
                 from: '"Grovix Lab" <noreply.grovix@gmail.com>',
                 to: userData.email,
-                subject: "Your Article Has Been Requested for Review",
+                subject: "Your Article Has Been Published on Grovix",
                 text: `Hello ${userData.first_name},
-        
-        We have received your article titled "${article.title}" and it has been requested for review.
-        
-        Please wait while our team reviews your submission. We will notify you once the review process is complete.
-        
-        Thank you for your patience and your valuable contribution.
-        
-        Best regards,
-        The Grovix Team`,
-                html: `<p>Hello ${userData.first_name},</p>
-               <p>We have received your article titled "<strong>${article.title}</strong>" and it has been requested for review.</p>
-               <p>Please wait while our team reviews your submission. We will notify you once the review process is complete.</p>
-               <p>Thank you for your patience and your valuable contribution.</p>
-               <p>Best regards,<br>The Grovix Team</p>`,
+            
+            We are excited to inform you that your article titled "${article.title}" has been successfully published on Grovix!
+            
+            Your content is now live and available for our community to read and engage with. Thank you for your valuable contribution and for being a part of Grovix.
+            
+            Best regards,
+            The Grovix Team`,
+                html: `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Your Article Has Been Published on Grovix</title>
+            </head>
+            <body style="font-family: Arial, sans-serif; line-height: 1.6; background: #fff;">
+                <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <h2 style="color: #0078e8;">Your Article Has Been Published on Grovix!</h2>
+                    <p>Hello ${userData.first_name},</p>
+                    <p>We are excited to inform you that your article titled "<a href="https://grovixlab.com/page/${article.endpoint}"><strong>${article.title}</strong></a>" has been successfully published on Grovix!</p>
+                    <p>Your content is now live and available for our community to read and engage with. Thank you for your valuable contribution and for being a part of Grovix.</p>
+                    <p>Best regards,<br>The Grovix Team</p>
+                </div>
+            </body>
+            </html>`
             });
+
 
             res.redirect('/dashboard/articles/pending');
         } else {
@@ -310,23 +321,34 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                 sendMail({
                     from: '"Grovix Lab" <noreply.grovix@gmail.com>',
                     to: user.email,
-                    subject: "Your Article Edits Have Been Requested for Review",
+                    subject: "Your Article Edits Have Been Published",
                     text: `Hello ${user.first_name},
-
-Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, the current version of your article remains published.
-
-If you have any questions, please contact our support team for assistance.
-
-Thank you for your understanding.
-
-Best regards,
-The Grovix Team`,
-                    html: `<p>Hello ${user.first_name},</p>
-<p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, the current version of your article remains published.</p>
-<p>If you have any questions, please contact our support team for assistance.</p>
-<p>Thank you for your understanding.</p>
-<p>Best regards,<br>The Grovix Team</p>`,
+                
+                Your article titled "${article.title}" has been updated and the edits have been successfully published.
+                
+                Thank you for your contribution and for being a part of Grovix.
+                
+                Best regards,
+                The Grovix Team`,
+                    html: `<!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Your Article Edits Have Been Published</title>
+                </head>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+                    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                        <h2 style="color: #0078e8;">Your Article Edits Have Been Published!</h2>
+                        <p>Hello ${user.first_name},</p>
+                        <p>Your article titled "<a href="https://grovixlab.com/page/${article.endpoint}"><strong>${article.title}</strong></a>" has been updated and the edits have been successfully published.</p>
+                        <p>Thank you for your contribution and for being a part of Grovix.</p>
+                        <p>Best regards,<br>The Grovix Team</p>
+                    </div>
+                </body>
+                </html>`
                 });
+
 
                 res.redirect('/dashboard/articles');
             } else {
