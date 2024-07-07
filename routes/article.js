@@ -130,7 +130,7 @@ const downloadImage = async (url, filepath) => {
         writer.on('finish', resolve);
         writer.on('error', reject);
     });
-};
+}; 
 
 // New Article
 router.post('/article/request', isAuthorised, async (req, res, next) => {
