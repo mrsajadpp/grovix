@@ -25,6 +25,7 @@ var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/dashboard');
 var articleRouter = require('./routes/article');
 var toolaRouter = require('./routes/tools');
+var logRouter = require('./routes/auth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -84,6 +85,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', postRouter);
+app.use('/', logRouter);
 app.use('/', indexRouter);
 app.use('/', articleRouter);
 app.use('/admin', adminRouter);
