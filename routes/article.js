@@ -249,10 +249,8 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
         const { user } = req.session;
         const articleId = req.params.article_id;
         const article = await Article.findOne({ _id: new ObjectId(articleId), author_id: user._id }).lean();
-        console.log(article);
 
         if (title && description && content) {
-
             if (article) {
                 const updateData = {
                     article_id: article._id,
@@ -268,13 +266,12 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     views: article.views,
                     created_time: article.created_time,
                     updated_at: new Date().toString(),
-                    endpoint: article.endpoint,
-                    status: 'pending',
+                    status: article.status ? 'pending' : 'false', // Set status based on article's current status
                     custom: true,
                     new_thumb: true
                 };
 
-                // Check if an updation already exists for this article
+                // Check if an updation already exists for this article with status 'pending'
                 const existingUpdation = await Updation.findOne({ article_id: article._id.toString(), status: 'pending' });
 
                 // Load the HTML into cheerio
@@ -284,17 +281,24 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                 $('img').each((index, element) => {
                     const src = $(element).attr('src');
                     if (src) {
-                        src.startsWith('/img/') ? downloadImage(`http://localhost:${process.env.PORT}${src}`, path.join(__dirname, '/../public/img/update/', `${article.endpoint}-${article._id}-${index}.jpg`)) : downloadImage(src, path.join(__dirname, '/../public/img/update/', `${article.endpoint}-${article._id}-${index}.jpg`));;
+                        const imagePath = path.join(__dirname, '/../public/img/update/', `${article.endpoint}-${article._id}-${index}.jpg`);
+                        src.startsWith('/img/')
+                            ? downloadImage(`http://localhost:${process.env.PORT}${src}`, imagePath)
+                            : downloadImage(src, imagePath);
                         $(element).attr('src', `/img/update/${article.endpoint}-${article._id}-${index}.jpg`);
                     }
                 });
 
-
-                updateData.body = await $.html();
+                updateData.body = $.html();
 
                 if (existingUpdation) {
                     // Update existing updation record
                     await Updation.updateOne({ _id: existingUpdation._id }, updateData);
+                } else if (article.status == 'false') {
+                    console.log("bug found");
+                    // Update the article directly if its status is false
+                    updateData.status = await false;
+                    await Article.updateOne({ _id: article._id }, updateData);
                 } else {
                     // Create a new updation record
                     const updation = new Updation(updateData);
@@ -307,20 +311,20 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     to: user.email,
                     subject: "Your Article Edits Have Been Requested for Review",
                     text: `Hello ${user.first_name},
-  
-  Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, the current version of your article remains published.
-  
-  If you have any questions, please contact our support team for assistance.
-  
-  Thank you for your understanding.
-  
-  Best regards,
-  The Grovix Team`,
+
+Your article titled "${article.title}" has been updated and requested for review. Until the review is complete, the current version of your article remains published.
+
+If you have any questions, please contact our support team for assistance.
+
+Thank you for your understanding.
+
+Best regards,
+The Grovix Team`,
                     html: `<p>Hello ${user.first_name},</p>
-                   <p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, the current version of your article remains published.</p>
-                   <p>If you have any questions, please contact our support team for assistance.</p>
-                   <p>Thank you for your understanding.</p>
-                   <p>Best regards,<br>The Grovix Team</p>`,
+<p>Your article titled "<strong>${article.title}</strong>" has been updated and requested for review. Until the review is complete, the current version of your article remains published.</p>
+<p>If you have any questions, please contact our support team for assistance.</p>
+<p>Thank you for your understanding.</p>
+<p>Best regards,<br>The Grovix Team</p>`,
                 });
 
                 res.redirect('/dashboard/articles');
