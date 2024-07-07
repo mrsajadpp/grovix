@@ -479,31 +479,31 @@ The Grovix Team`,
     }
 });
 
-async function convertEmailsToLowerCase() {
-    try {
-        // Find all users
-        const users = await User.find();
+// async function convertEmailsToLowerCase() {
+//     try {
+//         // Find all users
+//         const users = await User.find();
 
-        // Iterate through each user and update the email to lowercase
-        for (const user of users) {
-            const lowercaseEmail = user.email.toLowerCase();
-            if (user.email !== lowercaseEmail) {
-                user.email = lowercaseEmail;
-                await user.save();
-                console.log(`Updated email for user ${user._id}: ${lowercaseEmail}`);
-            }
-        }
+//         // Iterate through each user and update the email to lowercase
+//         for (const user of users) {
+//             const lowercaseEmail = user.email.toLowerCase();
+//             if (user.email !== lowercaseEmail) {
+//                 user.email = lowercaseEmail;
+//                 await user.save();
+//                 console.log(`Updated email for user ${user._id}: ${lowercaseEmail}`);
+//             }
+//         }
 
-        console.log('All emails have been converted to lowercase.');
-    } catch (error) {
-        console.error('Error converting emails:', error);
-    } finally {
-        // Close the MongoDB connection
-        mongoose.connection.close();
-    }
-}
+//         console.log('All emails have been converted to lowercase.');
+//     } catch (error) {
+//         console.error('Error converting emails:', error);
+//     } finally {
+//         // Close the MongoDB connection
+//         mongoose.connection.close();
+//     }
+// }
 
-// Run the function
-convertEmailsToLowerCase();
+// // Run the function
+// convertEmailsToLowerCase();
 
 module.exports = router;
