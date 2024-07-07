@@ -1,3 +1,115 @@
+<div class="bar">
+  <a href="#" class="left">◄</a>
+  <a href="#" class="right">►</a>
+  
+  <aside class="one">
+    <div class="tags">
+      <a href="mailto:support@grovixlab.com">Support</a>
+      <a>-</a>
+      <a href="http://localhost:3001/privacy-policy">Privacy Policy</a>
+    </div>
+  </aside>
+  
+  <aside class="two">
+  <!--  <div class="select">
+      This will have options
+    </div>-->
+    
+    <button onclick="location.href='/auth/login';">Register</button>
+  </aside>
+</div>
+<style>
+    * { box-sizing: border-box; }
+    .header {
+        top: 36px;
+    }
+
+    .headerMobile {
+        top: 36px;
+    }
+    .mobileMenu {
+        top: 36px;
+    }
+
+.bar {
+  background: linear-gradient(#000 0%,#000 100%);
+  border: none;
+  font-family: Arial;
+  font-size: 12px;
+  height: 36px;
+  line-height: 36px;
+  overflow: hidden;
+  padding: 0 32px;
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+}
+
+  a, .select, button {
+    background: transperant;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    padding: 2px 4px;
+    text-decoration: none;
+  }
+  
+  .left, .right {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    line-height: 32px; width: 32px;
+    text-align: center;
+    z-index: 2;
+  }
+  
+  .left { left: 0; }
+  .right { right: 0; }
+  
+  .select, button { 
+    display: inline-block;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 0px;
+    padding: 3px 10px 3px;
+  }
+  
+  .select {
+    line-height: 22px;
+    margin-right: 5%;
+    text-align: center;
+    width: 45%;
+  }
+  
+  aside { 
+    float: left; width: 50%;
+    transition: all 0.5s;
+    
+    &:last-child { 
+      text-align: right; 
+    }
+}
+
+@media (max-width:768px) {
+  .bar {
+    aside { 
+      padding: 0 36px;
+      position: fixed;
+      left: 0; top: 0;
+      text-align: center !important;
+      width: 100%; 
+      
+      &:last-child { left: 100%; }
+    }
+    
+    .left, .right {
+      display: block;
+    }
+  }
+}
+</style>
 {{> headers/user/article_header}}
 <!-- Spacing -->
 <style>
