@@ -370,7 +370,7 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
 
 // login
 router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body; 
 
     // Form validation
     if (!email) {
