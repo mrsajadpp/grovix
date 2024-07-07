@@ -337,7 +337,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Your Article Edits Have Been Published</title>
                 </head>
-                <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; background: #fff;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
                         <h2 style="color: #0078e8;">Your Article Edits Have Been Published!</h2>
                         <p>Hello ${user.first_name},</p>
@@ -364,61 +364,61 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 });
 
 // Approve article update
-router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
-    try {
-        const updationId = req.params.updation_id;
-        const updation = await Updation.findById(updationId).lean();
+// router.get('/article/approve/:updation_id', isAdmin, async (req, res, next) => {
+//     try {
+//         const updationId = req.params.updation_id;
+//         const updation = await Updation.findById(updationId).lean();
 
-        if (updation) {
-            const { article_id, title, description, category, body } = updation;
+//         if (updation) {
+//             const { article_id, title, description, category, body } = updation;
 
-            let article = await Article.findOne({ _id: new ObjectId(article_id) }).lean();
+//             let article = await Article.findOne({ _id: new ObjectId(article_id) }).lean();
 
-            // Load the HTML into cheerio
-            const $ = cheerio.load(body);
+//             // Load the HTML into cheerio
+//             const $ = cheerio.load(body);
 
-            // Select all image elements and extract the src attributes
-            $('img').each((index, element) => {
-                const src = $(element).attr('src');
-                if (src) {
-                    src.startsWith('/img/') ? downloadImage(`http://localhost:${process.env.PORT}${src}`, path.join(__dirname, '/../public/img/article/', `${article.endpoint}-${article._id}-${index}.jpg`)) : downloadImage(src, path.join(__dirname, '/../public/img/article/', `${article.endpoint}-${article._id}-${index}.jpg`));
-                    $(element).attr('src', `/img/article/${article.endpoint}-${article._id}-${index}.jpg`);
-                }
-            });
+//             // Select all image elements and extract the src attributes
+//             $('img').each((index, element) => {
+//                 const src = $(element).attr('src');
+//                 if (src) {
+//                     src.startsWith('/img/') ? downloadImage(`http://localhost:${process.env.PORT}${src}`, path.join(__dirname, '/../public/img/article/', `${article.endpoint}-${article._id}-${index}.jpg`)) : downloadImage(src, path.join(__dirname, '/../public/img/article/', `${article.endpoint}-${article._id}-${index}.jpg`));
+//                     $(element).attr('src', `/img/article/${article.endpoint}-${article._id}-${index}.jpg`);
+//                 }
+//             });
 
-            let articleBody = await $.html();
+//             let articleBody = await $.html();
 
-            await Article.updateOne({ _id: article_id }, { title, description, category, body: articleBody, updated_at: new Date().toString(), custom: true });
-            await Updation.deleteOne({ _id: updationId });
+//             await Article.updateOne({ _id: article_id }, { title, description, category, body: articleBody, updated_at: new Date().toString(), custom: true });
+//             await Updation.deleteOne({ _id: updationId });
 
-            // Notify the author
-            const user = await User.findById(updation.author_id).lean();
-            sendMail({
-                from: '"Grovix Lab" <noreply.grovix@gmail.com>',
-                to: user.email,
-                subject: "Your Article Edits Have Been Approved",
-                text: `Hello ${user.first_name},
+//             // Notify the author
+//             const user = await User.findById(updation.author_id).lean();
+//             sendMail({
+//                 from: '"Grovix Lab" <noreply.grovix@gmail.com>',
+//                 to: user.email,
+//                 subject: "Your Article Edits Have Been Approved",
+//                 text: `Hello ${user.first_name},
   
-  Your edits for the article titled "${title}" have been approved and published.
+//   Your edits for the article titled "${title}" have been approved and published.
   
-  Thank you for your contribution.
+//   Thank you for your contribution.
   
-  Best regards,
-  The Grovix Team`,
-                html: `<p>Hello ${user.first_name},</p>
-                 <p>Your edits for the article titled "<strong>${title}</strong>" have been approved and published.</p>
-                 <p>Thank you for your contribution.</p>
-                 <p>Best regards,<br>The Grovix Team</p>`,
-            });
+//   Best regards,
+//   The Grovix Team`,
+//                 html: `<p>Hello ${user.first_name},</p>
+//                  <p>Your edits for the article titled "<strong>${title}</strong>" have been approved and published.</p>
+//                  <p>Thank you for your contribution.</p>
+//                  <p>Best regards,<br>The Grovix Team</p>`,
+//             });
 
-            res.redirect('/admin/articles');
-        } else {
-            res.render('error', { title: "404", status: 404, message: "Updation not found", style: ['error'], user: req.session.user ? req.session.user : false });
-        }
-    } catch (error) {
-        console.error(error);
-        res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
-    }
-});
+//             res.redirect('/admin/articles');
+//         } else {
+//             res.render('error', { title: "404", status: 404, message: "Updation not found", style: ['error'], user: req.session.user ? req.session.user : false });
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session.user ? req.session.user : false });
+//     }
+// });
 
 module.exports = router;
