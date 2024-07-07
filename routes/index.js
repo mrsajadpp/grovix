@@ -252,7 +252,7 @@ function findArticles(articles, keywords) {
   return keywordMatchedArticles;
 }
 
-// Categories Route
+// Categories Route 
 router.get('/category/:slug', async (req, res, next) => {
   try {
     const keywords = slugToKeywords(req.params.slug);
