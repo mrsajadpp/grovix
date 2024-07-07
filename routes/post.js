@@ -172,7 +172,8 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       };
 
       await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
-      req.session.user = userData;
+      let userUp = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+      req.session.user = userUp;
 
       if (req.files && req.files.profile) {
         let profileFile = req.files.profile;
