@@ -114,7 +114,7 @@ const isNotAuthorised = (req, res, next) => {
         console.error("Error:", err);
     }
 }
-
+ 
 // Download the image from the URL
 const downloadImage = async (url, filepath) => {
     const writer = fs.createWriteStream(filepath);
