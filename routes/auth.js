@@ -477,7 +477,7 @@ The Grovix Team`,
             user: req.session && req.session.user ? req.session.user : false
         });
     }
-}); 
+});  
 
 // async function convertEmailsToLowerCase() {
 //     try {
