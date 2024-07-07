@@ -201,7 +201,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
 
             await Article.updateOne({ _id: article._id }, articleData);
 
-
+ 
             // Send confirmation email to the user
             let userData = req.session.user;
             sendMail({
