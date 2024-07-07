@@ -170,7 +170,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
                 },
                 body: content,
                 author_id: req.session.user._id,
-                status: false,
+                status: true,
                 created_time: new Date().toString(),
                 endpoint: slag,
                 views: 0,
@@ -266,7 +266,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     views: article.views,
                     created_time: article.created_time,
                     updated_at: new Date().toString(),
-                    status: article.status ? 'pending' : 'false', // Set status based on article's current status
+                    status: true, // Set status based on article's current status
                     custom: true,
                     new_thumb: true
                 };
@@ -291,18 +291,20 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 
                 updateData.body = $.html();
 
-                if (existingUpdation) {
-                    // Update existing updation record
-                    await Updation.updateOne({ _id: existingUpdation._id }, updateData);
-                } else if (article.status == 'false') {
-                    // Update the article directly if its status is false
-                    updateData.status = await false;
-                    await Article.updateOne({ _id: article._id }, updateData);
-                } else {
-                    // Create a new updation record
-                    const updation = new Updation(updateData);
-                    await updation.save();
-                }
+                // if (existingUpdation) {
+                //     // Update existing updation record
+                //     await Updation.updateOne({ _id: existingUpdation._id }, updateData);
+                // } else if (article.status == 'false') {
+                //     // Update the article directly if its status is false
+                //     updateData.status = await false;
+                //     await Article.updateOne({ _id: article._id }, updateData);
+                // } else {
+                //     // Create a new updation record
+                //     const updation = new Updation(updateData);
+                //     await updation.save();
+                // }
+
+                await Article.updateOne({ _id: article._id }, updateData);
 
                 // Send email notification to the author
                 sendMail({
