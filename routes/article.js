@@ -196,7 +196,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
                     $(element).attr('src', `/img/article/${articleData.endpoint}-${article._id}-${index}.jpg`);
                 }
             });
- 
+  
             articleData.body = await $.html();
 
             await Article.updateOne({ _id: article._id }, articleData);
