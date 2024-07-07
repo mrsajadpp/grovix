@@ -337,7 +337,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Your Article Edits Have Been Published</title>
                 </head>
-                <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; background: #fff;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
                         <h2 style="color: #0078e8;">Your Article Edits Have Been Published!</h2>
                         <p>Hello ${user.first_name},</p>

@@ -194,18 +194,32 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
                     to: userData.email,
                     subject: "Your One-Time Verification Code",
                     text: `Hello,
-
-Your verification code is: ${code}
-
-Please use this code to complete your verification process.
-
-Thank you,
-The Grovix Team`,
-                    html: `<p>Hello,</p>
-                 <p>Your verification code is: <strong>${code}</strong></p>
-                 <p>Please use this code to complete your verification process.</p>
-                 <p>Thank you,<br>The Grovix Team</p>`,
+                
+                Your verification code is: ${code}
+                
+                Please use this code to complete your verification process.
+                
+                Thank you,
+                The Grovix Team`,
+                    html: `<!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Your One-Time Verification Code</title>
+                </head>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff;">
+                    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                        <h2 style="color: #0078e8;">Your One-Time Verification Code</h2>
+                        <p>Hello,</p>
+                        <p>Your verification code is: <strong style="color: #0078e8;">${code}</strong></p>
+                        <p>Please use this code to complete your verification process.</p>
+                        <p>Thank you,<br>The Grovix Team</p>
+                    </div>
+                </body>
+                </html>`
                 });
+
 
                 res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: user._id });
             } catch (error) {
@@ -260,18 +274,32 @@ The Grovix Team`,
                         to: userData.email,
                         subject: "Your One-Time Verification Code",
                         text: `Hello,
-
-Your verification code is: ${code}
-
-Please use this code to complete your verification process.
-
-Thank you,
-The Grovix Team`,
-                        html: `<p>Hello,</p>
-                   <p>Your verification code is: <strong>${code}</strong></p>
-                   <p>Please use this code to complete your verification process.</p>
-                   <p>Thank you,<br>The Grovix Team</p>`,
+                    
+                    Your verification code is: ${code}
+                    
+                    Please use this code to complete your verification process.
+                    
+                    Thank you,
+                    The Grovix Team`,
+                        html: `<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Your One-Time Verification Code</title>
+                    </head>
+                    <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff; color: #333; padding: 20px;">
+                        <div style="max-width: 600px; margin: 0 auto;">
+                            <h2 style="color: #0078e8;">Your One-Time Verification Code</h2>
+                            <p>Hello,</p>
+                            <p>Your verification code is: <strong>${code}</strong></p>
+                            <p>Please use this code to complete your verification process.</p>
+                            <p>Thank you,<br>The Grovix Team</p>
+                        </div>
+                    </body>
+                    </html>`
                     });
+
 
                     res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: userExist._id });
                 }
@@ -303,25 +331,41 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
                     to: userData.email,
                     subject: "New Login/Signup Attempt Notification",
                     text: `Hello,
-      
-      We noticed a new login or signup attempt to your account.
-      
-      Location: ${geo && geo.country ? geo.country : 'unknown'}, ${geo && geo.city ? geo.city : 'unknown'}, ${geo && geo.timezone ? geo.timezone : 'unknown'}.
-      Latitude: ${geo && geo.range && geo.range[0] ? geo.range[0] : 'unknown'}.
-      Longitude: ${geo && geo.range && geo.range[1] ? geo.range[1] : 'unknown'}.
-      
-      If this was you, no further action is needed. If you suspect any suspicious activity, please contact our support team immediately.
-      
-      Thank you,
-      The Grovix Team`,
-                    html: `<p>Hello,</p>
-                 <p>We noticed a new login or signup attempt to your account.</p>
-                 <p>Location: <strong>${geo && geo.country ? geo.country : 'unknown'}, ${geo && geo.city ? geo.city : 'unknown'}, ${geo && geo.timezone ? geo.timezone : 'unknown'}</strong></p>
-                 <p>Latitude: <strong>${geo && geo.range && geo.range[0] ? geo.range[0] : 'unknown'}</strong></p>
-                 <p>Longitude: <strong>${geo && geo.range && geo.range[1] ? geo.range[1] : 'unknown'}</strong></p>
-                 <p>If this was you, no further action is needed. If you suspect any suspicious activity, please contact our support team immediately.</p>
-                 <p>Thank you,<br>The Grovix Team</p>`,
+                
+                We noticed a new login or signup attempt to your account.
+                
+                Location: ${geo && geo.country ? geo.country : 'unknown'}, ${geo && geo.city ? geo.city : 'unknown'}, ${geo && geo.timezone ? geo.timezone : 'unknown'}.
+                
+                If this was you, no further action is needed. If you suspect any suspicious activity, please contact our support team immediately.
+                
+                Thank you,
+                The Grovix Team`,
+                    html: `<!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>New Login/Signup Attempt Notification</title>
+                </head>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff; color: #333; padding: 20px;">
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #0078e8;">New Login/Signup Attempt Notification</h2>
+                        <p>Hello,</p>
+                        <p>We noticed a new login or signup attempt to your account.</p>
+                        <p>Location: <strong>${geo && geo.country ? geo.country : 'unknown'}, ${geo && geo.city ? geo.city : 'unknown'}, ${geo && geo.timezone ? geo.timezone : 'unknown'}</strong></p>
+                        <p>If this was you, no further action is needed. If you suspect any suspicious activity, please contact our support team immediately.</p>
+                        
+                        <!-- Google Map iframe -->
+                        <div style="margin-top: 20px; overflow: hidden; position: relative; padding-bottom: 56.25%; height: 0;">
+                            <iframe src="https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${encodeURIComponent(geo && geo.country ? geo.country : 'unknown')},${encodeURIComponent(geo && geo.city ? geo.city : 'unknown')}" width="600" height="450" frameborder="0" style="border:0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen></iframe>
+                        </div>
+                        
+                        <p>Thank you,<br>The Grovix Team</p>
+                    </div>
+                </body>
+                </html>`
                 });
+
 
                 const {
                     address,
@@ -370,7 +414,7 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
 
 // login
 router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
-    const { email, password } = req.body; 
+    const { email, password } = req.body;
 
     // Form validation
     if (!email) {
@@ -410,18 +454,32 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
                     to: user.email,
                     subject: "Your One-Time Verification Code",
                     text: `Hello,
-        
-Your verification code is: ${code}
-        
-Please use this code to complete your verification process.
-        
-Thank you,
-The Grovix Team`,
-                    html: `<p>Hello,</p>
-                 <p>Your verification code is: <strong>${code}</strong></p>
-                 <p>Please use this code to complete your verification process.</p>
-                 <p>Thank you,<br>The Grovix Team</p>`,
+                
+                Your verification code is: ${code}
+                
+                Please use this code to complete your verification process.
+                
+                Thank you,
+                The Grovix Team`,
+                    html: `<!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Your One-Time Verification Code</title>
+                </head>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff; color: #333; padding: 20px;">
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #0078e8;">Your One-Time Verification Code</h2>
+                        <p>Hello,</p>
+                        <p>Your verification code is: <strong>${code}</strong></p>
+                        <p>Please use this code to complete your verification process.</p>
+                        <p>Thank you,<br>The Grovix Team</p>
+                    </div>
+                </body>
+                </html>`
                 });
+
 
                 res.render('user/verify', { title: "Verify Account", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, user_id: user._id });
             } else {
@@ -450,19 +508,33 @@ router.get('/logout', isAuthorised, async (req, res, next) => {
             to: userData.email,
             subject: "Your Account Has Been Logged Out",
             text: `Hello ${userData.first_name},
+        
+        This is to inform you that your account has been logged out.
+        
+        If this was not you or if you have any questions, please contact our support team for assistance.
+        
+        Best regards,
+        The Grovix Team`,
 
-This is to inform you that your account has been logged out.
-
-If this was not you or if you have any questions, please contact our support team for assistance.
-
-Best regards,
-The Grovix Team`,
-
-            html: `<p>Hello ${userData.first_name},</p>
-             <p>This is to inform you that your account has been <strong>logged out</strong>.</p>
-             <p>If this was not you or if you have any questions, please contact our support team for assistance.</p>
-             <p>Best regards,<br>The Grovix Team</p>`,
+            html: `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Your Account Has Been Logged Out</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff; color: #333; padding: 20px;">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #0078e8;">Your Account Has Been Logged Out</h2>
+                <p>Hello ${userData.first_name},</p>
+                <p>This is to inform you that your account has been <strong>logged out</strong>.</p>
+                <p>If this was not you or if you have any questions, please contact our support team for assistance.</p>
+                <p>Best regards,<br>The Grovix Team</p>
+            </div>
+        </body>
+        </html>`
         });
+
 
         // Redirect to login page
         res.redirect('/auth/login');
@@ -477,7 +549,7 @@ The Grovix Team`,
             user: req.session && req.session.user ? req.session.user : false
         });
     }
-});  
+});
 
 // async function convertEmailsToLowerCase() {
 //     try {
