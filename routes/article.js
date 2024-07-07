@@ -295,7 +295,6 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                     // Update existing updation record
                     await Updation.updateOne({ _id: existingUpdation._id }, updateData);
                 } else if (article.status == 'false') {
-                    console.log("bug found");
                     // Update the article directly if its status is false
                     updateData.status = await false;
                     await Article.updateOne({ _id: article._id }, updateData);
