@@ -35,6 +35,7 @@
   <meta property="article:modified_time" content="{{article.updated_at}}">
   {{/if}}
   <meta property="og:url" content="https://www.grovixlab.com/page/{{article.endpoint}}">
+  <link rel="canonical" href="{{url}}">
   <meta property="og:image"
     content="http://www.grovixlab.com/img/article/{{#if article.new_thumb}}{{article.endpoint}}-{{article._id}}-0{{else}}{{article._id}}{{/if}}.jpg">
   <meta property="og:image:secure_url"
