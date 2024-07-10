@@ -197,7 +197,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
                 }
             });
   
-            articleData.body = await $.html();
+            articleData.body = await $.html(); 
 
             await Article.updateOne({ _id: article._id }, articleData);
 
