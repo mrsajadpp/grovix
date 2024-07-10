@@ -42,7 +42,7 @@
     <form action="" class="regForm" enctype="multipart/form-data">
         <div class="inputText">
             <span>
-                These fields will become available once you reach the minimal payout of &dollar;50.
+                {{#if user.monitized}}These fields will become available once you reach the minimal payout of &dollar;50.{{else}}First you need complete monitization.{{/if}}
             </span>
         </div>
         <br>
