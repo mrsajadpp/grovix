@@ -1,0 +1,197 @@
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 120px auto 50px;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-container input,
+    .form-container textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .form-container button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .form-container button:hover {
+        background-color: #0056b3;
+    }
+
+    .result-container {
+        display: none;
+        margin-top: 20px;
+    }
+
+    .result-container p {
+        word-break: break-all;
+        font-weight: 300;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .result-container p button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 5px 10px;
+        margin-left: 10px;
+        font-size: 14px;
+    }
+
+    .result-container p button:hover {
+        background-color: #0056b3;
+    }
+
+    h1,
+    h2,
+    h3 {
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-weight: 300;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    @media screen and (max-width: 916px) {
+        body {
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: 80px auto 20px;
+            padding: 10px;
+            box-shadow: none;
+            border: none;
+        }
+
+        .form-container input,
+        .form-container textarea {
+            font-size: 12px;
+        }
+
+        .form-container button {
+            padding: 12px 16px;
+            font-size: 14px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+{{> headers/user/article_header}} <!-- Your existing header partial -->
+<div class="container">
+    <h1>URL Shortener Tool</h1>
+    <p>Welcome to our URL Shortener tool. Use this tool to shorten your URLs quickly and easily. Shortening your URLs
+        helps to make them easier to share and remember.</p>
+    <div class="form-container">
+        <input type="url" id="originalUrl" placeholder="Enter your URL here..." required>
+        <button onclick="shortenURL()">Shorten URL</button>
+    </div>
+    <div class="result-container" id="resultContainer">
+        <h2>Your shortened URL:</h2>
+        <p id="shortUrlContainer">
+            <span id="shortUrl"></span>
+            <button onclick="copyToClipboard()">Copy</button>
+        </p>
+    </div>
+
+    <h2>API Documentation</h2>
+    <p>Our URL Shortener API allows you to shorten URLs programmatically. Below is a brief guide on how to use the API.
+    </p>
+    <h3>Endpoint</h3>
+    <pre><code class="keyword">POST</code> <code class="string">https://www.grovixlab.com/api/shorten/url</code></pre>
+
+    <h3>Request Body</h3>
+    <p>The API expects a JSON object with the following structure:</p>
+    <pre><code>{
+    <span class="property">"originalUrl"</span><span class="operator">:</span> <span class="string">"your-url-here"</span>
+}</code></pre>
+
+    <h3>Response</h3>
+    <p>The API will return a JSON object with the shortened URL:</p>
+    <pre><code>{
+    <span class="property">"shortUrl"</span><span class="operator">:</span> <span class="string">"shortened-url-here"</span>
+}</code></pre>
+    <p>In case of an error, the response will contain an error message.</p>
+</div>
+
+<script>
+    function shortenURL() {
+        const originalUrl = document.getElementById('originalUrl').value;
+
+        fetch('/developer/tools/shorten/url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ originalUrl })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    document.getElementById('shortUrl').textContent = data.shortUrl;
+                    document.getElementById('resultContainer').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            });
+    }
+
+    function copyToClipboard() {
+        const shortUrl = document.getElementById('shortUrl').textContent;
+        navigator.clipboard.writeText(shortUrl).then(() => {
+            alert('Shortened URL copied to clipboard!');
+        }).catch(err => {
+            alert('Failed to copy: ', err);
+        });
+    }
+</script>
