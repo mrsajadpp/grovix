@@ -62,6 +62,11 @@ router.get('/sitemap-tools.xml', async (req, res, next) => {
   <lastmod>2024-06-09T13:39:34+00:00</lastmod>
   <priority>0.80</priority>
 </url>
+<url>
+  <loc>https://www.grovixlab.com/developer/tools/shorten/url</loc>
+  <lastmod>2024-06-09T13:39:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
       
       
       </urlset>`;
