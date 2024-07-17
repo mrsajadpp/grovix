@@ -1368,6 +1368,58 @@ cron.schedule('0 0 * * 0', () => { // This cron expression runs at midnight ever
   sendUserInterestEmails();
 });
 
+const zarviq = require('zarviq'); // For generating short unique IDs
+const Url = require('../models/url'); // Assuming you have a URL model for database
+
+// URL Shortener - POST Method to create a new short URL
+router.post('/developer/tools/shorten/url', async (req, res, next) => {
+    try { 
+        const { originalUrl } = req.body;
+        if (!originalUrl) {
+            return res.status(400).json({ error: "Original URL is required" });
+        }
+
+        // Generate a short unique ID
+        const shortId = zarviq.generateUniqueID();;
+
+        // Create a new URL entry in the database
+        const newUrl = new Url({
+            originalUrl,
+            shortUrl: `https://www.grovixlab.com/${shortId}`,
+            shortId
+        });
+
+        await newUrl.save();
+
+        // Return the shortened URL
+        res.status(201).json({
+            message: "Short URL created successfully",
+            shortUrl: newUrl.shortUrl
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Redirect to the original URL using the short URL
+router.get('/:shortId', async (req, res, next) => {
+  try {
+      const { shortId } = req.params;
+      
+      // Find the URL entry in the database by the short ID
+      const urlEntry = await Url.findOne({ shortId });
+      
+      if (!urlEntry) {
+          return res.status(404).json({ error: "Short URL not found" });
+      }
+      
+      // Redirect to the original URL
+      res.redirect(urlEntry.originalUrl);
+  } catch (error) {
+      next(error);
+  }
+});
+
 // const convertAllJpgToWebp = async (dir) => {
 //   try {
 //     // Check if the directory exists
