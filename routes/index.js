@@ -332,7 +332,7 @@ router.get('/page/:endpoint', async (req, res, next) => {
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
       let date = await article.updated_at ? article.updated_at : article.created_time;
       let time = calculateReadingTime(article.body);
-      
+
       const { parentKeyword, childKeyword } = article.category;
 
       let keywordsTitle = await separateWords(article.title);

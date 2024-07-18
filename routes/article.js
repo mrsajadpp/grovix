@@ -292,7 +292,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                 $('img').each((index, element) => {
                     const src = $(element).attr('src');
                     if (src) {
-                        const imagePath = path.join(__dirname, '/../public/img/update/', `${article.endpoint}-${article._id}-${index}.jpg`);
+                        const imagePath = path.join(__dirname, '/../public/img/article/', `${article.endpoint}-${article._id}-${index}.jpg`);
                         src.startsWith('/img/')
                             ? downloadImage(`http://localhost:${process.env.PORT}${src}`, imagePath)
                             : downloadImage(src, imagePath);

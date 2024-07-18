@@ -92,6 +92,10 @@ app.use('/dashboard', authRouter);
 app.use('/', toolaRouter);
 app.use('/', postRouter);
 
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+// });
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
