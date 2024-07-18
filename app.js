@@ -84,13 +84,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', postRouter);
 app.use('/', logRouter);
 app.use('/', indexRouter);
 app.use('/', articleRouter);
 app.use('/admin', adminRouter);
 app.use('/dashboard', authRouter);
 app.use('/', toolaRouter);
+app.use('/', postRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
