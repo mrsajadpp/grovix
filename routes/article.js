@@ -296,7 +296,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                         src.startsWith('/img/')
                             ? downloadImage(`http://localhost:${process.env.PORT}${src}`, imagePath)
                             : downloadImage(src, imagePath);
-                        $(element).attr('src', `/img/update/${article.endpoint}-${article._id}-${index}.jpg`);
+                        $(element).attr('src', `/img/article/${article.endpoint}-${article._id}-${index}.jpg`);
                     }
                 });
 
