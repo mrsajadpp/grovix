@@ -149,10 +149,13 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       country,
       state,
       city,
-      zip_code
+      zip_code,
+      day,
+      month,
+      year
     } = req.body;
 
-    if (first_name || last_name || phone || sex || bio || address_line_one || address_line_two || country || state || city || zip_code) {
+    if (first_name || last_name || phone || sex || bio || address_line_one || address_line_two || country || state || city || zip_code || day || month || year) {
       let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
 
       let userData = {
@@ -168,6 +171,11 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
           state: state ? state : user.address.state,
           city: city ? city : user.address.city,
           zip_code: zip_code ? zip_code : user.address.zip_code
+        },
+        dob: {
+          day: day ? day : user.dob.day,
+          month: month ? month : user.dob.month,
+          year: year ? year : user.dob.year
         }
       };
 
@@ -1373,50 +1381,50 @@ const Url = require('../models/url'); // Assuming you have a URL model for datab
 
 // URL Shortener - POST Method to create a new short URL
 router.post('/developer/tools/shorten/url', async (req, res, next) => {
-    try { 
-        const { originalUrl } = req.body;
-        if (!originalUrl) {
-            return res.status(400).json({ error: "Original URL is required" });
-        }
-
-        // Generate a short unique ID
-        const shortId = zarviq.generateUniqueID();;
-
-        // Create a new URL entry in the database
-        const newUrl = new Url({
-            originalUrl,
-            shortUrl: `https://www.grovixlab.com/sht/${shortId}`,
-            shortId
-        });
-
-        await newUrl.save();
-
-        // Return the shortened URL
-        res.status(201).json({
-            message: "Short URL created successfully",
-            shortUrl: newUrl.shortUrl
-        });
-    } catch (error) {
-        next(error);
+  try {
+    const { originalUrl } = req.body;
+    if (!originalUrl) {
+      return res.status(400).json({ error: "Original URL is required" });
     }
+
+    // Generate a short unique ID
+    const shortId = zarviq.generateUniqueID();;
+
+    // Create a new URL entry in the database
+    const newUrl = new Url({
+      originalUrl,
+      shortUrl: `https://www.grovixlab.com/sht/${shortId}`,
+      shortId
+    });
+
+    await newUrl.save();
+
+    // Return the shortened URL
+    res.status(201).json({
+      message: "Short URL created successfully",
+      shortUrl: newUrl.shortUrl
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Redirect to the original URL using the short URL
 router.get('/sht/:shortId', async (req, res, next) => {
   try {
-      const { shortId } = req.params;
-      
-      // Find the URL entry in the database by the short ID
-      const urlEntry = await Url.findOne({ shortId });
-      
-      if (!urlEntry) {
-          return res.status(404).json({ error: "Short URL not found" });
-      }
-      
-      // Redirect to the original URL
-      res.redirect(urlEntry.originalUrl);
+    const { shortId } = req.params;
+
+    // Find the URL entry in the database by the short ID
+    const urlEntry = await Url.findOne({ shortId });
+
+    if (!urlEntry) {
+      return res.status(404).json({ error: "Short URL not found" });
+    }
+
+    // Redirect to the original URL
+    res.redirect(urlEntry.originalUrl);
   } catch (error) {
-      next(error);
+    next(error);
   }
 });
 

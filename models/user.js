@@ -74,6 +74,20 @@ const userSchema = new Schema({
             required: false,
         },
     },
+    dob: {
+        day: {
+            type: Number,
+            required: false,
+        },
+        month: {
+            type: Number,
+            required: false,
+        },
+        year: {
+            type: Number,
+            required: false,
+        }
+    },
     interests: {
         type: [String],
         required: false,

@@ -38,13 +38,6 @@
 <!-- Profile -->
 <div class="container">
     <form action="/profile/edit" method="post" class="regForm" enctype="multipart/form-data">
-        <div class="inputText">
-            <span>
-                By using our services, you are accepting our <a href="/terms-and-conditions" target="_blank">terms
-                    and conditions</a>.
-            </span>
-        </div>
-        <br>
         <input type="file" name="profile" hidden accept="image/jpg, image/jpeg, image/png" id="profileInp">
         <div id="inputProfile" class="inputProfile" style="background-image: url('/img/user/{{user._id}}.webp');">
             <button type="button">
@@ -55,15 +48,16 @@
             </button>
         </div>
         <div class="inputBox">
-            <input type="text" name="first_name" id="first_name" value="{{user.first_name}}" placeholder="First Name">
+            <input type="text" name="first_name" id="first_name" value="{{user.first_name}}" placeholder="First Name"
+                required>
             &nbsp;
             <input type="text" name="last_name" id="last_name" value="{{user.last_name}}" placeholder="Last Name">
         </div>
         <div class="inputBox">
-            <input type="email" disabled name="email" id="email" value="{{user.email}}" placeholder="Email">
+            <input type="email" disabled name="email" id="email" value="{{user.email}}" placeholder="Email" required>
         </div>
         <div class="inputBox">
-            <input type="tel" name="phone" id="phone" value="{{user.contact_no}}" placeholder="Phone">
+            <input type="tel" name="phone" id="phone" value="{{user.contact_no}}" placeholder="Phone" required>
         </div>
         <div class="inputBox">
             <select name="sex" id="sex">
@@ -71,11 +65,20 @@
                 <option value="" disabled>Sex</option>
                 <option value="male" selected>Male</option>
                 <option value="female">Female</option>
+                <option value="others">Others</option>
                 {{/ifequal}}
                 {{#ifequal user.sex 'female'}}
                 <option value="" disabled>Sex</option>
                 <option value="male">Male</option>
                 <option value="female" selected>Female</option>
+                <option value="others">Others</option>
+                {{/ifequal}}
+
+                {{#ifequal user.sex 'others'}}
+                <option value="" disabled>Sex</option>
+                <option value="male">Male</option>
+                <option value="female" selected>Female</option>
+                <option value="others" selected>Others</option>
                 {{/ifequal}}
 
                 {{#if user.sex}}
@@ -83,11 +86,27 @@
                 <option value="" selected disabled>Sex</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
+                <option value="others">Others</option>
                 {{/if}}
             </select>
         </div>
         <div class="inputBox">
             <input type="text" placeholder="About You" name="bio" id="bio" value="{{user.bio}}">
+        </div>
+        <br>
+        <div class="inputText">
+            <label for="dob">Date of Birth:</label>
+        </div>
+        <div class="inputBox" id="dob">
+            <input type="number" name="day" id="day" value="{{user.dob.day}}" placeholder="Day">
+            &nbsp;
+            <input type="number" name="month" id="last_name" value="{{user.dob.month}}" placeholder="Month">
+            &nbsp;
+            <input type="number" name="year" id="last_name" value="{{user.dob.year}}" placeholder="Year">
+        </div>
+        <br>
+        <div class="inputText">
+            <label for="dob">Address Details:</label>
         </div>
         <div class="inputBox">
             <input type="text" placeholder="Address Line One*" name="address_line_one" id="bio"
@@ -129,9 +148,16 @@
         <!-- <div class="inputText">
                 <span>Do you have a account? <a href="./login.html">Signup</a>.</span>
             </div> -->
+        <br>
+        <div class="inputText">
+            <span>
+                By using our services, you are accepting our <a href="/terms-and-conditions" target="_blank">terms
+                    and conditions</a>.
+            </span>
+        </div>
     </form>
 </div>
-<br>
+<br><br><br>
 <!-- Image preview script -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
