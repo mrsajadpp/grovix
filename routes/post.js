@@ -133,7 +133,7 @@ const convertToWebp = (inputPath, outputPath) => {
       }
     });
   });
-}; 
+};
 
 // Edit Profile
 router.post('/profile/edit', isAuthorised, async (req, res, next) => {
@@ -146,7 +146,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       last_name,
       phone,
       sex,
-      bio, 
+      bio,
       address_line_one,
       address_line_two,
       country,
@@ -186,7 +186,8 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
       let userUp = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
       console.log('User updated');
-      req.session.user = userUp;
+      userData._id = await userUp._id;
+      req.session.user = userData;
 
       if (req.files && req.files.profile) {
         console.log('Profile file detected');
