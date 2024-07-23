@@ -1385,7 +1385,7 @@ router.post('/developer/tools/shorten/url', async (req, res, next) => {
         // Create a new URL entry in the database
         const newUrl = new Url({
             originalUrl,
-            shortUrl: `https://www.grovixlab.com/${shortId}`,
+            shortUrl: `https://www.grovixlab.com/sht/${shortId}`,
             shortId
         });
 
@@ -1402,7 +1402,7 @@ router.post('/developer/tools/shorten/url', async (req, res, next) => {
 });
 
 // Redirect to the original URL using the short URL
-router.get('/:shortId', async (req, res, next) => {
+router.get('/sht/:shortId', async (req, res, next) => {
   try {
       const { shortId } = req.params;
       
