@@ -114,6 +114,34 @@
   </script>
   {{/if}}
 
+  {{#if author}}
+  <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "{{author.first_name}} {{author.last_name}}",
+        "image": "/img/user/{{author._id}}.jpg",
+        "description": "{{author.bio}}",
+        "url": "https://www.grovixlab.com/user/{{author._id}}",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "{{author.address.city}}",
+            "addressRegion": "{{author.address.state}}",
+            "postalCode": "{{author.address.zip_code}}",
+            "addressCountry": "{{author.address.country}}"
+        },
+        "jobTitle": "{{#if author.admin}}Official{{/if}}",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "{{author.address.city}}",
+            "addressRegion": "{{author.address.state}}",
+            "postalCode": "{{author.address.zip_code}}",
+            "addressCountry": "{{author.address.country}}"
+        }
+    }
+    </script>
+  {{/if}}
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H64E20TLLZ"></script>
   <script>
@@ -136,7 +164,7 @@
 
   <!-- Google Adsense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9864276038862461"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
