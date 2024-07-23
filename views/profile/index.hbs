@@ -42,7 +42,7 @@
         margin: 10px 0 5px;
     }
 
-    .username {
+    .authorname {
         color: #555;
         margin-bottom: 10px;
     }
@@ -125,11 +125,11 @@
 <div class="profile-container">
     <div class="profile-header">
         <div class="cover-photo"></div>
-        <img class="profile-photo" src="/img/user/{{user._id}}.jpg" alt="{{user.first_name}} {{user.last_name}}">
+        <img class="profile-photo" src="/img/user/{{author._id}}.jpg" alt="{{author.first_name}} {{author.last_name}}">
     </div>
     <div class="profile-info">
-        <h1 class="name">{{user.first_name}} {{user.last_name}}&nbsp;
-            {{#if user.admin}}
+        <h1 class="name">{{author.first_name}} {{author.last_name}}&nbsp;
+            {{#if author.admin}}
             <svg xmlns="http://www.w3.org/2000/svg" title="Officials" width="24" height="24" viewBox="0 0 24 24"
                 style="fill: #0078e8;">
                 <path
@@ -138,7 +138,7 @@
             </svg>
             {{/if}}
         </h1>
-        <p class="bio">{{user.bio}}</p>
+        <p class="bio">{{author.bio}}</p>
         <button class="follow-button" onclick="alert('Coming soon!');">Subscribe</button>
     </div>
 </div>
