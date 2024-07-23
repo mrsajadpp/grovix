@@ -165,6 +165,7 @@ function separateWords(str) {
 router.get('/', async (req, res, next) => {
   try {
     let user = await req.session.user ? User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean : false;
+    console.log(user);
     let trendings = await getMostViewedArticles(user ? user.interests : ["grovix", "nodejs", "html", "javascript", "css", "seo", "coding", "history", "coin", "ai"]); //await Article.find({ status: true }).sort({ _id: -1 }).lean();
 
     res.render('user/index', { title: "Earn Money Writing Articles Online | GrovixLab: The Best Writing Platform", description: "Discover how to earn money by writing articles online with GrovixLab. Our platform is perfect for anyone looking to learn article writing and make money from their writing skills. Join today and start earning.", url: 'https://www.grovixlab.com/', trend: trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
