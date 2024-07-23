@@ -187,6 +187,9 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       let userUp = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
       console.log('User updated');
       userData._id = await userUp._id;
+      userData.status = userUp.status;
+      userData.admin = userUp.admin;
+      userData.verified = userUp.verified;
       req.session.user = userData;
 
       if (req.files && req.files.profile) {
