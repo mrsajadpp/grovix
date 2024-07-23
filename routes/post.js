@@ -139,14 +139,14 @@ const convertToWebp = (inputPath, outputPath) => {
 router.post('/profile/edit', isAuthorised, async (req, res, next) => {
   try {
     console.log('Edit Profile route accessed');
-    console.log('Request body:', req.body);
+    console.log('Request body');
 
     const {
       first_name,
       last_name,
       phone,
       sex,
-      bio,
+      bio, 
       address_line_one,
       address_line_two,
       country,
@@ -160,7 +160,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 
     if (first_name || last_name || phone || sex || bio || address_line_one || address_line_two || country || state || city || zip_code || day || month || year) {
       let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
-      console.log('User found:', user);
+      console.log('User found');
 
       let userData = {
         first_name: first_name ? first_name : user.first_name,
@@ -185,7 +185,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 
       await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
       let userUp = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
-      console.log('User updated:', userUp);
+      console.log('User updated');
       req.session.user = userUp;
 
       if (req.files && req.files.profile) {
@@ -206,7 +206,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
             console.log(`Converted ${imagePath} to ${webpPath}`);
             res.redirect('/dashboard/settings');
           } catch (error) {
-            console.error('Error converting image:', error);
+            console.error('Error converting image');
             res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Error converting profile image: " + error.message } });
           }
         });
