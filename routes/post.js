@@ -138,12 +138,15 @@ const convertToWebp = (inputPath, outputPath) => {
 // Edit Profile
 router.post('/profile/edit', isAuthorised, async (req, res, next) => {
   try {
+    console.log('Edit Profile route accessed');
+    console.log('Request body');
+
     const {
       first_name,
       last_name,
       phone,
       sex,
-      bio,
+      bio, 
       address_line_one,
       address_line_two,
       country,
@@ -157,6 +160,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 
     if (first_name || last_name || phone || sex || bio || address_line_one || address_line_two || country || state || city || zip_code || day || month || year) {
       let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+      console.log('User found');
 
       let userData = {
         first_name: first_name ? first_name : user.first_name,
@@ -181,15 +185,18 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
 
       await User.updateOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }, userData);
       let userUp = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+      console.log('User updated');
       req.session.user = userUp;
 
       if (req.files && req.files.profile) {
+        console.log('Profile file detected');
         let profileFile = req.files.profile;
         let imagePath = path.join(__dirname, '/../public/img/user/', user._id + '.jpg');
         let webpPath = path.join(__dirname, '/../public/img/user/', user._id + '.webp');
 
         profileFile.mv(imagePath, async function (err) {
           if (err) {
+            console.error('Error uploading profile image:', err);
             return res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Error uploading profile image: " + err } });
           }
 
@@ -199,22 +206,24 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
             console.log(`Converted ${imagePath} to ${webpPath}`);
             res.redirect('/dashboard/settings');
           } catch (error) {
-            console.error('Error converting image:', error);
+            console.error('Error converting image');
             res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Error converting profile image: " + error.message } });
           }
         });
       } else {
+        console.log("No profile file detected");
         res.redirect('/dashboard/settings');
       }
     } else {
+      console.log('No data to update');
       res.render('dashboard/settings', { title: "Settings >> Dashboard", style: ['dashboard', 'settings', 'regform'], user: req.session && req.session.user ? req.session.user : false, error: { message: "Please fill blank input box." } });
     }
   } catch (error) {
-    console.error(error);
-
+    console.error('Error in Edit Profile route:', error);
     res.render('error', { title: "500", status: 500, message: error.message, style: ['error'], user: req.session && req.session.user ? req.session.user : false });
   }
 });
+
 
 // New article
 // router.post('/article/request', isAuthorised, async (req, res, next) => {
