@@ -747,6 +747,7 @@ router.get('/robots.txt', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
 });
 
+// IndexNow.txt
 router.get('/37ccc3665e5549038641dd1f7869be2d.txt', (req, res) => {
   res.type('text/plain');
   res.sendFile(path.join(__dirname, 'public', '37ccc3665e5549038641dd1f7869be2d.txt'));
