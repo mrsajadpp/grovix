@@ -9,9 +9,9 @@ var router = express.Router();
 // CSS Minifier
 router.get('/author/:user_id', async (req, res, next) => {
     let author = await User.findOne({ _id: new mongoose.Types.ObjectId(req.params.user_id) }).lean();
-    res.render('profile/index', { title: `${author.first_name} ${author.last_name} / Grovix Lab`, author, description: author.bio, url: 'https://www.grovixlab.com/user/' + author._id, user: req.session && req.session.user ? req.session.user : false });
+    res.render('profile/index', { title: `${author.first_name} ${author.last_name} / Grovix Lab`, author, description: author.bio, authorpage: true, url: 'https://www.grovixlab.com/user/' + author._id, user: req.session && req.session.user ? req.session.user : false });
 });
-
+ 
 // Authors Sitemap.xml
 router.get('/authors.xml', async (req, res, next) => {
     try {
