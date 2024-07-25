@@ -322,6 +322,202 @@ const extractKeywords = (text) => {
   return { parentKeyword, childKeyword };
 };
 
+// const categories = [
+//   "Programming",
+//   "Education & Learning",
+//   "Technology",
+//   "Health & Wellness",
+//   "Finance & Investment",
+//   "Travel & Leisure",
+//   "Food & Cooking",
+//   "Fashion & Beauty",
+//   "Sports & Fitness",
+//   "Entertainment",
+//   "Home & Garden"
+// ];
+
+// Define keyword-to-category mappings
+const keywordCategoryMapping = {
+  "Programming": [
+    "code",
+    "programming",
+    "developer",
+    "software",
+    "coding",
+    "scripting",
+    "algorithm",
+    "debugging",
+    "software development",
+    "application development",
+    "web development",
+    "backend",
+    "frontend",
+    "full-stack",
+    "object-oriented programming",
+    "functional programming",
+    "data structures",
+    "database management",
+    "API",
+    "version control",
+    "Git",
+    "deployment",
+    "CI/CD",
+    "integration",
+    "unit testing",
+    "TDD",
+    "agile",
+    "scrum",
+    "DevOps",
+    "JavaScript",
+    "TypeScript",
+    "Python",
+    "Java",
+    "C",
+    "C++",
+    "Ruby",
+    "Swift",
+    "PHP",
+    "Kotlin",
+    "Go",
+    "Rust",
+    "SQL",
+    "Node.js"
+  ],
+  "Education & Learning": [
+    "education",
+    "learning",
+    "course",
+    "study",
+    "training",
+    "academic",
+    "tutoring",
+    "seminar",
+    "workshop",
+    "online learning",
+    "e-learning",
+    "MOOCs",
+    "certificate",
+    "degree",
+    "research",
+    "curriculum",
+    "classroom",
+    "pedagogy",
+    "teaching",
+    "mentorship",
+    "self-study",
+    "books",
+    "tutorial",
+    "skill development",
+    "educational resources",
+    "literacy",
+    "school",
+    "university",
+    "college",
+    "accreditation",
+    "enrollment",
+    "academic writing",
+    "critical thinking",
+    "exams",
+    "assessment"
+  ],
+  "Technology": [
+    "tech",
+    "gadget",
+    "innovation",
+    "technology",
+    "electronics",
+    "software",
+    "hardware",
+    "IT",
+    "digital",
+    "cybersecurity",
+    "AI",
+    "machine learning",
+    "automation",
+    "blockchain",
+    "cloud computing",
+    "IoT",
+    "big data",
+    "virtual reality",
+    "augmented reality",
+    "5G",
+    "networking",
+    "data science",
+    "programming",
+    "development",
+    "tech trends",
+    "tech startups",
+    "smart devices",
+    "wearables",
+    "robotics",
+    "tech infrastructure",
+    "tech solutions",
+    "user experience",
+    "user interface",
+    "digital transformation",
+    "innovation management",
+    "tech industry",
+    "tech research",
+    "gadgets",
+    "software engineering"
+  ],
+  "Health & Wellness": ["health", "wellness", "fitness"],
+  "Finance & Investment": ["finance", "investment", "money", "stocks"],
+  "Travel & Leisure": ["travel", "trip", "holiday"],
+  "Food & Cooking": ["food", "cooking", "recipe"],
+  "Fashion & Beauty": ["fashion", "style", "beauty"],
+  "Sports & Fitness": ["sports", "football", "basketball", "soccer"],
+  "Entertainment": ["movie", "film", "tv", "series", "show"],
+  "Home & Garden": ["home", "garden", "decor"]
+};
+
+async function separateWords(text) {
+  // Split the text into words and clean up
+  return text
+    .toLowerCase()
+    .split(/\s+/)
+    .map(word => word.replace(/[^a-zA-Z0-9]/g, ''))
+    .filter(Boolean);
+}
+
+function findKeywords(inputWords) {
+  const foundCategories = new Set();
+
+  // Check for keyword matches and categorize
+  for (const [category, keywords] of Object.entries(keywordCategoryMapping)) {
+    for (const keyword of keywords) {
+      if (inputWords.includes(keyword.toLowerCase())) {
+        foundCategories.add(category);
+      }
+    }
+  }
+
+  return Array.from(foundCategories);
+}
+
+async function processArticleAndUpdateUser(article, req) {
+  let keywordsTitle = await separateWords(article.title);
+  let keywordsDescription = await separateWords(article.description);
+
+  // Combine and deduplicate keywords
+  let keywords = [...new Set([...keywordsTitle, ...keywordsDescription])];
+
+  // Find keywords from predefined categories
+  let categorizedKeywords = findKeywords(keywords);
+
+  // If user is logged in, save keywords to their profile
+  if (req.session && req.session.user) {
+    let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+    if (user) {
+      // Assuming you have a field to store user interests
+      let userInterests = user.interests || [];
+      userInterests = [...new Set([...userInterests, ...categorizedKeywords])]; // Combine and deduplicate interests
+
+      await User.updateOne({ _id: user._id }, { $set: { interests: userInterests } });
+    }
+  }
+}
+
 // Article Page
 router.get('/page/:endpoint', async (req, res, next) => {
   try {
@@ -341,26 +537,13 @@ router.get('/page/:endpoint', async (req, res, next) => {
       let keywords = await separateWords(article.title);
       let trend = await getMostViewedArticles(keywords);
       let author = await User.findOne({ _id: new mongoose.Types.ObjectId(article.author_id) }).lean();
-      let date = await article.updated_at ? article.updated_at : article.created_time;
+      let date = article.updated_at ? article.updated_at : article.created_time;
       let time = calculateReadingTime(article.body);
 
       const { parentKeyword, childKeyword } = article.category;
 
-      let keywordsTitle = await separateWords(article.title);
-      let keywordsDescription = await separateWords(article.description);
-      let Keywords = [...new Set([...keywordsTitle, ...keywordsDescription])]; // Combine and deduplicate keywords
-
-      // If user is logged in, save keywords to their profile
-      if (req.session && req.session.user) {
-        let user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
-        if (user) {
-          // Assuming you have a field to store user interests
-          let userInterests = user.interests || [];
-          userInterests = [...new Set([...userInterests, ...Keywords])]; // Combine and deduplicate interests
-
-          await User.updateOne({ _id: user._id }, { $set: { interests: userInterests } });
-        }
-      }
+      // Process article and update user interests
+      await processArticleAndUpdateUser(article, req);
 
       res.render('user/article', {
         title: article.title,
@@ -562,6 +745,11 @@ router.get('/sitemap.xml', async (req, res, next) => {
 router.get('/robots.txt', (req, res) => {
   res.type('text/plain');
   res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+});
+
+router.get('/37ccc3665e5549038641dd1f7869be2d.txt', (req, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(__dirname, 'public', '37ccc3665e5549038641dd1f7869be2d.txt'));
 });
 
 module.exports = router; 
