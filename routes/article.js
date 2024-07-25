@@ -210,7 +210,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
                 ]
             };
 
-            axios.post('https://api.indexnow.org/IndexNow', data, {
+            axios.post('https://api.indexnow.org/indexnow', data, {
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }
