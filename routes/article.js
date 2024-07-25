@@ -114,7 +114,7 @@ const isNotAuthorised = (req, res, next) => {
         console.error("Error:", err);
     }
 }
- 
+
 // Download the image from the URL
 const downloadImage = async (url, filepath) => {
     const writer = fs.createWriteStream(filepath);
@@ -196,12 +196,33 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
                     $(element).attr('src', `/img/article/${articleData.endpoint}-${article._id}-${index}.jpg`);
                 }
             });
-  
-            articleData.body = await $.html(); 
+
+            articleData.body = await $.html();
 
             await Article.updateOne({ _id: article._id }, articleData);
 
- 
+            const data = {
+                host: "www.grovixlab.com",
+                key: "37ccc3665e5549038641dd1f7869be2d",
+                keyLocation: "https://www.grovixlab.com/37ccc3665e5549038641dd1f7869be2d.txt",
+                urlList: [
+                    "https://www.grovixlab.com/page/" + article._id
+                ]
+            };
+
+            axios.post('https://api.indexnow.org/IndexNow', data, {
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            })
+                .then(response => {
+                    console.log('Response:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error:', error.response ? error.response.data : error.message);
+                });
+
+
             // Send confirmation email to the user
             let userData = req.session.user;
             sendMail({
@@ -317,6 +338,27 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 
                 await Article.updateOne({ _id: article._id }, updateData);
 
+                const data = {
+                    host: "www.grovixlab.com",
+                    key: "37ccc3665e5549038641dd1f7869be2d",
+                    keyLocation: "https://www.grovixlab.com/37ccc3665e5549038641dd1f7869be2d.txt",
+                    urlList: [
+                        "https://www.grovixlab.com/page/" + article._id
+                    ]
+                };
+
+                axios.post('https://api.indexnow.org/IndexNow', data, {
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                })
+                    .then(response => {
+                        console.log('Response:', response.data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error.response ? error.response.data : error.message);
+                    });
+
                 // Send email notification to the author
                 sendMail({
                     from: '"Grovix Lab" <noreply.grovix@gmail.com>',
@@ -398,11 +440,11 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
 //                 to: user.email,
 //                 subject: "Your Article Edits Have Been Approved",
 //                 text: `Hello ${user.first_name},
-  
+
 //   Your edits for the article titled "${title}" have been approved and published.
-  
+
 //   Thank you for your contribution.
-  
+
 //   Best regards,
 //   The Grovix Team`,
 //                 html: `<p>Hello ${user.first_name},</p>
