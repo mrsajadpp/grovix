@@ -190,6 +190,7 @@ router.post('/profile/edit', isAuthorised, async (req, res, next) => {
       userData.status = userUp.status;
       userData.admin = userUp.admin;
       userData.verified = userUp.verified;
+      userData.email = userUp.email;
       req.session.user = userData;
 
       if (req.files && req.files.profile) {
