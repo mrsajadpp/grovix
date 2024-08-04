@@ -379,7 +379,8 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
                     verified,
                     status,
                     bio,
-                    sex
+                    sex,
+                    dob
                 } = await userData.toObject();
 
                 const newData = await {
