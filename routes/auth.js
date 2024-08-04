@@ -357,7 +357,7 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
                         
                         <!-- Google Map iframe -->
                         <div style="margin-top: 20px; overflow: hidden; position: relative; padding-bottom: 56.25%; height: 0;">
-                            <div style="width: 100%"><iframe width="100%" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=${encodeURIComponent(geo && geo.country ? geo.country : 'unknown')}+(${encodeURIComponent(geo && geo.country ? geo.country : 'unknown')})&amp;t=k&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=${encodeURIComponent(geo && geo.country ? geo.country : 'unknown')}+(${encodeURIComponent(geo && geo.country ? geo.country : 'unknown')})&amp;t=k&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">gps vehicle tracker</a></iframe></div>
+                            <iframe src="https://maps.google.com/maps?q=${encodeURIComponent(geo && geo.country ? geo.country : 'unknown')}+${geo && geo.city ? geo.city : 'unknown'}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                         
                         <p>Thank you,<br>The Grovix Team</p>
