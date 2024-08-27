@@ -70,14 +70,6 @@
                         </button>
                     </a>
                 </li>
-                {{else}}
-                <li style="width: 55px;">
-                    <a href="/auth/signup">
-                        <button class="profile-menu" title="Signup" aria-label="Signup">
-                            <img src="/img/plus.jpg" alt="Signup">
-                        </button>
-                    </a>
-                </li>
                 {{/if}}
                 &nbsp;&nbsp;
             </ul>
@@ -109,14 +101,6 @@
                         <button class="profile-menu" title="Profile" aria-label="Profile">
                             <img src="/img/user/{{user._id}}.webp" alt="{{user.first_name}}"
                                 onerror="this.onerror=null;this.src='/img/default-user.jpg';">
-                        </button>
-                    </a>
-                </li>
-                {{else}}
-                <li style="width: 55px;">
-                    <a href="/auth/signup">
-                        <button class="profile-menu" title="Signup" aria-label="Signup">
-                            <img src="/img/plus.jpg" alt="Signup">
                         </button>
                     </a>
                 </li>
