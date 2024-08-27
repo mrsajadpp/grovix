@@ -468,7 +468,6 @@
         {{#each trend}}
         <div class="card artCart">
             <img loading="lazy"
-                srcset="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}"
                 decoding="async"
                 src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}"
                 alt="{{this.title}}" onerror="this.onerror=null; this.src='/img/banner.webp';" />

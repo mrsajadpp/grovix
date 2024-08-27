@@ -1,25 +1,28 @@
 <div class="bar">
-  <a href="#" class="left">◄</a>
-  <a href="#" class="right">►</a>
-  
-  <aside class="one">
-    <div class="tags">
-      <a href="mailto:support@grovixlab.com">Support</a>
-      <a>-</a>
-      <a href="/privacy-policy">Privacy Policy</a>
-    </div>
-  </aside>
-  
-  <aside class="two">
-  <!--  <div class="select">
+    <a href="#" class="left">◄</a>
+    <a href="#" class="right">►</a>
+
+    <aside class="one">
+        <div class="tags">
+            <a href="mailto:support@grovixlab.com">Support</a>
+            <a>-</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+        </div>
+    </aside>
+
+    <aside class="two">
+        <!--  <div class="select">
       This will have options
     </div>-->
-    
-    <button onclick="location.href='/auth/login';">Register</button>
-  </aside>
+
+        <button onclick="location.href='/auth/login';">Register</button>
+    </aside>
 </div>
 <style>
-    * { box-sizing: border-box; }
+    * {
+        box-sizing: border-box;
+    }
+
     .header {
         top: 36px;
     }
@@ -27,88 +30,105 @@
     .headerMobile {
         top: 36px;
     }
+
     .mobileMenu {
         top: 36px;
     }
 
-.bar {
-  background: linear-gradient(#000 0%,#000 100%);
-  border: none;
-  font-family: Arial;
-  font-size: 12px;
-  height: 36px;
-  line-height: 36px;
-  overflow: hidden;
-  padding: 0 32px;
-  position: fixed;
-  width: 100%;
-  top: 0px;
-  left: 0px;
-}
+    .bar {
+        background: linear-gradient(#000 0%, #000 100%);
+        border: none;
+        font-family: Arial;
+        font-size: 12px;
+        height: 36px;
+        line-height: 36px;
+        overflow: hidden;
+        padding: 0 32px;
+        position: fixed;
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        z-index: 999;
+    }
 
-  a, .select, button {
-    background: transperant;
-    border: none;
-    border-radius: 3px;
-    color: #fff;
-    padding: 2px 4px;
-    text-decoration: none;
-  }
-  
-  .left, .right {
-    cursor: pointer;
-    display: none;
-    position: absolute;
-    line-height: 32px; width: 32px;
-    text-align: center;
-    z-index: 2;
-  }
-  
-  .left { left: 0; }
-  .right { right: 0; }
-  
-  .select, button { 
-    display: inline-block;
-    background-color: #fff;
-    color: #000;
-    border: none;
-    border-radius: 0px;
-    padding: 3px 10px 3px;
-  }
-  
-  .select {
-    line-height: 22px;
-    margin-right: 5%;
-    text-align: center;
-    width: 45%;
-  }
-  
-  aside { 
-    float: left; width: 50%;
-    transition: all 0.5s;
-    
-    &:last-child { 
-      text-align: right; 
+    a,
+    .select,
+    button {
+        background: transperant;
+        border: none;
+        border-radius: 3px;
+        color: #fff;
+        padding: 2px 4px;
+        text-decoration: none;
     }
-}
 
-@media (max-width:768px) {
-  .bar {
-    aside { 
-      padding: 0 36px;
-      position: fixed;
-      left: 0; top: 0;
-      text-align: center !important;
-      width: 100%; 
-      
-      &:last-child { left: 100%; }
+    .left,
+    .right {
+        cursor: pointer;
+        display: none;
+        position: absolute;
+        line-height: 32px;
+        width: 32px;
+        text-align: center;
+        z-index: 2;
     }
-    
-    .left, .right {
-      display: block;
+
+    .left {
+        left: 0;
     }
-  }
-}
+
+    .right {
+        right: 0;
+    }
+
+    .select,
+    button {
+        display: inline-block;
+        background-color: #fff;
+        color: #000;
+        border: none;
+        border-radius: 0px;
+        padding: 3px 10px 3px;
+    }
+
+    .select {
+        line-height: 22px;
+        margin-right: 5%;
+        text-align: center;
+        width: 45%;
+    }
+
+    aside {
+        float: left;
+        width: 50%;
+        transition: all 0.5s;
+
+        &:last-child {
+            text-align: right;
+        }
+    }
+
+    @media (max-width:768px) {
+        .bar {
+            aside {
+                padding: 0 36px;
+                position: fixed;
+                left: 0;
+                top: 0;
+                text-align: center !important;
+                width: 100%;
+
+                &:last-child {
+                    left: 100%;
+                }
+            }
+
+            .left,
+            .right {
+                display: block;
+            }
+        }
+    }
 </style>
 {{> headers/user/article_header}}
 <!-- Spacing -->
@@ -124,11 +144,13 @@
             height: 75px;
         }
     }
+
     ul,
     ol {
         padding: 0px;
         margin: 20px;
     }
+
     .nav__ul {
         margin: 0px;
     }
@@ -153,31 +175,34 @@
                 <!-- Thumbnail -->
                 {{#if article.custom}}
                 {{else}}
-                <img src="/img/article/{{article._id}}.jpg" alt="{{article.title}}">
+                <img loading="lazy" decoding="async" src="/img/article/{{article._id}}.jpg" alt="{{article.title}}">
                 {{/if}}
 
 
                 {{{article.body}}}
 
-                
+
 
                 <!-- Author -->
                 <div class="author">
                     <div class="authorProfile">
-                        <img src="/img/user/{{author._id}}.jpg" alt="{{author.first_name}} {{author.last_name}}"
+                        <img loading="lazy" decoding="async" src="/img/user/{{author._id}}.jpg"
+                            alt="{{author.first_name}} {{author.last_name}}"
                             onerror="this.onerror=null;this.src='/img/default-user.jpg';">
                     </div>
                     <div class="authorDetials">
-                        <a style="color: #000;" href="/author/{{author._id}}"><h4><b>{{author.first_name}} {{author.last_name}}</b>&nbsp;
-                            {{#if author.admin}}
-                            <svg xmlns="http://www.w3.org/2000/svg" title="Officials" width="24" height="24"
-                                viewBox="0 0 24 24" style="fill: #0078e8;">
-                                <path
-                                    d="M19.965 8.521C19.988 8.347 20 8.173 20 8c0-2.379-2.143-4.288-4.521-3.965C14.786 2.802 13.466 2 12 2s-2.786.802-3.479 2.035C6.138 3.712 4 5.621 4 8c0 .173.012.347.035.521C2.802 9.215 2 10.535 2 12s.802 2.785 2.035 3.479A3.976 3.976 0 0 0 4 16c0 2.379 2.138 4.283 4.521 3.965C9.214 21.198 10.534 22 12 22s2.786-.802 3.479-2.035C17.857 20.283 20 18.379 20 16c0-.173-.012-.347-.035-.521C21.198 14.785 22 13.465 22 12s-.802-2.785-2.035-3.479zm-9.01 7.895-3.667-3.714 1.424-1.404 2.257 2.286 4.327-4.294 1.408 1.42-5.749 5.706z">
-                                </path>
-                            </svg>
-                            {{/if}}
-                        </h4></a>
+                        <a style="color: #000;" href="/author/{{author._id}}">
+                            <h4><b>{{author.first_name}} {{author.last_name}}</b>&nbsp;
+                                {{#if author.admin}}
+                                <svg xmlns="http://www.w3.org/2000/svg" title="Officials" width="24" height="24"
+                                    viewBox="0 0 24 24" style="fill: #0078e8;">
+                                    <path
+                                        d="M19.965 8.521C19.988 8.347 20 8.173 20 8c0-2.379-2.143-4.288-4.521-3.965C14.786 2.802 13.466 2 12 2s-2.786.802-3.479 2.035C6.138 3.712 4 5.621 4 8c0 .173.012.347.035.521C2.802 9.215 2 10.535 2 12s.802 2.785 2.035 3.479A3.976 3.976 0 0 0 4 16c0 2.379 2.138 4.283 4.521 3.965C9.214 21.198 10.534 22 12 22s2.786-.802 3.479-2.035C17.857 20.283 20 18.379 20 16c0-.173-.012-.347-.035-.521C21.198 14.785 22 13.465 22 12s-.802-2.785-2.035-3.479zm-9.01 7.895-3.667-3.714 1.424-1.404 2.257 2.286 4.327-4.294 1.408 1.42-5.749 5.706z">
+                                    </path>
+                                </svg>
+                                {{/if}}
+                            </h4>
+                        </a>
                         <span>{{author.bio}}</span>
                     </div>
                 </div>
@@ -230,7 +255,7 @@
                 </div>
                 <br>
 
-                
+
                 <style>
                     .topWriters {
                         width: 100%;
@@ -239,6 +264,28 @@
                         align-items: center;
                         justify-content: center;
                     }
+
+                    .topWriters .card {
+                        height: 170px;
+                        display: flex;
+                        flex-direction: column;
+                        border: 1px solid #ccc;
+                        border-radius: 13px;
+                        overflow: hidden;
+                        position: relative;
+                        background: none;
+                        /* Remove background image from here */
+                    }
+
+                    .topWriters .card img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                    }
+
 
                     .topWriters .topContainer {
                         width: 100%;
@@ -279,6 +326,7 @@
                         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
                         gap: 20px;
                         padding-bottom: 20px;
+                        z-index: 1;
                     }
 
                     .topWriters .card {
@@ -462,21 +510,23 @@
                     <div class="cardContainer" id="tcardContainer">
                         {{#if trend}}
                         {{#each trend}}
-                        <div class="card artCart"
-                            style="background: url({{#if this.new_thumb}}'/img/article/{{this.endpoint}}-{{this._id}}-0.jpg'{{else}}'{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}'{{/if}})  no-repeat center center;  background-size: cover;">
+                        <div class="card artCart">
+                            <img loading="lazy"
+                                decoding="async"
+                                src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}"
+                                alt="{{this.title}}" onerror="this.onerror=null; this.src='/img/banner.webp';" />
                             <div class="innerCard">
                                 <div class="artTitle">
                                     <a href="/page/{{this.endpoint}}">
                                         <h3>{{this.title}}</h3>
                                     </a>
                                 </div>
-                                <div class="artBtn">
+                                {{!-- <div class="artBtn">
                                     <button disabled style="cursor: none !important;">
-                                        <!--<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                                            width="24px">
-                                            <path
-                                                d="M480.18-353.85q60.97 0 103.47-42.68t42.5-103.65q0-60.97-42.68-103.47t-103.65-42.5q-60.97 0-103.47 42.68t-42.5 103.65q0 60.97 42.68 103.47t103.65 42.5ZM480-392q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm.11 152q-129.96 0-236.88-70.73Q136.31-381.46 83.08-500q53.23-118.54 160.04-189.27T479.89-760q129.96 0 236.88 70.73Q823.69-618.54 876.92-500q-53.23 118.54-160.04 189.27T480.11-240ZM480-500Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
-                                        </svg> &nbsp; {{formatNumber this.views}}-->
+                                        <!--<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                            <path
+                                d="M480.18-353.85q60.97 0 103.47-42.68t42.5-103.65q0-60.97-42.68-103.47t-103.65-42.5q-60.97 0-103.47 42.68t-42.5 103.65q0 60.97 42.68 103.47t103.65 42.5ZM480-392q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm.11 152q-129.96 0-236.88-70.73Q136.31-381.46 83.08-500q53.23-118.54 160.04-189.27T479.89-760q129.96 0 236.88 70.73Q823.69-618.54 876.92-500q-53.23 118.54-160.04 189.27T480.11-240ZM480-500Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
+                        </svg> &nbsp; {{formatNumber this.views}}-->
                                     </button>
                                     <button
                                         onclick="share('{{this._id}}', '{{this.title}}', '{{this.description}}', '{{this.endpoint}}');">
@@ -484,17 +534,17 @@
                                             width="24" focusable="false"
                                             style="pointer-events: none; display: inherit; width: 24px; height: 24px;">
                                             <path
-                                                d="M15 5.63 20.66 12 15 18.37V14h-1c-3.96 0-7.14 1-9.75 3.09 1.84-4.07 5.11-6.4 9.89-7.1l.86-.13V5.63M14 3v6C6.22 10.13 3.11 15.33 2 21c2.78-3.97 6.44-6 12-6v6l8-9-8-9z">
-                                            </path>
+                                                d="M15 5.63 20.66 12 15 18.37V14h-1c-3.96 0-7.14 1-9.75 3.09 1.84-4.07 5.11-6.4 9.89-7.1l.86-.13V5.63M14 3v6C6.22 10.13 3.11 13.52 3.11 18.37h1c2.96-2.22 6.76-3.48 10.89-3.48V3Z" />
                                         </svg>
                                     </button>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         {{/each}}
                         {{/if}}
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -560,7 +610,8 @@
         }
     </style>
     <div class="banner" id="banner">
-        <img alt="Advertisement" id="adImage" src="https://i.postimg.cc/SRfGym3Q/Time-to-make-money.gif" />
+        <img loading="lazy" decoding="async" alt="Advertisement" id="adImage"
+            src="https://i.postimg.cc/SRfGym3Q/Time-to-make-money.gif" />
         <span class="close-btn" id="closeBtn">×</span>
     </div>
     <script>

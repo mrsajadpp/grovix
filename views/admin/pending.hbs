@@ -53,7 +53,7 @@
         <!--<div class="article">
             <div class="articleCont">
                 <div onclick="location.href = '/admin/article/prev/{{this._id}}'" class="articleImg">
-                    <img src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}" alt="{{this.title}}">
+                    <img loading="lazy" decoding="async" src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}" alt="{{this.title}}">
                 </div>
                 <div onclick="location.href = '/admin/article/prev/{{this._id}}'" class="articleContent">
                     <h4>{{this.title}}</h4>
@@ -86,7 +86,7 @@
             <div class="articleCont">
                 <div class="articleImg" onclick="location.href = '/admin/article/prev/{{this._id}}'">
                     <div class="img">
-                        <img src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}" alt="{{this.title}}">
+                        <img loading="lazy" decoding="async" src="{{#if this.new_thumb}}/img/article/{{this.endpoint}}-{{this._id}}-0.jpg{{else}}/img/article/{{this._id}}.jpg{{/if}}" alt="{{this.title}}">
                     </div>
                 </div>
                 <div class="cont">
