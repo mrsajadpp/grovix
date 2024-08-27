@@ -255,9 +255,9 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
             </body>
             </html>`
             });
+ 
 
-
-            res.redirect('/dashboard/articles/pending');
+            res.redirect('/dashboard/articles');
         } else {
             res.redirect('/dashboard/article/new');
         }
