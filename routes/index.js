@@ -319,13 +319,267 @@ router.get('/', async (req, res, next) => {
 
 // Trending
 router.get('/trending', async (req, res, next) => {
-  let trend = await getMostViewedArticles(["nodejs", "coin", "ai"]);
-  res.render('user/trending', { title: "Trending Articles Insights", description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.", url: 'https://www.grovixlab.com/trending', ogimage: 'http://www.grovixlab.com/img/opengraph/trending/trending-min.jpg', trend, style: [], user: req.session && req.session.user ? req.session.user : false });
+  res.send(`<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Site Maintenance / Grovix</title>
+            <link rel="canonical" href="https://www.grovixlab.com/" />
+            <meta name="description" content="Our website is temporarily unavailable while we perform scheduled updates. We apologize for any inconvenience this may cause and appreciate your patience.">
+            <!-- Icons -->
+            <link rel="apple-touch-icon" sizes="180x180"
+                href="https://www.grovixlab.com/icons/apple-touch-icon.png">
+            <link rel="icon" type="image/png" sizes="32x32"
+                href="https://www.grovixlab.com/icons/favicon-32x32.png">
+            <link rel="icon" type="image/png" sizes="16x16"
+                href="https://www.grovixlab.com/icons/favicon-16x16.png">
+            <link rel="manifest"
+                href="https://www.grovixlab.com/icons/site.webmanifest">
+            <link rel="mask-icon"
+                href="https://www.grovixlab.com/icons/safari-pinned-tab.svg"
+                color="#5bbad5">
+            <link rel="shortcut icon"
+                href="https://www.grovixlab.com/icons/favicon.ico">
+            <meta name="msapplication-TileColor" content="#ffffff">
+            <meta name="msapplication-config"
+                content="https://www.grovixlab.com/icons/browserconfig.xml">
+            <meta name="theme-color" content="#ffffff">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+                rel="stylesheet">
+            <style>
+                * {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    font-family: "Poppins", sans-serif;
+                }
+            
+                html,
+                code {
+                    font: 15px/22px "Poppins", sans-serif !important;
+                }
+            
+                html {
+                    background: #fff !important;
+                    color: #222 !important;
+                    padding: 15px !important;
+                }
+            
+                body {
+                    margin: 7% auto 0 !important;
+                    max-width: 390px !important;
+                    min-height: 180px !important;
+                    padding: 30px 0 15px !important;
+                }
+            
+                *>body {
+                    background: url("https://i.postimg.cc/YSjnQ2Qd/robot.png") 100% 5px no-repeat !important;
+                    padding-right: 205px !important;
+                }
+            
+                p {
+                    margin: 11px 0 22px !important;
+                    overflow: hidden !important;
+                }
+            
+                ins {
+                    color: #777 !important;
+                    text-decoration: none !important;
+                }
+            
+                a img {
+                    border: 0 !important;
+                }
+            
+                @media screen and (max-width: 772px) {
+                    body {
+                        background: none !important;
+                        margin-top: 0 !important;
+                        max-width: none !important;
+                        padding-right: 0 !important;
+                    }
+                }
+            
+                #logo {
+                    background: url("https://i.postimg.cc/6qC1THCw/grovix-150x54dp.png") no-repeat !important;
+                    margin-left: -5px !important;
+                }
+            
+                @media only screen and (min-resolution: 192dpi) {
+                    #logo {
+                        background: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") no-repeat 0% 0%/100% 100% !important;
+                        -moz-border-image: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") 0 !important;
+                    }
+                }
+            
+                @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+                    #logo {
+                        background: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") no-repeat !important;
+                        -webkit-background-size: 100% 100% !important;
+                    }
+                }
+            
+                #logo {
+                    display: inline-block !important;
+                    height: 54px !important;
+                    width: 150px !important;
+                }
+            
+                .footer {
+                    display: none !important;
+                }
+            </style>
+        </head>
+        <body>
+            <body>
+                <a href="https://www.grovixlab.com/">
+        <span id="logo" aria-label="GrovixLab"></span>
+    </a>
+    <p><strong>Our Website is Currently Under Maintenance</strong></p>
+    <p>We are performing scheduled updates, so our website is temporarily unavailable. We apologize for any inconvenience and appreciate your patience.</p>
+    <p>In the meantime, you can still write articles by visiting the <a href="/dashboard">/dashboard</a> section.</p>
+    <p>If you need immediate assistance, please contact our support team at <a href="mailto:support@grovixlab.com">support@grovixlab.com</a>.</p>
+    <p>Thank you for your understanding.</p>
+            </body>
+        </body>
+    </html>`);
+  // let trend = await getMostViewedArticles(["nodejs", "coin", "ai"]);
+  // res.render('user/trending', { title: "Trending Articles Insights", description: "Discover top trending articles on Grovix Lab. Stay updated with the latest insights and popular content across various topics.", url: 'https://www.grovixlab.com/trending', ogimage: 'http://www.grovixlab.com/img/opengraph/trending/trending-min.jpg', trend, style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Categories
 router.get('/categories', (req, res, next) => {
-  res.render('user/categories', { title: "Article Categories, Explore Diverse Topics on Grovix Lab", description: "Explore diverse article categories on Grovix Lab. Find and read content on various topics tailored to your interests.", url: 'https://www.grovixlab.com/categories', style: [], user: req.session && req.session.user ? req.session.user : false });
+  res.send(`<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Site Maintenance / Grovix</title>
+            <link rel="canonical" href="https://www.grovixlab.com/" />
+            <meta name="description" content="Our website is temporarily unavailable while we perform scheduled updates. We apologize for any inconvenience this may cause and appreciate your patience.">
+            <!-- Icons -->
+            <link rel="apple-touch-icon" sizes="180x180"
+                href="https://www.grovixlab.com/icons/apple-touch-icon.png">
+            <link rel="icon" type="image/png" sizes="32x32"
+                href="https://www.grovixlab.com/icons/favicon-32x32.png">
+            <link rel="icon" type="image/png" sizes="16x16"
+                href="https://www.grovixlab.com/icons/favicon-16x16.png">
+            <link rel="manifest"
+                href="https://www.grovixlab.com/icons/site.webmanifest">
+            <link rel="mask-icon"
+                href="https://www.grovixlab.com/icons/safari-pinned-tab.svg"
+                color="#5bbad5">
+            <link rel="shortcut icon"
+                href="https://www.grovixlab.com/icons/favicon.ico">
+            <meta name="msapplication-TileColor" content="#ffffff">
+            <meta name="msapplication-config"
+                content="https://www.grovixlab.com/icons/browserconfig.xml">
+            <meta name="theme-color" content="#ffffff">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+                rel="stylesheet">
+            <style>
+                * {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    font-family: "Poppins", sans-serif;
+                }
+            
+                html,
+                code {
+                    font: 15px/22px "Poppins", sans-serif !important;
+                }
+            
+                html {
+                    background: #fff !important;
+                    color: #222 !important;
+                    padding: 15px !important;
+                }
+            
+                body {
+                    margin: 7% auto 0 !important;
+                    max-width: 390px !important;
+                    min-height: 180px !important;
+                    padding: 30px 0 15px !important;
+                }
+            
+                *>body {
+                    background: url("https://i.postimg.cc/YSjnQ2Qd/robot.png") 100% 5px no-repeat !important;
+                    padding-right: 205px !important;
+                }
+            
+                p {
+                    margin: 11px 0 22px !important;
+                    overflow: hidden !important;
+                }
+            
+                ins {
+                    color: #777 !important;
+                    text-decoration: none !important;
+                }
+            
+                a img {
+                    border: 0 !important;
+                }
+            
+                @media screen and (max-width: 772px) {
+                    body {
+                        background: none !important;
+                        margin-top: 0 !important;
+                        max-width: none !important;
+                        padding-right: 0 !important;
+                    }
+                }
+            
+                #logo {
+                    background: url("https://i.postimg.cc/6qC1THCw/grovix-150x54dp.png") no-repeat !important;
+                    margin-left: -5px !important;
+                }
+            
+                @media only screen and (min-resolution: 192dpi) {
+                    #logo {
+                        background: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") no-repeat 0% 0%/100% 100% !important;
+                        -moz-border-image: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") 0 !important;
+                    }
+                }
+            
+                @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+                    #logo {
+                        background: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") no-repeat !important;
+                        -webkit-background-size: 100% 100% !important;
+                    }
+                }
+            
+                #logo {
+                    display: inline-block !important;
+                    height: 54px !important;
+                    width: 150px !important;
+                }
+            
+                .footer {
+                    display: none !important;
+                }
+            </style>
+        </head>
+        <body>
+            <body>
+                <a href="https://www.grovixlab.com/">
+        <span id="logo" aria-label="GrovixLab"></span>
+    </a>
+    <p><strong>Our Website is Currently Under Maintenance</strong></p>
+    <p>We are performing scheduled updates, so our website is temporarily unavailable. We apologize for any inconvenience and appreciate your patience.</p>
+    <p>In the meantime, you can still write articles by visiting the <a href="/dashboard">/dashboard</a> section.</p>
+    <p>If you need immediate assistance, please contact our support team at <a href="mailto:support@grovixlab.com">support@grovixlab.com</a>.</p>
+    <p>Thank you for your understanding.</p>
+            </body>
+        </body>
+    </html>`);
+  // res.render('user/categories', { title: "Article Categories, Explore Diverse Topics on Grovix Lab", description: "Explore diverse article categories on Grovix Lab. Find and read content on various topics tailored to your interests.", url: 'https://www.grovixlab.com/categories', style: [], user: req.session && req.session.user ? req.session.user : false });
 });
 
 // Signup
