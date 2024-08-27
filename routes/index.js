@@ -159,7 +159,7 @@ function separateWords(str) {
 
   return filteredWordsArray;
 }
- 
+
 
 // Home
 router.get('/', async (req, res, next) => {
@@ -280,16 +280,14 @@ router.get('/', async (req, res, next) => {
     </head>
     <body>
         <body>
-            <a href="https://www.grovixlab.com/"><span id="logo"
-                    aria-label="GrovixLab"></span></a>
-            <p><b>We're Currently Undergoing Maintenance.</b> <ins>Our website
-                    is temporarily unavailable while we perform scheduled
-                    updates. We apologize for any inconvenience this may cause
-                    and appreciate your patience.</ins></p>
-            <p>If you need immediate assistance, please contact our support team
-                at <a
-                    href="mailto://support@grovixlab.com">support@grovixlab.com</a>.
-                <ins>That’s all we know.</ins></p>
+            <a href="https://www.grovixlab.com/">
+    <span id="logo" aria-label="GrovixLab"></span>
+</a>
+<p><strong>Our Website is Currently Under Maintenance</strong></p>
+<p>We are performing scheduled updates, so our website is temporarily unavailable. We apologize for any inconvenience and appreciate your patience.</p>
+<p>In the meantime, you can still write articles by visiting the <a href="/dashboard">/dashboard</a> section.</p>
+<p>If you need immediate assistance, please contact our support team at <a href="mailto:support@grovixlab.com">support@grovixlab.com</a>.</p>
+<p>Thank you for your understanding.</p>
         </body>
     </body>
 </html>`);
