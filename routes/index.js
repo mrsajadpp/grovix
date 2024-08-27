@@ -164,20 +164,149 @@ function separateWords(str) {
 // Home
 router.get('/', async (req, res, next) => {
   try {
-    // Retrieve the user from the session, or default to an empty object
-    let user = null;
-    if (req.session.user) {
-      user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
-    }
+    res.render(`<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Site Maintenance / Grovix</title>
+        <link rel="canonical" href="https://www.grovixlab.com/" />
+        <meta name="description" content="Our website is temporarily unavailable while we perform scheduled updates. We apologize for any inconvenience this may cause and appreciate your patience.">
+        <!-- Icons -->
+        <link rel="apple-touch-icon" sizes="180x180"
+            href="https://www.grovixlab.com/icons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32"
+            href="https://www.grovixlab.com/icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16"
+            href="https://www.grovixlab.com/icons/favicon-16x16.png">
+        <link rel="manifest"
+            href="https://www.grovixlab.com/icons/site.webmanifest">
+        <link rel="mask-icon"
+            href="https://www.grovixlab.com/icons/safari-pinned-tab.svg"
+            color="#5bbad5">
+        <link rel="shortcut icon"
+            href="https://www.grovixlab.com/icons/favicon.ico">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-config"
+            content="https://www.grovixlab.com/icons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+            rel="stylesheet">
+        <style>
+            * {
+                margin: 0 !important;
+                padding: 0 !important;
+                font-family: "Poppins", sans-serif;
+            }
+        
+            html,
+            code {
+                font: 15px/22px "Poppins", sans-serif !important;
+            }
+        
+            html {
+                background: #fff !important;
+                color: #222 !important;
+                padding: 15px !important;
+            }
+        
+            body {
+                margin: 7% auto 0 !important;
+                max-width: 390px !important;
+                min-height: 180px !important;
+                padding: 30px 0 15px !important;
+            }
+        
+            *>body {
+                background: url("https://i.postimg.cc/YSjnQ2Qd/robot.png") 100% 5px no-repeat !important;
+                padding-right: 205px !important;
+            }
+        
+            p {
+                margin: 11px 0 22px !important;
+                overflow: hidden !important;
+            }
+        
+            ins {
+                color: #777 !important;
+                text-decoration: none !important;
+            }
+        
+            a img {
+                border: 0 !important;
+            }
+        
+            @media screen and (max-width: 772px) {
+                body {
+                    background: none !important;
+                    margin-top: 0 !important;
+                    max-width: none !important;
+                    padding-right: 0 !important;
+                }
+            }
+        
+            #logo {
+                background: url("https://i.postimg.cc/6qC1THCw/grovix-150x54dp.png") no-repeat !important;
+                margin-left: -5px !important;
+            }
+        
+            @media only screen and (min-resolution: 192dpi) {
+                #logo {
+                    background: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") no-repeat 0% 0%/100% 100% !important;
+                    -moz-border-image: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") 0 !important;
+                }
+            }
+        
+            @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+                #logo {
+                    background: url("https://i.postimg.cc/SxkHYpZP/grovix-150x544dp.png") no-repeat !important;
+                    -webkit-background-size: 100% 100% !important;
+                }
+            }
+        
+            #logo {
+                display: inline-block !important;
+                height: 54px !important;
+                width: 150px !important;
+            }
+        
+            .footer {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body>
+        <body>
+            <a href="https://www.grovixlab.com/"><span id="logo"
+                    aria-label="GrovixLab"></span></a>
+            <p><b>We're Currently Undergoing Maintenance.</b> <ins>Our website
+                    is temporarily unavailable while we perform scheduled
+                    updates. We apologize for any inconvenience this may cause
+                    and appreciate your patience.</ins></p>
+            <p>If you need immediate assistance, please contact our support team
+                at <a
+                    href="mailto://support@grovixlab.com">support@grovixlab.com</a>.
+                <ins>That’s all we know.</ins></p>
+        </body>
+    </body>
+</html>`);
+    // // Retrieve the user from the session, or default to an empty object
+    // let user = null;
+    // if (req.session.user) {
+    //   user = await User.findOne({ _id: new mongoose.Types.ObjectId(req.session.user._id) }).lean();
+    // }
 
-    // Determine the interests to use
-    const interests = user ? user.interests : ["grovix", "nodejs", "html", "javascript", "css", "seo", "coding", "history", "coin", "ai"];
+    // // Determine the interests to use
+    // const interests = user ? user.interests : ["grovix", "nodejs", "html", "javascript", "css", "seo", "coding", "history", "coin", "ai"];
 
-    // Fetch the most viewed articles based on interests
-    let trendings = await getMostViewedArticles(interests);
+    // // Fetch the most viewed articles based on interests
+    // let trendings = await getMostViewedArticles(interests);
 
-    // Continue with your logic
-    res.render('user/index', { title: "Earn Money Writing Articles Online | GrovixLab: The Best Writing Platform", description: "Discover how to earn money by writing articles online with GrovixLab. Our platform is perfect for anyone looking to learn article writing and make money from their writing skills. Join today and start earning.", url: 'https://www.grovixlab.com/', trend: trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
+    // // Continue with your logic
+    // res.render('user/index', { title: "Earn Money Writing Articles Online | GrovixLab: The Best Writing Platform", description: "Discover how to earn money by writing articles online with GrovixLab. Our platform is perfect for anyone looking to learn article writing and make money from their writing skills. Join today and start earning.", url: 'https://www.grovixlab.com/', trend: trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
   } catch (error) {
     console.error(error);
     res.render('error', {
