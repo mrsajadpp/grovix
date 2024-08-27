@@ -163,7 +163,8 @@ function separateWords(str) {
 
 // Home
 router.get('/', async (req, res, next) => {
-    res.render(`<!DOCTYPE html>
+  try {
+    res.send(`<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -306,6 +307,16 @@ router.get('/', async (req, res, next) => {
 
     // // Continue with your logic
     // res.render('user/index', { title: "Earn Money Writing Articles Online | GrovixLab: The Best Writing Platform", description: "Discover how to earn money by writing articles online with GrovixLab. Our platform is perfect for anyone looking to learn article writing and make money from their writing skills. Join today and start earning.", url: 'https://www.grovixlab.com/', trend: trendings, home: true, style: [], user: req.session && req.session.user ? req.session.user : false });
+  } catch (error) {
+    console.error(error);
+    res.render('error', {
+      title: "500",
+      status: 500,
+      message: error.message,
+      style: ['error'],
+      user: req.session && req.session.user ? req.session.user : false
+    });
+  }
 });
 
 // Trending
