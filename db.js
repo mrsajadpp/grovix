@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
  
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/grovixlab', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect('mongodb://localhost:27017/grovixlab');
     console.log('MongoDB connected');
   } catch (error) {
 console.error(error);
