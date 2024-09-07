@@ -2,17 +2,16 @@ const nodemailer = require("nodemailer");
 // const fs = require('fs');
 
 module.exports = {
-  sendMail: async (mailOptions) => {
+  sendMail: async function (mailOptions) {
     let transporter = nodemailer.createTransport({
-      host: "smtp.zoho.in",
-      secure: true,
-      port: 465,
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
-        user: "noreply@grovixlab.com",
-        pass: process.env.APP_PASS
-      },
+        user: 'noreply.grovix@gmail.com',
+        pass: process.env.MAIL_PASS 
+      }
     });
-
 
     return await transporter.sendMail(mailOptions);
   }
