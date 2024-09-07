@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
  
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/grovixlab');
+    await mongoose.connect(`${process.env.DB_STRING}`);
     console.log('MongoDB connected');
   } catch (error) {
 console.error(error);
