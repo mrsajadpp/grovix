@@ -10,7 +10,14 @@
         <div class="eligibility">
             <span>Articles(Pending). {{articles}}</span>
             <div class="scale">
-                <div class="covered" style="width: {{articles_graph}}%;"></div>
+                {{#ifequal articles_graph 100}}
+                <style>
+                    .acovered {
+                        background-color: green !important;
+                    }
+                </style>
+                {{/ifequal}}
+                <div class="covered acovered" style="width: {{articles_graph}}%;"></div>
                 <div class="uncovered">
                 </div>
             </div>
