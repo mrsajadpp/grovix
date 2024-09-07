@@ -3,7 +3,14 @@ const mongoose = require('mongoose');
  
 const connectDB = async () => {
   try {
-    await mongoose.connect(`${process.env.DB_STRING}/grovixlab`);
+    mongoose.connection.on('connected', function() {
+      // Hack the database back to the right one, because when using mongodb+srv as protocol.
+      if (mongoose.connection.client.s.url.startsWith('mongodb+srv')) {
+          mongoose.connection.db = mongoose.connection.client.db('grovixlab');
+      }
+      console.log('Connection to MongoDB established.')
+  });
+    await mongoose.connect(`${process.env.DB_STRING}`);
     console.log('MongoDB connected');
   } catch (error) {
 console.error(error);
