@@ -210,9 +210,9 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
                 </head>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                        <h2 style="color: #0078e8;">Your One-Time Verification Code</h2>
+                        <h2 style="color: #f6e60c;">Your One-Time Verification Code</h2>
                         <p>Hello,</p>
-                        <p>Your verification code is: <strong style="color: #0078e8;">${code}</strong></p>
+                        <p>Your verification code is: <strong style="color: #f6e60c;">${code}</strong></p>
                         <p>Please use this code to complete your verification process.</p>
                         <p>Thank you,<br>The Grovix Team</p>
                     </div>
@@ -290,7 +290,7 @@ router.post('/auth/signup', isNotAuthorised, async (req, res, next) => {
                     </head>
                     <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff; color: #333; padding: 20px;">
                         <div style="max-width: 600px; margin: 0 auto;">
-                            <h2 style="color: #0078e8;">Your One-Time Verification Code</h2>
+                            <h2 style="color: #f6e60c;">Your One-Time Verification Code</h2>
                             <p>Hello,</p>
                             <p>Your verification code is: <strong>${code}</strong></p>
                             <p>Please use this code to complete your verification process.</p>
@@ -349,7 +349,7 @@ router.post('/auth/user/verify/:user_id', isNotAuthorised, async (req, res, next
                 </head>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff; color: #333; padding: 20px;">
                     <div style="max-width: 600px; margin: 0 auto;">
-                        <h2 style="color: #0078e8;">New Login/Signup Attempt Notification</h2>
+                        <h2 style="color: #f6e60c;">New Login/Signup Attempt Notification</h2>
                         <p>Hello,</p>
                         <p>We noticed a new login or signup attempt to your account.</p>
                         <p>Location: <strong>${geo && geo.country ? geo.country : 'unknown'}, ${geo && geo.city ? geo.city : 'unknown'}, ${geo && geo.timezone ? geo.timezone : 'unknown'}</strong></p>
@@ -472,7 +472,7 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
                 </head>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff; color: #333; padding: 20px;">
                     <div style="max-width: 600px; margin: 0 auto;">
-                        <h2 style="color: #0078e8;">Your One-Time Verification Code</h2>
+                        <h2 style="color: #f6e60c;">Your One-Time Verification Code</h2>
                         <p>Hello,</p>
                         <p>Your verification code is: <strong>${code}</strong></p>
                         <p>Please use this code to complete your verification process.</p>
@@ -527,7 +527,7 @@ router.get('/logout', isAuthorised, async (req, res, next) => {
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #fff; color: #333; padding: 20px;">
             <div style="max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #0078e8;">Your Account Has Been Logged Out</h2>
+                <h2 style="color: #f6e60c;">Your Account Has Been Logged Out</h2>
                 <p>Hello ${userData.first_name},</p>
                 <p>This is to inform you that your account has been <strong>logged out</strong>.</p>
                 <p>If this was not you or if you have any questions, please contact our support team for assistance.</p>
