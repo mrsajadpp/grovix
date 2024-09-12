@@ -8,15 +8,22 @@
                 tools</span>
         </div>
         <div class="eligibility">
-            <span>Articles. {{articles}}</span>
+            <span>Articles(Pending). {{articles}}</span>
             <div class="scale">
-                <div class="covered" style="width: {{articles_graph}}%;"></div>
+                {{#ifequal articles_graph 100}}
+                <style>
+                    .acovered {
+                        background-color: green !important;
+                    }
+                </style>
+                {{/ifequal}}
+                <div class="covered acovered" style="width: {{articles_graph}}%;"></div>
                 <div class="uncovered">
                 </div>
             </div>
         </div>
         <div class="eligibility">
-            <span>Reach. {{formatNumber views}}</span>
+            <span>Reach(Pending). {{formatNumber views}}</span>
             <div class="scale">
                 <div class="covered" style="width: {{views_graph}}%;"></div>
                 <div class="uncovered">
@@ -29,5 +36,3 @@
         </div>
     </div>
 </div>
-
-
