@@ -8,7 +8,7 @@ module.exports = {
       port: 587,
       secure: false,
       auth: {
-        user: 'noreply.grovix@gmail.com',
+        user: 'thintryin@gmail.com',
         pass: process.env.MAIL_PASS 
       }
     });

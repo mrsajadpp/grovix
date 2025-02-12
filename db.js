@@ -9,8 +9,8 @@ const connectDB = async () => {
           mongoose.connection.db = mongoose.connection.client.db('grovixlab');
       }
       console.log('Connection to MongoDB established.')
-  });
-    await mongoose.connect(`${process.env.DB_STRING}`);
+  }); 
+    await mongoose.connect(`${process.env.DB_STRING}`); 
     console.log('MongoDB connected');
   } catch (error) {
 console.error(error);
