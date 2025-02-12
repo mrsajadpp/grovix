@@ -246,7 +246,7 @@ router.post('/article/request', isAuthorised, async (req, res, next) => {
             </head>
             <body style="font-family: Arial, sans-serif; line-height: 1.6; background: #fff;">
                 <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                    <h2 style="color: #f6e60c;">Your Article Has Been Published on Grovix!</h2>
+                    <h2 style="color: #0078e8;">Your Article Has Been Published on Grovix!</h2>
                     <p>Hello ${userData.first_name},</p>
                     <p>We are excited to inform you that your article titled "<a href="https://grovixlab.com/page/${article.endpoint}"><strong>${article.title}</strong></a>" has been successfully published on Grovix!</p>
                     <p>Your content is now live and available for our community to read and engage with. Thank you for your valuable contribution and for being a part of Grovix.</p>
@@ -383,7 +383,7 @@ router.post('/article/update/:article_id', isAuthorised, async (req, res, next) 
                 </head>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; background: #fff;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                        <h2 style="color: #f6e60c;">Your Article Edits Have Been Published!</h2>
+                        <h2 style="color: #0078e8;">Your Article Edits Have Been Published!</h2>
                         <p>Hello ${user.first_name},</p>
                         <p>Your article titled "<a href="https://grovixlab.com/page/${article.endpoint}"><strong>${article.title}</strong></a>" has been updated and the edits have been successfully published.</p>
                         <p>Thank you for your contribution and for being a part of Grovix.</p>
